@@ -733,29 +733,31 @@ const WNK_RESOURCES = [
   },
   {
     "id": 29,
-    "title": "TopView және Seedance арқылы кинематографиялық жарнама жасау",
-    "orig_title": "Make cinematic AI ads with TopView Canvas (Seedance 2.5)",
-    "category": "Жүйелер мен Агенттер",
+    "title": "Claude × Higgsfield Seedance 2.0 — Толық баптау нұсқаулығы",
+    "orig_title": "Claude × Higgsfield Seedance 2.0 — Full Setup Guide",
+    "category": "Видео және Монтаж",
     "date": "2026",
-    "excerpt": "Өнімді сатуға арналған 3D визуалдар, динамикалық камера қозғалыстары және кинолық сапа.",
-    "slug": "topview-canvas",
+    "excerpt": "Claude Code және Playwright MCP арқылы Higgsfield Seedance 2.0 платформасында автоматты түрде жоғары сапалы 3D кинематографиялық бейнелер генерациялау.",
+    "slug": "claude-higgsfield-seedance",
     "tags": [
-      "AI Tools",
+      "Higgsfield",
+      "Claude",
+      "Video",
       "WNK"
     ],
     "steps": [
-      "1-қадам: Құралдар мен кітапханаларды дайындау (Жүйелер мен Агенттер бағыты бойынша).",
-      "2-қадам: Промпт немесе конфигурацияны өз мақсатыңызға қарай бейімдеу.",
-      "3-қадам: Модельге нақты контекст пен шектеулерді (constraints) беру.",
-      "4-қадам: Нәтижені сапалық бақылаудан өткізіп, бірден өндіріске енгізу."
+      "1-қадам: Claude Code-қа Playwright MCP құралын қосу және Higgsfield API сессиясын баптау.",
+      "2-қадам: Seedance 2.0 үшін камера бұрыштары мен жарықтандыру параметрлерін беру.",
+      "3-қадам: Промптты автоматты оңтайландырып, 4K сапада кадрларды рендерге жіберу.",
+      "4-қадам: Дайын бейнені сақтап, автоматты субтитр мен дыбыстық қабатпен біріктіру."
     ],
-    "prompt": "// WNK Education: TopView және Seedance арқылы кинематографиялық AI жарнамалар жасау with TopView Canvas (Seedance 2.5)\n// Мақсаты: Кәсіби нәтиже алуға арналған нақты шеберлік промпты\nСіз Жүйелер мен Агенттер саласының жоғары деңгейлі маманысыз. \nМына міндетті сапалы, артық сөзсіз әрі нақты нәтижеге бағыттап орындаңыз:\n- Бағыт: TopView және Seedance арқылы кинематографиялық AI жарнамалар жасау with TopView Canvas (Seedance 2.5)\n- Формат: Практикалық қадамдар, нақты мысалдар және код/нұсқаулық.\n- Тіл: Қазақ тілінде (кәсіби, түсінікті және логикалық).",
+    "prompt": "// WNK Education: Claude × Higgsfield Seedance 2.0 Setup Spec\n// Мақсаты: Түсірілімсіз кәсіби AI жарнама және кинематография\nСіз Higgsfield AI және Claude Code маманысыз.\nМына міндетті сапалы әрі нақты өндірістік деңгейде орындаңыз:\n- Модель: Higgsfield Seedance 2.0 (Cinematic Mode)\n- Камера: 35mm Anamorphic, subtle pan-right, volumetric fog, rim lighting\n- Параметрлер: Motion strength 6, coherence 0.85, 24fps film cadence.",
     "readTime": "6 мин оқу",
-    "desc": "Түсірілім тобынсыз студиялық деңгейдегі өнімдік жарнамалық роликтер генерациялау әдісі.",
-    "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git",
-    "exec_cmd": "/guide topview-canvas",
-    "reqs": "Claude Code / Antigravity",
-    "prompt_spec": "// WNK Production Guide Spec: TopView және Seedance арқылы кинематографиялық жарнама жасау\n1. Дайындық: Қажетті құралдар мен кітапханаларды жүйеге енгізу.\n2. Баптау: Параметрлерді нақты жоба міндетіне қарай бейімдеу.\n3. Іске қосу: Терминалда команданы орындап, нәтижені бақылау.\n4. Оңтайландыру: Жұмыс өнімділігін 2 есе арттыру."
+    "desc": "Бұл нұсқаулықта Claude Code арқылы Higgsfield Seedance платформасында кинолық сападағы өнімдік жарнамалар мен анимацияларды толық автоматтандыру көрсетілген.",
+    "install_cmd": "claude mcp add @modelcontextprotocol/server-playwright\nnpm install -g higgsfield-cli",
+    "exec_cmd": "/higgsfield-render --prompt '3D luxury product hero shot' --aspect 9:16 --seedance 2.0",
+    "reqs": "Claude Code / Higgsfield Account / Node.js",
+    "prompt_spec": "// WNK Higgsfield Master Production Spec\nPrompt: Hyper-realistic cinematic product hero shot, titanium metallic surface, smooth orbiting camera motion, 4k 60fps render, crisp shadows, warm tungsten back-lighting.\nNegative: low quality, distorted, jitter, warped edges, text watermark."
   },
   {
     "id": 30,
@@ -1124,29 +1126,31 @@ const WNK_RESOURCES = [
   },
   {
     "id": 44,
-    "title": "Steal the couple-with-a-flag trend",
-    "orig_title": "Steal the couple-with-a-flag trend",
-    "category": "Жүйелер мен Агенттер",
+    "title": "Higgsfield + Midjourney: Вирустық couple-with-a-flag тренді",
+    "orig_title": "Couple with a Flag — Higgsfield + Midjourney Viral Video Formula",
+    "category": "Видео және Монтаж",
     "date": "2026",
-    "excerpt": "The couple-with-a-flag videos pulling millions of views for brands right now. Copy the exact Higgsfield image + video prompts, the…",
+    "excerpt": "Брендтер үшін миллиондаған қаралым жинаған couple-with-a-flag тренді. Higgsfield бейне генераторы мен Midjourney v6.1 үшін нақты промпттар жиынтығы.",
     "slug": "viral-flag-videos",
     "tags": [
-      "AI Tools",
+      "Higgsfield",
+      "Midjourney",
+      "Video",
       "WNK"
     ],
     "steps": [
-      "1-қадам: Құралдар мен кітапханаларды дайындау (Жүйелер мен Агенттер бағыты бойынша).",
-      "2-қадам: Промпт немесе конфигурацияны өз мақсатыңызға қарай бейімдеу.",
-      "3-қадам: Модельге нақты контекст пен шектеулерді (constraints) беру.",
-      "4-қадам: Нәтижені сапалық бақылаудан өткізіп, бірден өндіріске енгізу."
+      "1-қадам: Midjourney v6.1 арқылы жалау ұстаған кейіпкерлердің кинематографиялық базалық кадрын генерациялау.",
+      "2-қадам: Кадрды Higgsfield 플랫폼ына енгізіп, динамикалық жел мен қозғалыс параметрлерін баптау.",
+      "3-қадам: Камераның айналу бұрышын (orbit 15 deg) және фокус тұрақтылығын тексеру.",
+      "4-қадам: Reels/Shorts үшін 9:16 қауіпсіз аймақта 1080x1920 MP4 етіп экспорттау."
     ],
-    "prompt": "// WNK Education: Steal the couple-with-a-flag trend\n// Мақсаты: Кәсіби нәтиже алуға арналған нақты шеберлік промпты\nСіз Жүйелер мен Агенттер саласының жоғары деңгейлі маманысыз. \nМына міндетті сапалы, артық сөзсіз әрі нақты нәтижеге бағыттап орындаңыз:\n- Бағыт: Steal the couple-with-a-flag trend\n- Формат: Практикалық қадамдар, нақты мысалдар және код/нұсқаулық.\n- Тіл: Қазақ тілінде (кәсіби, түсінікті және логикалық).",
-    "readTime": "6 мин оқу",
-    "desc": "The couple-with-a-flag videos pulling millions of views for brands right now. Copy the exact Higgsfield image + video prompts, the…",
-    "install_cmd": "brew install ffmpeg node\nexport GROQ_API_KEY=gsk_your_key_here\ngit clone https://github.com/artishertekuly-bit/claude-editing-skills.git ~/claude-editing-skills\ncd ~/claude-editing-skills && ./install.sh",
-    "exec_cmd": "/trial-reels raw_interview.mp4 --subtitles --punch-ins --lang kk",
-    "reqs": "ffmpeg, Groq Whisper API, HyperFrames",
-    "prompt_spec": "// WNK Video Editing Pipeline\n1. Whisper арқылы субтитр генерациялау (.srt, сөздер бойынша дәл уақыт).\n2. Спикердің динамикалық кадрларын анықтау (Face tracking & 1.15x Punch-in).\n3. Эмоциялық екпіндерге SFX қосу (whoosh, hit, pop) және фондық ырғақ.\n4. 9:16 қауіпсіз аймаққа (safe zone) сәйкес 1080x1920 MP4 экспорттау."
+    "prompt": "// WNK Education: Higgsfield + Midjourney Viral Flag Video Spec\n// Мақсаты: Миллиондық органикалық қаралымға арналған бейне\nMidjourney Prompt: Cinematic wide-angle shot of an aesthetic athletic couple standing on a mountain peak holding a custom flag fluttering in high winds, golden hour dramatic rim lighting, 35mm film photography style, ultra-detailed.\nHiggsfield Motion: camera pull-back slowly, wind strength 7.5, realistic flag cloth physics simulation.",
+    "readTime": "5 мин оқу",
+    "desc": "Әлемдік брендтердің TikTok және Instagram-да миллиондаған қаралым жинаған couple-with-a-flag форматын түсірілімсіз қайталау жолы.",
+    "install_cmd": "pip install higgsfield-sdk midjourney-api\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git",
+    "exec_cmd": "/higgsfield-animate flag_scene.png --motion 'wind-physics' --duration 5s",
+    "reqs": "Higgsfield / Midjourney v6.1",
+    "prompt_spec": "// WNK Higgsfield Motion Prompt\nAnimate cloth physics: heavy silk flag waving smoothly in mountain gale, realistic micro-movements of hair, golden sun flares, subtle cinematic handheld camera shake."
   },
   {
     "id": 45,

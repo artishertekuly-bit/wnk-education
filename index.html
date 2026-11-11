@@ -32,6 +32,31 @@
       </nav>
 
       <div class="masthead-actions">
+        <!-- Google Sign-In & Supabase Confirmation (Bilim Platform Standard) -->
+        <button type="button" class="btn-auth-google" id="btnHeaderLogin">
+          <svg class="google-icon" viewBox="0 0 24 24" width="16" height="16">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Google арқылы кіру</span>
+        </button>
+
+        <div class="user-nav-profile" id="userNavProfile">
+          <img class="user-nav-avatar" id="userNavAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=wnk" alt="User">
+          <div class="user-nav-info">
+            <span class="user-nav-name" id="userNavName">Артур</span>
+            <span class="user-confirmed-tag">
+              <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>
+              Расталған
+            </span>
+          </div>
+          <button type="button" class="btn-nav-logout" id="btnNavLogout" title="Шығу">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </button>
+        </div>
+
         <a class="btn-header" href="#newsletter">
           <span>Жазылу</span>
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -271,6 +296,14 @@
         <!-- Rendered dynamically by app.js -->
       </div>
 
+      <!-- Platforms Strip (Claude, Higgsfield, Midjourney, Runway, Remotion, ElevenLabs, Cursor, Kling, OpenAI) -->
+      <div class="platform-strip-wrap" id="platformStrip">
+        <span class="platform-strip-label">Платформалар:</span>
+        <div class="platform-chips" id="platformChips">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+
       <!-- Status Bar -->
       <div class="status-bar">
         <span id="resultCount">97 ресурс көрсетілуде</span>
@@ -366,9 +399,10 @@
   <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-panel">
       <div class="modal-header">
-        <div>
+        <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
           <span class="card-category" id="modalCategory">Категория</span>
-          <span style="margin: 0 0.5rem; color: var(--color-ink-faint);">·</span>
+          <span id="modalPlatformBadgeContainer"></span>
+          <span style="color: var(--color-ink-faint);">·</span>
           <span class="card-readtime" id="modalReadTime">3 мин оқу</span>
         </div>
         <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Жабу">
@@ -443,6 +477,66 @@
     </div>
   </div>
 
+  <!-- Google Auth & Supabase Confirmation Modal (Bilim Platform Standard) -->
+  <div class="auth-modal-backdrop" id="authModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+    <div class="auth-modal-panel">
+      <button type="button" class="auth-modal-close" id="authModalClose" aria-label="Жабу">✕</button>
+
+      <div class="auth-modal-header">
+        <div class="auth-badge-pill">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>
+          Bilim Platform Қауіпсіздік Стандарты
+        </div>
+        <h2 class="auth-modal-title" id="authModalTitle">WNK Education-ға қосылу</h2>
+        <p class="auth-modal-desc">
+          Платформадағы барлық 97+ нұсқаулықты, AI скиллдерді және кодтарды сақтап пайдалану үшін Google аккаунтыңызбен растап кіріңіз.
+        </p>
+      </div>
+
+      <div class="auth-benefits-list">
+        <div class="auth-benefit-item">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8l3 3 7-7"/></svg>
+          <span>1-кликтен қауіпсіз Google OAuth авторизациясы</span>
+        </div>
+        <div class="auth-benefit-item">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8l3 3 7-7"/></svg>
+          <span>Жеке бетбелгілер мен тарихты Supabase бұлтында сақтау</span>
+        </div>
+        <div class="auth-benefit-item">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8l3 3 7-7"/></svg>
+          <span>Claude, Higgsfield және Remotion кодтарын толық көшіру</span>
+        </div>
+      </div>
+
+      <!-- Official Google Sign-In Button -->
+      <button type="button" class="btn-google-large" id="btnGoogleSignIn">
+        <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+        <span id="googleBtnLabel">Google арқылы жылдам растау</span>
+      </button>
+
+      <div class="auth-divider">
+        <span>немесе тексеру режимі</span>
+      </div>
+
+      <!-- Demo Instant Test Confirmation -->
+      <button type="button" class="btn-demo-auth" id="btnDemoAuth">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>1-кликтен растау (Жедел тестілеу)</span>
+      </button>
+
+      <p class="auth-modal-footnote">
+        Кіру арқылы сіз WNK Education саясатымен және деректерді қорғау ережелерімен келісесіз.
+      </p>
+    </div>
+  </div>
+
+  <!-- Supabase JS Client library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>

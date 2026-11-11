@@ -1241,3 +1241,475 @@ body {
   border: 1px solid #bbf7d0;
   color: #166534;
 }
+
+/* ==========================================================================
+   PLATFORM LOGOS & BADGES (/replica-design)
+   Claude, Higgsfield, Midjourney, Runway, Remotion, ElevenLabs, Cursor, Kling, OpenAI
+   ========================================================================== */
+.platform-strip-wrap {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--color-hairline);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.platform-strip-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.platform-chips {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.platform-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 9999px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-hairline-strong);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-decoration: none;
+}
+
+.platform-chip svg {
+  flex-shrink: 0;
+}
+
+.platform-chip:hover {
+  background-color: #ffffff;
+  border-color: var(--color-ink);
+  transform: translateY(-1px);
+}
+
+.platform-chip.is-active {
+  background-color: var(--color-ink);
+  color: #ffffff;
+  border-color: var(--color-ink);
+}
+
+.platform-chip.is-active svg {
+  filter: brightness(0) invert(1);
+}
+
+/* Platform Badges inside Cards & Modal */
+.platform-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.platform-badge svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.badge-claude {
+  background-color: #fef3ee;
+  color: #c25838;
+  border-color: #fbd5c6;
+}
+
+.badge-higgsfield {
+  background-color: #ecfdf5;
+  color: #059669;
+  border-color: #a7f3d0;
+}
+
+.badge-midjourney {
+  background-color: #eef2ff;
+  color: #4f46e5;
+  border-color: #c7d2fe;
+}
+
+.badge-runway {
+  background-color: #f0f9ff;
+  color: #0284c7;
+  border-color: #bae6fd;
+}
+
+.badge-remotion {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+.badge-elevenlabs {
+  background-color: #f3f4f6;
+  color: #1f2937;
+  border-color: #e5e7eb;
+}
+
+.badge-kling {
+  background-color: #fff7ed;
+  color: #c2410c;
+  border-color: #fed7aa;
+}
+
+.badge-cursor {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.badge-openai {
+  background-color: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+.badge-gemini {
+  background-color: #eff6ff;
+  color: #1e40af;
+  border-color: #bfdbfe;
+}
+
+/* Bookmark Button in Card Footer */
+.btn-card-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 6px;
+  color: var(--color-ink-faint);
+  transition: var(--transition-fast);
+}
+
+.btn-card-action:hover {
+  color: var(--color-ink);
+  background-color: rgba(27, 26, 21, 0.05);
+}
+
+.btn-card-action.is-bookmarked {
+  color: #eab308;
+}
+
+.btn-card-action.is-bookmarked svg {
+  fill: #eab308;
+}
+
+/* ==========================================================================
+   SUPABASE & GOOGLE AUTH COMPONENTS (Bilim Platform Standard)
+   ========================================================================== */
+.btn-auth-google {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 0.95rem;
+  background-color: #ffffff;
+  border: 1px solid var(--color-hairline-strong);
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(27, 26, 21, 0.06);
+  transition: var(--transition-fast);
+}
+
+.btn-auth-google:hover {
+  border-color: var(--color-ink);
+  box-shadow: 0 3px 8px rgba(27, 26, 21, 0.1);
+  transform: translateY(-1px);
+}
+
+.google-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* User Logged In Profile Badge in Nav */
+.user-nav-profile {
+  display: none;
+  align-items: center;
+  gap: 0.55rem;
+  background-color: #ffffff;
+  border: 1px solid var(--color-hairline-strong);
+  padding: 0.25rem 0.65rem 0.25rem 0.35rem;
+  border-radius: 9999px;
+  box-shadow: 0 1px 3px rgba(27, 26, 21, 0.06);
+}
+
+.user-nav-profile.is-visible {
+  display: inline-flex;
+}
+
+.user-nav-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--color-bg-deep);
+  border: 1.5px solid #16a34a;
+}
+
+.user-nav-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.user-nav-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-confirmed-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #15803d;
+}
+
+.btn-nav-logout {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-ink-faint);
+  padding: 0.2rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: var(--transition-fast);
+}
+
+.btn-nav-logout:hover {
+  color: #dc2626;
+  background-color: #fee2e2;
+}
+
+/* Dedicated Auth / Confirmation Modal */
+.auth-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background-color: rgba(27, 26, 21, 0.68);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-modal-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.auth-modal-panel {
+  width: 100%;
+  max-width: 440px;
+  background-color: #ffffff;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 60px -15px rgba(27, 26, 21, 0.35);
+  padding: 2rem;
+  position: relative;
+  transform: scale(0.96) translateY(8px);
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-modal-backdrop.is-open .auth-modal-panel {
+  transform: scale(1) translateY(0);
+}
+
+.auth-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-ink);
+  transition: var(--transition-fast);
+}
+
+.auth-modal-close:hover {
+  background-color: var(--color-hairline);
+}
+
+.auth-modal-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #059669;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  margin-bottom: 0.75rem;
+}
+
+.auth-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+.auth-modal-desc {
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+.auth-benefits-list {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-ink);
+}
+
+.auth-benefit-item svg {
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+.btn-google-large {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  background-color: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1f2937;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: var(--transition-fast);
+}
+
+.btn-google-large:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.btn-google-large:active {
+  transform: translateY(0);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.25rem 0;
+  color: var(--color-ink-faint);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-hairline);
+}
+
+.auth-divider span {
+  padding: 0 0.75rem;
+}
+
+.btn-demo-auth {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background-color: var(--color-surface);
+  border: 1px dashed var(--color-hairline-strong);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-blue);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: var(--transition-fast);
+}
+
+.btn-demo-auth:hover {
+  background-color: var(--color-blue-faint);
+  border-color: var(--color-blue);
+}
+
+.auth-modal-footnote {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--color-ink-faint);
+  margin-top: 1.1rem;
+  line-height: 1.4;
+}
