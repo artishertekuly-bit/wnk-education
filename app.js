@@ -35,7 +35,12 @@ function initWnkApp() {
   const modalRepoLabel = document.getElementById('modalRepoLabel');
 
   // Auth & Confirmation Modal elements
+  const btnMastheadJoin = document.getElementById('btnMastheadJoin');
   const btnHeaderLogin = document.getElementById('btnHeaderLogin');
+  const btnHeaderSubscribe = document.getElementById('btnHeaderSubscribe');
+  const btnHeroJoin = document.getElementById('btnHeroJoin');
+  const btnHeroGoogle = document.getElementById('btnHeroGoogle');
+  const btnHeroSubscribe = document.getElementById('btnHeroSubscribe');
   const userNavProfile = document.getElementById('userNavProfile');
   const userNavAvatar = document.getElementById('userNavAvatar');
   const userNavName = document.getElementById('userNavName');
@@ -45,11 +50,18 @@ function initWnkApp() {
   const btnGoogleSignIn = document.getElementById('btnGoogleSignIn');
   const btnDemoAuth = document.getElementById('btnDemoAuth');
   const googleBtnLabel = document.getElementById('googleBtnLabel');
+  const communityRegForm = document.getElementById('communityRegForm');
+  const regFullName = document.getElementById('regFullName');
+  const regEmail = document.getElementById('regEmail');
+  const regInterest = document.getElementById('regInterest');
+  const regFeedbackBox = document.getElementById('regFeedbackBox');
 
-  // Newsletter
+  // Newsletter & In-Page Community Hub
   const newsletterForm = document.getElementById('newsletterForm');
+  const newsletterName = document.getElementById('newsletterName');
   const newsletterEmail = document.getElementById('newsletterEmail');
   const newsletterFeedback = document.getElementById('newsletterFeedback');
+  const btnNewsletterGoogle = document.getElementById('btnNewsletterGoogle');
 
   // Application State
   let activeCategory = 'Барлығы';
@@ -250,6 +262,7 @@ function initWnkApp() {
 
   function updateAuthUI() {
     if (currentUser) {
+      if (btnMastheadJoin) btnMastheadJoin.style.display = 'none';
       if (btnHeaderLogin) btnHeaderLogin.style.display = 'none';
       if (userNavProfile) {
         userNavProfile.classList.add('is-visible');
@@ -257,6 +270,7 @@ function initWnkApp() {
         if (userNavName) userNavName.textContent = currentUser.name || 'Расталған қолданушы';
       }
     } else {
+      if (btnMastheadJoin) btnMastheadJoin.style.display = 'inline-flex';
       if (btnHeaderLogin) btnHeaderLogin.style.display = 'inline-flex';
       if (userNavProfile) userNavProfile.classList.remove('is-visible');
     }
@@ -286,11 +300,60 @@ function initWnkApp() {
     }, 450);
   }
 
+  function handleManualRegistration(name, email, interest) {
+    if (!name || !email) return;
+
+    if (regFeedbackBox) {
+      regFeedbackBox.className = 'reg-feedback-box';
+      regFeedbackBox.style.display = 'block';
+      regFeedbackBox.textContent = 'Тіркелу жүзеге асырылуда...';
+    }
+
+    const u = {
+      id: 'usr_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      role: interest || 'AI әзірлеуші және агенттер',
+      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name.trim())}`,
+      provider: 'form',
+      confirmed: true,
+      confirmed_at: new Date().toISOString()
+    };
+
+    currentUser = u;
+    localStorage.setItem('wnk_auth_user', JSON.stringify(currentUser));
+    updateAuthUI();
+
+    // Supabase sync
+    if (supabaseClient) {
+      supabaseClient.from('wnk_subscribers').upsert({
+        email: u.email,
+        full_name: u.name,
+        interest: u.role,
+        source: 'community_modal'
+      }).then(() => {}).catch(() => {});
+    }
+
+    if (regFeedbackBox) {
+      regFeedbackBox.className = 'reg-feedback-box is-success';
+      regFeedbackBox.innerHTML = `✓ Қош келдіңіз, <strong>${escapeHtml(u.name)}</strong>! Сіз WNK Education қауымдастығына сәтті қосылдыңыз. Ресурстар толық расталды.`;
+    }
+
+    setTimeout(() => {
+      closeAuthModal();
+      if (communityRegForm) communityRegForm.reset();
+      if (regFeedbackBox) {
+        regFeedbackBox.style.display = 'none';
+        regFeedbackBox.className = 'reg-feedback-box';
+      }
+    }, 1200);
+  }
+
   function loginMockUser(name, email) {
     currentUser = {
       id: 'usr_' + Math.random().toString(36).substr(2, 9),
       name: name || 'Артур Серікұлы',
-      email: email || 'user@wnk.education',
+      email: email || 'artur@wnk.education',
       avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=artur',
       provider: 'google',
       confirmed: true,
@@ -314,6 +377,7 @@ function initWnkApp() {
     if (authModalBackdrop) {
       authModalBackdrop.classList.add('is-open');
       document.body.style.overflow = 'hidden';
+      if (regFullName) setTimeout(() => regFullName.focus(), 150);
     }
   }
 
@@ -321,12 +385,19 @@ function initWnkApp() {
     if (authModalBackdrop) {
       authModalBackdrop.classList.remove('is-open');
       document.body.style.overflow = '';
-      if (googleBtnLabel) googleBtnLabel.textContent = 'Google арқылы жылдам растау';
+      if (googleBtnLabel) googleBtnLabel.textContent = 'Google арқылы жылдам кіру (1-клик)';
     }
   }
 
-  // Event Listeners for Auth
+  // Event Listeners for Community & Auth Triggers
+  if (btnMastheadJoin) btnMastheadJoin.addEventListener('click', openAuthModal);
   if (btnHeaderLogin) btnHeaderLogin.addEventListener('click', openAuthModal);
+  if (btnHeaderSubscribe) btnHeaderSubscribe.addEventListener('click', openAuthModal);
+  if (btnHeroJoin) btnHeroJoin.addEventListener('click', openAuthModal);
+  if (btnHeroGoogle) btnHeroGoogle.addEventListener('click', handleGoogleLogin);
+  if (btnHeroSubscribe) btnHeroSubscribe.addEventListener('click', openAuthModal);
+  if (btnNewsletterGoogle) btnNewsletterGoogle.addEventListener('click', handleGoogleLogin);
+
   if (authModalClose) authModalClose.addEventListener('click', closeAuthModal);
   if (authModalBackdrop) {
     authModalBackdrop.addEventListener('click', (e) => {
@@ -334,8 +405,18 @@ function initWnkApp() {
     });
   }
   if (btnGoogleSignIn) btnGoogleSignIn.addEventListener('click', handleGoogleLogin);
-  if (btnDemoAuth) btnDemoAuth.addEventListener('click', () => loginMockUser('Артур (Google Расталған)', 'artur@wnk.education'));
+  if (btnDemoAuth) btnDemoAuth.addEventListener('click', () => loginMockUser('Артур Серікұлы (Расталған)', 'artur@wnk.education'));
   if (btnNavLogout) btnNavLogout.addEventListener('click', handleLogout);
+
+  if (communityRegForm) {
+    communityRegForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = regFullName ? regFullName.value.trim() : '';
+      const email = regEmail ? regEmail.value.trim() : '';
+      const interest = regInterest ? regInterest.value : '';
+      handleManualRegistration(name, email, interest);
+    });
+  }
 
   // ==========================================================================
   // CATEGORIES & PLATFORMS FILTERING
@@ -876,20 +957,45 @@ function initWnkApp() {
     });
   });
 
-  // Newsletter form submission
+  // Newsletter & In-Page Community form submission
   if (newsletterForm) {
     newsletterForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const email = newsletterEmail.value.trim();
+      const name = newsletterName ? newsletterName.value.trim() : '';
+      const email = newsletterEmail ? newsletterEmail.value.trim() : '';
       if (!email) return;
 
-      newsletterFeedback.textContent = 'Рахмет! Сіз WNK Education базасына сәтті тіркелдіңіз.';
-      newsletterFeedback.style.color = '#15803d';
-      newsletterEmail.value = '';
+      if (!currentUser && name) {
+        currentUser = {
+          id: 'usr_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+          name: name,
+          email: email.toLowerCase(),
+          role: 'Қауымдастық мүшесі',
+          avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}`,
+          provider: 'newsletter',
+          confirmed: true,
+          confirmed_at: new Date().toISOString()
+        };
+        localStorage.setItem('wnk_auth_user', JSON.stringify(currentUser));
+        updateAuthUI();
+      }
+
+      if (newsletterFeedback) {
+        newsletterFeedback.textContent = `Рахмет, ${name || 'қолданушы'}! Сіз WNK Education қауымдастығына сәтті тіркелдіңіз.`;
+        newsletterFeedback.style.color = '#15803d';
+        newsletterFeedback.style.fontWeight = '600';
+      }
 
       if (supabaseClient) {
-        supabaseClient.from('wnk_subscribers').insert({ email }).then(() => {}).catch(() => {});
+        supabaseClient.from('wnk_subscribers').upsert({
+          email: email.toLowerCase(),
+          full_name: name,
+          source: 'newsletter_section'
+        }).then(() => {}).catch(() => {});
       }
+
+      if (newsletterName) newsletterName.value = '';
+      if (newsletterEmail) newsletterEmail.value = '';
     });
   }
 

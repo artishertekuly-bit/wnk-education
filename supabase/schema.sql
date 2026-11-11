@@ -51,6 +51,18 @@ CREATE TABLE IF NOT EXISTS public.wnk_activity_logs (
 
 CREATE INDEX IF NOT EXISTS idx_wnk_activity_user ON public.wnk_activity_logs(user_id);
 
+-- 4.1. Жазылушылар және қауымдастық мүшелері кестесі (wnk_subscribers)
+CREATE TABLE IF NOT EXISTS public.wnk_subscribers (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email TEXT NOT NULL UNIQUE,
+    full_name TEXT,
+    interest TEXT,
+    source TEXT DEFAULT 'community_registration',
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_wnk_subscribers_email ON public.wnk_subscribers(email);
+
 -- 5. Row Level Security (RLS) қауіпсіздік саясаттары
 ALTER TABLE public.wnk_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.wnk_saved_resources ENABLE ROW LEVEL SECURITY;
