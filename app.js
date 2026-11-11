@@ -144,8 +144,16 @@ document.addEventListener('DOMContentLoaded', () => {
     modalTitle.textContent = item.title;
     modalLead.textContent = item.desc || item.excerpt;
 
-    modalSteps.innerHTML = item.steps.map(step => `<li>${escapeHtml(step)}</li>`).join('');
-    modalPrompt.textContent = item.prompt;
+    const modalReqs = document.getElementById('modalReqs');
+    if (modalReqs) modalReqs.textContent = item.reqs || 'Claude Code / Python';
+
+    const modalInstall = document.getElementById('modalInstall');
+    if (modalInstall) modalInstall.textContent = item.install_cmd || 'git clone https://github.com/artishertekuly-bit/wnk-education.git';
+
+    const modalExec = document.getElementById('modalExec');
+    if (modalExec) modalExec.textContent = item.exec_cmd || `/run ${item.slug}`;
+
+    modalPrompt.textContent = item.prompt_spec || item.prompt;
 
     modalTags.innerHTML = item.tags.map(tag => `<span class="card-tag">#${escapeHtml(tag)}</span>`).join('');
 
@@ -183,29 +191,34 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modalBackdrop) closeModal();
   });
 
-  // Copy prompt logic
-  btnCopyPrompt.addEventListener('click', () => {
-    const textToCopy = modalPrompt.textContent;
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      const origHtml = btnCopyPrompt.innerHTML;
-      btnCopyPrompt.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="2 9 6 13 14 3"/>
-        </svg>
-        Көшірілді!
-      `;
-      btnCopyPrompt.style.backgroundColor = '#16a34a';
-      btnCopyPrompt.style.color = '#fff';
-      btnCopyPrompt.style.borderColor = '#16a34a';
+  // Generic Copy Logic for all code blocks
+  document.querySelectorAll('.btn-copy[data-target]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const el = document.getElementById(targetId);
+      if (!el) return;
+      const textToCopy = el.textContent;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const origHtml = btn.innerHTML;
+        btn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2 9 6 13 14 3"/>
+          </svg>
+          Көшірілді!
+        `;
+        btn.style.backgroundColor = '#16a34a';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#16a34a';
 
-      setTimeout(() => {
-        btnCopyPrompt.innerHTML = origHtml;
-        btnCopyPrompt.style.backgroundColor = '';
-        btnCopyPrompt.style.color = '';
-        btnCopyPrompt.style.borderColor = '';
-      }, 2000);
-    }).catch(err => {
-      console.error('Copy failed:', err);
+        setTimeout(() => {
+          btn.innerHTML = origHtml;
+          btn.style.backgroundColor = '';
+          btn.style.color = '';
+          btn.style.borderColor = '';
+        }, 2000);
+      }).catch(err => {
+        console.error('Copy failed:', err);
+      });
     });
   });
 

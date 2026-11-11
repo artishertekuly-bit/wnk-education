@@ -292,27 +292,50 @@
         <h2 class="modal-title" id="modalTitle">Тақырыбы</h2>
         <p class="modal-lead" id="modalLead">Сипаттамасы</p>
 
-        <div class="card-tags" id="modalTags"></div>
-
-        <div>
-          <h3 class="modal-section-title">Қолдану қадамдары:</h3>
-          <ol class="steps-list" id="modalSteps"></ol>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;">
+          <div class="card-tags" id="modalTags"></div>
+          <span class="card-tag" style="background: var(--color-blue-faint); color: var(--color-blue); font-weight: 600;" id="modalReqs">Талаптар</span>
         </div>
 
         <div>
-          <h3 class="modal-section-title">Дайын промпт / Жүйелік нұсқаулық:</h3>
+          <h3 class="modal-section-title">1. Орнату және терминал баптауы (Install & Setup):</h3>
           <div class="prompt-box">
             <div class="prompt-box-header">
-              <span>PROMPT / CODE</span>
-              <button type="button" class="btn-copy" id="btnCopyPrompt">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
+              <span>BASH / TERMINAL</span>
+              <button type="button" class="btn-copy" id="btnCopyInstall" data-target="modalInstall">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                 Көшіріп алу
               </button>
             </div>
-            <pre class="prompt-code" id="modalPrompt"></pre>
+            <pre class="prompt-code" id="modalInstall" style="max-height: 120px;"></pre>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="modal-section-title">2. Іске қосу командасы (Execution Command):</h3>
+          <div class="prompt-box">
+            <div class="prompt-box-header">
+              <span>CLAUDE CODE / CLI RUNNER</span>
+              <button type="button" class="btn-copy" id="btnCopyExec" data-target="modalExec">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Көшіріп алу
+              </button>
+            </div>
+            <pre class="prompt-code" id="modalExec" style="max-height: 120px; font-weight: 600; color: var(--color-blue-deep);"></pre>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="modal-section-title">3. Өндірістік спецификация / Промпт (Production Spec):</h3>
+          <div class="prompt-box">
+            <div class="prompt-box-header">
+              <span>SPEC / MASTER PROMPT</span>
+              <button type="button" class="btn-copy" id="btnCopyPrompt" data-target="modalPrompt">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Көшіріп алу
+              </button>
+            </div>
+            <pre class="prompt-code" id="modalPrompt" style="max-height: 200px;"></pre>
           </div>
         </div>
 
