@@ -2158,57 +2158,6 @@ body {
    TELEGRAM COMMUNITY, VIP LOCKS & COURSES ACADEMY
    ========================================================================== */
 
-/* Hero Telegram Banner */
-.hero-tg-banner {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  background-color: #f0f7fc;
-  border: 1px solid #c7e3f6;
-  border-radius: 999px;
-  padding: 0.4rem 0.95rem 0.4rem 0.45rem;
-  margin-top: 1rem;
-  text-decoration: none;
-  color: var(--color-ink);
-  font-size: 0.85rem;
-  transition: var(--transition-fast);
-  max-width: 100%;
-}
-
-.hero-tg-banner:hover {
-  background-color: #e4f2fa;
-  border-color: #24a1de;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(36, 161, 222, 0.15);
-}
-
-.hero-tg-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background-color: #24a1de;
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.25rem 0.65rem;
-  border-radius: 999px;
-}
-
-.hero-tg-text {
-  font-weight: 500;
-  color: var(--color-ink);
-}
-
-.hero-tg-text strong {
-  color: #0b699c;
-}
-
-.hero-tg-arrow {
-  color: #24a1de;
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-
 /* Courses & Video Creation Academy Section */
 .courses-section {
   padding: 4.5rem 0;
