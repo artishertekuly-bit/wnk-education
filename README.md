@@ -1,12 +1,14 @@
 # WNK Education — Заманауи білім беру және AI ресурстар веб-платформасы
 
-[![Vercel Deployment](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://quick-marimba-1szq0l3.tmp.now)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/artishertekuly-bit/wnk-education)
+[![GitHub Pages](https://img.shields.io/badge/Deployed%20on-GitHub%20Pages-181717?style=for-the-badge&logo=github)](https://artishertekuly-bit.github.io/wnk-education/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![Language: Kazakh](https://img.shields.io/badge/Language-Kazakh%20%2F%20Қазақша-emerald?style=for-the-badge)](#)
 
 > **WNK Education** — Жасанды интеллект, автоматтандыру, промпттар, видео монтаж және заманауи контент жүйелеріне арналған қазақ тіліндегі тегін ашық білім беру веб-платформасы.
 
-🌐 **Жұмыс істеп тұрған сайт (Live Demo):** [https://quick-marimba-1szq0l3.tmp.now](https://quick-marimba-1szq0l3.tmp.now)
+🌐 **Жұмыс істеп тұрған сайт (Live Demo):** [https://artishertekuly-bit.github.io/wnk-education/](https://artishertekuly-bit.github.io/wnk-education/)  
+🚀 **Render арқылы 1-кликпен іске қосу:** [Deploy to Render](https://render.com/deploy?repo=https://github.com/artishertekuly-bit/wnk-education)
 
 ---
 
@@ -19,8 +21,8 @@
   - 💡 Промпттар (Mega Prompts & Codes)
   - 🎬 Видео және Монтаж (Automated Reels & Shorts)
   - 🎨 Визуал мен Карусель (Visuals, Midjourney & SMM)
-- **Швейцариялық минималистік дизайн (Swiss Minimalism & Editorial Layout):**
-  - Жылы қағаз реңктері (`#f0eee6`, `#faf9f3`), таза типографика (`Space Grotesk` + `Inter Tight`), жоғары деңгейлі контраст.
+- **Швейцариялық минималистік дизайн және үйлесімді типографика:**
+  - Жылы қағаз реңктері (`#f0eee6`, `#faf9f3`), таза қаріптер (`Plus Jakarta Sans` + `Inter` + `JetBrains Mono`), толық қазақша кириллица қолдауы.
 - **Лезде сүзу және санағыштар:**
   - Әр санат бойынша нақты материал санын көрсететін динамикалық сүзгілер.
 - **Жүйрік іздеу жүйесі (Instant Search):**
