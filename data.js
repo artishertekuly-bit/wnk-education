@@ -1,6 +1,6 @@
 /**
  * WNK Education - 97+ Curated Resources & Playbooks Data
- * Fully enriched with authentic commands, specs, and execution instructions.
+ * Fully enriched with authentic commands, specs, execution instructions, and Telegram exclusive locks.
  */
 var WNK_RESOURCES = window.WNK_RESOURCES = [
   {
@@ -27,7 +27,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name reddit-claude-skills --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Claude-тың ең үздік 5 пайдалы скиллі (r/claude іріктемесі)\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Claude-тың ең үздік 5 пайдалы скиллі (r/claude іріктемесі)\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 2,
@@ -54,7 +55,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @remotion/cli\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills\ncd ~/claude-animation-skills && npm install",
     "exec_cmd": "npx remotion render src/index.ts ReelsComposition out/reels_animation.mp4 --props='{\"text\":\"WNK Education\",\"theme\":\"swiss\"}'",
     "reqs": "Remotion 4.0, React 19, Node.js 20+, ffmpeg",
-    "prompt_spec": "// WNK Remotion Code Animation Spec: Reels үшін 6 Claude Code анимациялық скиллі (видеосыз)\n1. Кадр құрылымы: 1080x1920 (9:16), 30 fps, 15 секунд ұзақтық.\n2. Анимация қисықтары: spring({ damping: 12, mass: 0.5, stiffness: 100 }) серіппелі динамикасы.\n3. Швейцариялық типографика: Ірі қара шрифт, жылы ақ фон (#FAF9F3), акцентті көк (#1F5BFF) элементтер.\n4. Экспорт: ffmpeg h264_videotoolbox арқылы жедел рендерлеу."
+    "prompt_spec": "// WNK Remotion Code Animation Spec: Reels үшін 6 Claude Code анимациялық скиллі (видеосыз)\n1. Кадр құрылымы: 1080x1920 (9:16), 30 fps, 15 секунд ұзақтық.\n2. Анимация қисықтары: spring({ damping: 12, mass: 0.5, stiffness: 100 }) серіппелі динамикасы.\n3. Швейцариялық типографика: Ірі қара шрифт, жылы ақ фон (#FAF9F3), акцентті көк (#1F5BFF) элементтер.\n4. Экспорт: ffmpeg h264_videotoolbox арқылы жедел рендерлеу.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 3,
@@ -80,7 +84,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install exiftool\npip install pillow folium piexif geopy\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m content_skills.gallery_mapper --input ~/Pictures/Vacation --output ~/Desktop/3D_Trip_Map.html",
     "reqs": "exiftool, Python 3.10+, Mapbox API / Leaflet, Pillow",
-    "prompt_spec": "// WNK Geo-Visual Extraction Spec: Фотосуреттерден саяхаттарыңыздың 3D картасын жасау\n1. EXIF деректерін оқу: Фотосуреттерден GPS Latitude, Longitude, Date taken, Camera lens параметрлерін алу.\n2. Маршрут құру: Нүктелерді хронологиялық ретпен біріктіріп, 3D биіктік сызығын (Elevation trajectory) есептеу.\n3. Интерактивті карта: Leaflet / Mapbox көмегімен саяхаттың әр қадамына сәйкес фото-карточкалар мен видео-слайдтар генерациялау."
+    "prompt_spec": "// WNK Geo-Visual Extraction Spec: Фотосуреттерден саяхаттарыңыздың 3D картасын жасау\n1. EXIF деректерін оқу: Фотосуреттерден GPS Latitude, Longitude, Date taken, Camera lens параметрлерін алу.\n2. Маршрут құру: Нүктелерді хронологиялық ретпен біріктіріп, 3D биіктік сызығын (Elevation trajectory) есептеу.\n3. Интерактивті карта: Leaflet / Mapbox көмегімен саяхаттың әр қадамына сәйкес фото-карточкалар мен видео-слайдтар генерациялау.",
+    "is_locked": false
   },
   {
     "id": 4,
@@ -106,7 +111,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide claude-score --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: Claude есептік жазбасының жасырын рейтингі: толық тізім\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: Claude есептік жазбасының жасырын рейтингі: толық тізім\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 5,
@@ -132,7 +138,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install exiftool\npip install pillow folium piexif geopy\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m content_skills.gallery_mapper --input ~/Pictures/Vacation --output ~/Desktop/3D_Trip_Map.html",
     "reqs": "exiftool, Python 3.10+, Mapbox API / Leaflet, Pillow",
-    "prompt_spec": "// WNK Geo-Visual Extraction Spec: Смартфон галереясын AI арқылы реттеу және сұрыптау\n1. EXIF деректерін оқу: Фотосуреттерден GPS Latitude, Longitude, Date taken, Camera lens параметрлерін алу.\n2. Маршрут құру: Нүктелерді хронологиялық ретпен біріктіріп, 3D биіктік сызығын (Elevation trajectory) есептеу.\n3. Интерактивті карта: Leaflet / Mapbox көмегімен саяхаттың әр қадамына сәйкес фото-карточкалар мен видео-слайдтар генерациялау."
+    "prompt_spec": "// WNK Geo-Visual Extraction Spec: Смартфон галереясын AI арқылы реттеу және сұрыптау\n1. EXIF деректерін оқу: Фотосуреттерден GPS Latitude, Longitude, Date taken, Camera lens параметрлерін алу.\n2. Маршрут құру: Нүктелерді хронологиялық ретпен біріктіріп, 3D биіктік сызығын (Elevation trajectory) есептеу.\n3. Интерактивті карта: Leaflet / Mapbox көмегімен саяхаттың әр қадамына сәйкес фото-карточкалар мен видео-слайдтар генерациялау.",
+    "is_locked": false
   },
   {
     "id": 6,
@@ -159,7 +166,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install ffmpeg node\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills\ncd ~/claude-animation-skills && npm install",
     "exec_cmd": "/render-video --slug editing-skills --quality high --aspect 9:16",
     "reqs": "ffmpeg, Node.js 20+, Claude Code / Python 3.10+",
-    "prompt_spec": "// WNK Production Video Pipeline: Бір бейнеклипті ондаған Reels-ке бөлетін 6 монтаж скиллі\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету."
+    "prompt_spec": "// WNK Production Video Pipeline: Бір бейнеклипті ондаған Reels-ке бөлетін 6 монтаж скиллі\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 7,
@@ -186,7 +196,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install ffmpeg node\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills\ncd ~/claude-animation-skills && npm install",
     "exec_cmd": "/render-video --slug editing-studio --quality high --aspect 9:16",
     "reqs": "ffmpeg, Node.js 20+, Claude Code / Python 3.10+",
-    "prompt_spec": "// WNK Production Video Pipeline: Claude Code арқылы жеке AI монтаж студиясын құру\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету."
+    "prompt_spec": "// WNK Production Video Pipeline: Claude Code арқылы жеке AI монтаж студиясын құру\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 8,
@@ -212,7 +225,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark carousel-types.md -o carousel-types_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: Instagram карусельдерінің 10 түрі және 30 нақты мысал\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: Instagram карусельдерінің 10 түрі және 30 нақты мысал\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 9,
@@ -238,7 +252,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name anatomy --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Anatomy: кез келген нәрсенің жұмысын сызып беретін скилл\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Anatomy: кез келген нәрсенің жұмысын сызып беретін скилл\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 10,
@@ -264,7 +279,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name ad-lab --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Jev жарнамалық зерттеуді жеңілдетеді жұмысты жеңілдететін құпия тәсілі.\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Jev жарнамалық зерттеуді жеңілдетеді жұмысты жеңілдететін құпия тәсілі.\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 11,
@@ -290,7 +306,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide claude-maxxing --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: Claude мүмкіндігін максимум пайдалану (Claude-maxxing баптауы)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: Claude мүмкіндігін максимум пайдалану (Claude-maxxing баптауы)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 12,
@@ -316,7 +333,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide promise-vs-reality --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: 29 AI tools: promise vs reality (Oct 2026)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: 29 AI tools: promise vs reality (Oct 2026)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 13,
@@ -342,7 +360,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark viral-carousels.md -o viral-carousels_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: 10,743 вирустық карусельді талдау нәтижесінде анықталған ережелер\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: 10,743 вирустық карусельді талдау нәтижесінде анықталған ережелер\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 14,
@@ -368,7 +387,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name openai-decisions-marketing --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: OpenAI Decisions жарнамалық зерттеуді жеңілдетеді жұмысты жеңілдететін құпия тәсілі.\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: OpenAI Decisions жарнамалық зерттеуді жеңілдетеді жұмысты жеңілдететін құпия тәсілі.\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 15,
@@ -394,7 +414,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide free-github-alternatives --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: Қымбат ақылы сервистерді алмастыратын 18 тегін GitHub жобасы\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: Қымбат ақылы сервистерді алмастыратын 18 тегін GitHub жобасы\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 16,
@@ -420,7 +441,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name ai-agents --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: AI Агенттер бойынша толық энциклопедия және нұсқаулық\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: AI Агенттер бойынша толық энциклопедия және нұсқаулық\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 17,
@@ -446,7 +468,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install ffmpeg node\nexport GROQ_API_KEY=gsk_your_groq_key\ngit clone https://github.com/artishertekuly-bit/claude-editing-skills.git ~/claude-editing-skills\ncd ~/claude-editing-skills && ./install.sh",
     "exec_cmd": "/trial-reels raw_interview.mp4 --subtitles --punch-ins --lang kk --output out/final_reel.mp4",
     "reqs": "ffmpeg, Groq Whisper API, Python 3.10+, HyperFrames",
-    "prompt_spec": "// WNK Video Editing Engine Spec: ChatGPT-ді толыққанды видео монтаждау құралына айналдыру\n1. Дыбысты мәтінге айналдыру: Groq Whisper Large v3 (0.3 сек/минут жылдамдық, қазақ тіліндегі дәлдік 98%).\n2. Динамикалық кадрлеу (Smart Punch-ins): Спикердің маңызды сөздерінде 1.15x масштабтау және бетті ортаға келтіру.\n3. Субтитр стилі: Space Grotesk / Inter қалың шрифті, сары екпінді сөздер, жасыл белсенді субтитр.\n4. B-roll және SFX: Әр 3-4 секунд сайын контекстік сурет немесе жеңіл Whoosh дыбыстық эффектісі."
+    "prompt_spec": "// WNK Video Editing Engine Spec: ChatGPT-ді толыққанды видео монтаждау құралына айналдыру\n1. Дыбысты мәтінге айналдыру: Groq Whisper Large v3 (0.3 сек/минут жылдамдық, қазақ тіліндегі дәлдік 98%).\n2. Динамикалық кадрлеу (Smart Punch-ins): Спикердің маңызды сөздерінде 1.15x масштабтау және бетті ортаға келтіру.\n3. Субтитр стилі: Space Grotesk / Inter қалың шрифті, сары екпінді сөздер, жасыл белсенді субтитр.\n4. B-roll және SFX: Әр 3-4 секунд сайын контекстік сурет немесе жеңіл Whoosh дыбыстық эффектісі.",
+    "is_locked": false
   },
   {
     "id": 18,
@@ -472,7 +495,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide test-before-you-ship --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: Қосымшаңызды қолданушыларға ұсынбас бұрын тестілеу\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: Қосымшаңызды қолданушыларға ұсынбас бұрын тестілеу\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 19,
@@ -498,7 +522,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name jev-marketing --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Jev жарнамалық зерттеуді жеңілдетеді жұмысты жеңілдететін құпия тәсілі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Jev жарнамалық зерттеуді жеңілдетеді жұмысты жеңілдететін құпия тәсілі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 20,
@@ -524,7 +549,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide ai-tools-i-use --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: Күнделікті қолданатын ең үздік AI құралдар рейтингі (2026)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: Күнделікті қолданатын ең үздік AI құралдар рейтингі (2026)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 21,
@@ -550,7 +576,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name apollo-jev --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Jev makes lead qualification жұмысты жеңілдететін құпия тәсілі.\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Jev makes lead qualification жұмысты жеңілдететін құпия тәсілі.\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 22,
@@ -576,7 +603,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name folder --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Барлық AI баптауларыңызды жеке қалтада сақтау жүйесі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Барлық AI баптауларыңызды жеке қалтада сақтау жүйесі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 23,
@@ -602,7 +630,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name creator-lab --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Jev makes content research жұмысты жеңілдететін құпия тәсілі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Jev makes content research жұмысты жеңілдететін құпия тәсілі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 24,
@@ -628,7 +657,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name limit-saver --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Limit Saver: AI жазылымының лимитін 3 есе үнемдейтін скилл\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Limit Saver: AI жазылымының лимитін 3 есе үнемдейтін скилл\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 25,
@@ -654,7 +684,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide vorssaint --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: Your Mac should have come with this\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: Your Mac should have come with this\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 26,
@@ -680,7 +711,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install ffmpeg node\nexport GROQ_API_KEY=gsk_your_groq_key\ngit clone https://github.com/artishertekuly-bit/claude-editing-skills.git ~/claude-editing-skills\ncd ~/claude-editing-skills && ./install.sh",
     "exec_cmd": "/trial-reels raw_interview.mp4 --subtitles --punch-ins --lang kk --output out/final_reel.mp4",
     "reqs": "ffmpeg, Groq Whisper API, Python 3.10+, HyperFrames",
-    "prompt_spec": "// WNK Video Editing Engine Spec: AI көмегімен видео өңдеудің толық нұсқаулығы + 3 монтаж скиллі\n1. Дыбысты мәтінге айналдыру: Groq Whisper Large v3 (0.3 сек/минут жылдамдық, қазақ тіліндегі дәлдік 98%).\n2. Динамикалық кадрлеу (Smart Punch-ins): Спикердің маңызды сөздерінде 1.15x масштабтау және бетті ортаға келтіру.\n3. Субтитр стилі: Space Grotesk / Inter қалың шрифті, сары екпінді сөздер, жасыл белсенді субтитр.\n4. B-roll және SFX: Әр 3-4 секунд сайын контекстік сурет немесе жеңіл Whoosh дыбыстық эффектісі."
+    "prompt_spec": "// WNK Video Editing Engine Spec: AI көмегімен видео өңдеудің толық нұсқаулығы + 3 монтаж скиллі\n1. Дыбысты мәтінге айналдыру: Groq Whisper Large v3 (0.3 сек/минут жылдамдық, қазақ тіліндегі дәлдік 98%).\n2. Динамикалық кадрлеу (Smart Punch-ins): Спикердің маңызды сөздерінде 1.15x масштабтау және бетті ортаға келтіру.\n3. Субтитр стилі: Space Grotesk / Inter қалың шрифті, сары екпінді сөздер, жасыл белсенді субтитр.\n4. B-roll және SFX: Әр 3-4 секунд сайын контекстік сурет немесе жеңіл Whoosh дыбыстық эффектісі.",
+    "is_locked": false
   },
   {
     "id": 27,
@@ -706,7 +738,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide diy-fly-brain --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: DIY Fly Brain (Yes, Really)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: DIY Fly Brain (Yes, Really)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 28,
@@ -732,7 +765,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark sketch.md -o sketch_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: 10 things to make with ChatGPT Sketch\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: 10 things to make with ChatGPT Sketch\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 29,
@@ -760,7 +794,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install higgsfield requests pillow\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills",
     "exec_cmd": "/seedance-prompt 'Cinematic slow glide across cyberpunk Astana, neon reflection, 4k ultra-detailed' --camera '35mm slow push'",
     "reqs": "Higgsfield AI, Seedance 2.0, Midjourney v6.1, Topaz Video AI",
-    "prompt_spec": "// WNK Higgsfield & Seedance 2.0 Generation Spec: Claude × Higgsfield Seedance 2.0 — Толық баптау нұсқаулығы\n1. Бастапқы кадр (Init frame): Midjourney v6.1 арқылы 16:9 немесе 9:16 қатынасында фотореалистік кадр дайындау.\n2. Қозғалыс параметрлері: Camera motion: Slow Pan Left (Speed: 3), Motion Strength: 0.65, FPS: 24.\n3. Seedance 2.0 өңдеуі: Кадрлар арасындағы морфингті реттеп, кейіпкердің бет-бейнесінің тұрақтылығын (identity consistency) 95%-дан төмендетпеу.\n4. Пост-өңдеу: Topaz Video AI арқылы 1080p -> 4K 60fps деңгейіне дейін масштабтау."
+    "prompt_spec": "// WNK Higgsfield & Seedance 2.0 Generation Spec: Claude × Higgsfield Seedance 2.0 — Толық баптау нұсқаулығы\n1. Бастапқы кадр (Init frame): Midjourney v6.1 арқылы 16:9 немесе 9:16 қатынасында фотореалистік кадр дайындау.\n2. Қозғалыс параметрлері: Camera motion: Slow Pan Left (Speed: 3), Motion Strength: 0.65, FPS: 24.\n3. Seedance 2.0 өңдеуі: Кадрлар арасындағы морфингті реттеп, кейіпкердің бет-бейнесінің тұрақтылығын (identity consistency) 95%-дан төмендетпеу.\n4. Пост-өңдеу: Topaz Video AI арқылы 1080p -> 4K 60fps деңгейіне дейін масштабтау.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 30,
@@ -786,7 +823,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name token-saving-skills --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Claude токендерін үнемдейтін 5 пайдалы скилл\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Claude токендерін үнемдейтін 5 пайдалы скилл\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 31,
@@ -812,7 +850,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name person-to-skill --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: person-to-skill — turn any expert into your AI advisor\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: person-to-skill — turn any expert into your AI advisor\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 32,
@@ -838,7 +877,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook arcads-ads-playbook --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: The Arcads + Claude ads playbook (find &amp; clone winning ads)\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: The Arcads + Claude ads playbook (find &amp; clone winning ads)\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 33,
@@ -864,7 +904,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name 27-tools-hype-vs-output --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Top 27 AI tools of 2026, ranked (hype vs output)\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Top 27 AI tools of 2026, ranked (hype vs output)\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 34,
@@ -890,7 +931,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name claude-skill-for-adhd --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Зейінді шоғырландыруға арналған Claude жұмыс жүйесі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Зейінді шоғырландыруға арналған Claude жұмыс жүйесі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 35,
@@ -916,7 +958,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name manus-clone-website --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: I turned myself into a website with one prompt (Manus)\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: I turned myself into a website with one prompt (Manus)\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 36,
@@ -943,7 +986,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name kimi-k3-claude-code --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Kimi K3 inside Claude Code harness is a cheat code\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Kimi K3 inside Claude Code harness is a cheat code\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 37,
@@ -969,7 +1013,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name open-design --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Open Design — the free, local Claude Design alternative\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Open Design — the free, local Claude Design alternative\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 38,
@@ -995,7 +1040,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name ikea-room-design --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: AI интерьер дизайны: шынайы жобаларды жасау\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: AI интерьер дизайны: шынайы жобаларды жасау\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 39,
@@ -1021,7 +1067,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark carousel-playbook.md -o carousel-playbook_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: Claude көмегімен миллиондық қаралым жинайтын карусель жасау — the full system\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: Claude көмегімен миллиондық қаралым жинайтын карусель жасау — the full system\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 40,
@@ -1047,7 +1094,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name claude-model-pairing --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Stop burning your Claude limits — the Fable + Sonnet setup\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Stop burning your Claude limits — the Fable + Sonnet setup\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 41,
@@ -1073,7 +1121,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name arcads-ugc-ads --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Claude + Arcads арқылы UGC жарнамалар генерациясы\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Claude + Arcads арқылы UGC жарнамалар генерациясы\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 42,
@@ -1099,7 +1148,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name hand-gesture-website --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Control a website with your hand\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Control a website with your hand\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 43,
@@ -1125,7 +1175,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name analyze-skill --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Claude skill to steal any viral video\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Claude skill to steal any viral video\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 44,
@@ -1153,7 +1204,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install ffmpeg node\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills\ncd ~/claude-animation-skills && npm install",
     "exec_cmd": "/render-video --slug viral-flag-videos --quality high --aspect 9:16",
     "reqs": "ffmpeg, Node.js 20+, Claude Code / Python 3.10+",
-    "prompt_spec": "// WNK Production Video Pipeline: Higgsfield + Midjourney: Вирустық couple-with-a-flag тренді\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету."
+    "prompt_spec": "// WNK Production Video Pipeline: Higgsfield + Midjourney: Вирустық couple-with-a-flag тренді\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету.",
+    "is_locked": false
   },
   {
     "id": 45,
@@ -1179,7 +1231,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name content-skills --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: 5 Claude skills that fix its terrible writing\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: 5 Claude skills that fix its terrible writing\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 46,
@@ -1205,7 +1258,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name claude-design-skills --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Сапасыз AI дизайнды жоятын 42 Claude скиллі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Сапасыз AI дизайнды жоятын 42 Claude скиллі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 47,
@@ -1231,7 +1285,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name ai-personal-trainer --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Turn Jeff Nippard into your own personal AI trainer\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Turn Jeff Nippard into your own personal AI trainer\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 48,
@@ -1257,7 +1312,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name get-paid-to-wait-for-claude --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Get paid to wait for Claude\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Get paid to wait for Claude\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 49,
@@ -1283,7 +1339,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name 10000-dollar-website --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Бір промпт арқылы сапалы қымбат сайт құрастыру in Claude\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Бір промпт арқылы сапалы қымбат сайт құрастыру in Claude\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 50,
@@ -1309,7 +1366,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook loop-engineering --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: Loop engineering, explained\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: Loop engineering, explained\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 51,
@@ -1335,7 +1393,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name notebooklm-coach --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: I gave Claude 300 Huberman episodes — now he&#x27;s my health coach\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: I gave Claude 300 Huberman episodes — now he&#x27;s my health coach\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 52,
@@ -1361,7 +1420,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name geo-audit --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: GEO аудит: дәстүрлі SEO емес, AI іздеу жүйелерінің алдыңғы қатарына шығу\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: GEO аудит: дәстүрлі SEO емес, AI іздеу жүйелерінің алдыңғы қатарына шығу\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 53,
@@ -1388,7 +1448,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name content-brain --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Reels үшін Claude Code контент-миын жасау\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Reels үшін Claude Code контент-миын жасау\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 54,
@@ -1414,7 +1475,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name text-to-cad --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: text-to-cad — prompt → real mechanical designs\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: text-to-cad — prompt → real mechanical designs\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 55,
@@ -1441,7 +1503,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark carousel-system.md -o carousel-system_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: How to create viral Instagram carousels with ChatGPT\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: How to create viral Instagram carousels with ChatGPT\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 56,
@@ -1468,7 +1531,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide 5-claude-code-skills-that-replaced-my-150k-dev-te --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: 5 Claude Code Skills That Replaced My $150k Dev Team\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: 5 Claude Code Skills That Replaced My $150k Dev Team\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 57,
@@ -1495,7 +1559,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide claude-code-plugin --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: Claude Code Plugin\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: Claude Code Plugin\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 58,
@@ -1521,7 +1586,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide connect-microsoft-365-to-claude-full-setup-guide --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: Microsoft 365 жүйесін Claude-қа қосу (Толық нұсқаулық) (Full Setup Guide)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: Microsoft 365 жүйесін Claude-қа қосу (Толық нұсқаулық) (Full Setup Guide)\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 59,
@@ -1547,7 +1613,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/wnk-education.git\ncd wnk-education && npm install",
     "exec_cmd": "/guide the-claude-for-small-business-setup-guide --mode full-walkthrough",
     "reqs": "Git, Node.js 20+, Python 3.10+, Docker, Supabase CLI",
-    "prompt_spec": "// WNK Production Setup Guide Spec: Шағын бизнеске арналған Claude енгізу нұсқаулығы\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау."
+    "prompt_spec": "// WNK Production Setup Guide Spec: Шағын бизнеске арналған Claude енгізу нұсқаулығы\n1. Инфрақұрылым дайындығы: Жергілікті ортаны тексеру (Node >= 20.0.0, Python >= 3.10, Docker).\n2. Қоршаған орта айнымалылары (.env): API кілттерді конфигурациялау және байланысты тексеру.\n3. Қауіпсіз орындау: Жергілікті терминалда қауіпсіз тестілеп, содан соң бұлттық жүйеге енгізу.\n4. Мониторинг: Қолданушы сұраныстары мен кэштің тиімділігін күнделікті қадағалау.",
+    "is_locked": false
   },
   {
     "id": 60,
@@ -1573,7 +1640,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark chatgpt-image-2-0-vs-nano-banana-google-pro.md -o chatgpt-image-2-0-vs-nano-banana-google-pro_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: ChatGPT Image 2.0 vs Nano Banana Google Pro\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: ChatGPT Image 2.0 vs Nano Banana Google Pro\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 61,
@@ -1600,7 +1668,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark claude-instagram-carousel-generator-project-inst.md -o claude-instagram-carousel-generator-project-inst_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: Claude Instagram Carousel Generator — Project Instructions\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: Claude Instagram Carousel Generator — Project Instructions\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 62,
@@ -1626,7 +1695,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark gpt-image-2-the-full-leak-guide.md -o gpt-image-2-the-full-leak-guide_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: GPT Image 2 — The Толық нұсқаулық пен шолу\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: GPT Image 2 — The Толық нұсқаулық пен шолу\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 63,
@@ -1652,7 +1722,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark how-to-generate-hyper-realistic-ai-images.md -o how-to-generate-hyper-realistic-ai-images_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: How to Generate Hyper-Realistic AI Images\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: How to Generate Hyper-Realistic AI Images\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 64,
@@ -1679,7 +1750,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark how-to-make-instagram-carousels-with-chatgpt-image.md -o how-to-make-instagram-carousels-with-chatgpt-image_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: How to Make Instagram Carousels with ChatGPT Image 2\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: How to Make Instagram Carousels with ChatGPT Image 2\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 65,
@@ -1705,7 +1777,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "npm install -g @marp-team/marp-cli sharp\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "npx marp --theme swiss-dark the-reference-first-carousel-workflow.md -o the-reference-first-carousel-workflow_carousel.pdf --images png",
     "reqs": "Midjourney v6.1, Marp CLI, Node.js 20+, Sharp, Puppeteer",
-    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: Референс арқылы мінсіз карусель жасау алгоритмі\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру."
+    "prompt_spec": "// WNK Carousel & Visual Architecture Spec: Референс арқылы мінсіз карусель жасау алгоритмі\n1. 1-слайд (Hook): Көз тартатын провокациялық сұрақ немесе күтпеген дерек (1080x1350 4:5 қатынасы).\n2. 2-6 слайдтар (Core Content): Бір слайд — бір негізгі ой. Қарапайым инфографика және ірі цифрлар.\n3. 7-слайд (Summary & Cheatsheet): Скриншот жасауға ыңғайлы жиынтық кесте немесе диаграмма.\n4. 8-слайд (CTA): «WNK Education қауымдастығына қосылыңыз» — нақты шақыру.",
+    "is_locked": false
   },
   {
     "id": 66,
@@ -1732,7 +1805,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install ffmpeg node\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills\ncd ~/claude-animation-skills && npm install",
     "exec_cmd": "/render-video --slug free-instagram-reel-transcript-and-hook-analyzer --quality high --aspect 9:16",
     "reqs": "ffmpeg, Node.js 20+, Claude Code / Python 3.10+",
-    "prompt_spec": "// WNK Production Video Pipeline: 🎬 Free Instagram Reel Transcript &amp; Hook Analyzer\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету."
+    "prompt_spec": "// WNK Production Video Pipeline: 🎬 Free Instagram Reel Transcript &amp; Hook Analyzer\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету.",
+    "is_locked": false
   },
   {
     "id": 67,
@@ -1758,7 +1832,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook the-top-10-ai-apps-youre-ignoring --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: 🔮 The Top 10 AI Apps You&#x27;re Ignoring\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: 🔮 The Top 10 AI Apps You&#x27;re Ignoring\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 68,
@@ -1784,7 +1859,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook the-ultimate-ai-stack-gemini-3-1-claude-4-6 --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: 🚀 Үздік AI стек: Gemini + Claude интеграциясы: Gemini 3.1 + Claude 4.6\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: 🚀 Үздік AI стек: Gemini + Claude интеграциясы: Gemini 3.1 + Claude 4.6\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 69,
@@ -1810,7 +1886,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook 7-ai-tools-every-content-creator-needs-in-2026-i --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: List of AI tools worth paying for in 2026 (July)\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: List of AI tools worth paying for in 2026 (July)\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 70,
@@ -1836,7 +1913,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook aimaxxing-101-the-full-playbook --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: AImaxxing 101: The Full Playbook\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: AImaxxing 101: The Full Playbook\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 71,
@@ -1862,7 +1940,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook how-to-become-an-ai-engineer-in-6-months-complet --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: 6 айда AI инженеры болу: толық оқу бағдарламасы — Complete Resource Guide\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: 6 айда AI инженеры болу: толық оқу бағдарламасы — Complete Resource Guide\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 72,
@@ -1888,7 +1969,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook how-to-build-a-fully-automated-ai-ad-agency-inside --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: How to Build a Fully Automated AI Ad Agency Inside Claude\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: How to Build a Fully Automated AI Ad Agency Inside Claude\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 73,
@@ -1914,7 +1998,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook set-up-your-personal-ai-assistant-in-5-minutes-no --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: Жеке AI көмекшісін 5 минутта баптау (кодсыз) (No Code)\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: Жеке AI көмекшісін 5 минутта баптау (кодсыз) (No Code)\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 74,
@@ -1940,7 +2025,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook the-future-of-website-interfaces-pretext-package --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: The Future of Website Interfaces: Pretext Package\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: The Future of Website Interfaces: Pretext Package\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 75,
@@ -1966,7 +2052,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook the-overnight-ai-coding-starter-kit --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: Бір түнде код жазуды бастауға арналған AI стартер-кит\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: Бір түнде код жазуды бастауға арналған AI стартер-кит\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 76,
@@ -1992,7 +2079,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook the-three-model-stack-a-practical-setup --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: The Three-Model Stack: A Practical Setup\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: The Three-Model Stack: A Practical Setup\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 77,
@@ -2018,7 +2106,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook viral-engine-the-full-guide --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: VIRAL ENGINE — Толық практикалық гид\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: VIRAL ENGINE — Толық практикалық гид\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 78,
@@ -2044,7 +2135,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook youtuber-brain-clone-blueprint --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: YouTuber миын клондау архитектурасы\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: YouTuber миын клондау архитектурасы\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 79,
@@ -2072,7 +2166,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic rich tiktoken\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "/prompt-run --template 100-chatgpt-image-prompt-codes --lang kk",
     "reqs": "Claude 3.5 Sonnet, Markdown Spec, JSON Schema",
-    "prompt_spec": "// WNK Master Prompt Architecture: ChatGPT және Midjourney үшін 100+ визуалды промпт коды\nRole: Жоғары деңгейлі тәжірибелі сарапшы және білім беру архитектор.\nContext: WNK Education қауымдастығы үшін практикалық, нәтижеге бағытталған оқу контентін дайындау.\nConstraints:\n- Артық кіріспе мен қорытынды сөздер жазбаңыз.\n- Тек нақты мысалдар, терминал командалары және нақты нәтиже көрсетіңіз.\n- Тіл: Әдеби және кәсіби қазақ тілі."
+    "prompt_spec": "// WNK Master Prompt Architecture: ChatGPT және Midjourney үшін 100+ визуалды промпт коды\nRole: Жоғары деңгейлі тәжірибелі сарапшы және білім беру архитектор.\nContext: WNK Education қауымдастығы үшін практикалық, нәтижеге бағытталған оқу контентін дайындау.\nConstraints:\n- Артық кіріспе мен қорытынды сөздер жазбаңыз.\n- Тек нақты мысалдар, терминал командалары және нақты нәтиже көрсетіңіз.\n- Тіл: Әдеби және кәсіби қазақ тілі.",
+    "is_locked": false
   },
   {
     "id": 80,
@@ -2098,7 +2193,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic rich tiktoken\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "/prompt-run --template ai-character-creation-prompts --lang kk",
     "reqs": "Claude 3.5 Sonnet, Markdown Spec, JSON Schema",
-    "prompt_spec": "// WNK Master Prompt Architecture: AI Character Creation Prompts\nRole: Жоғары деңгейлі тәжірибелі сарапшы және білім беру архитектор.\nContext: WNK Education қауымдастығы үшін практикалық, нәтижеге бағытталған оқу контентін дайындау.\nConstraints:\n- Артық кіріспе мен қорытынды сөздер жазбаңыз.\n- Тек нақты мысалдар, терминал командалары және нақты нәтиже көрсетіңіз.\n- Тіл: Әдеби және кәсіби қазақ тілі."
+    "prompt_spec": "// WNK Master Prompt Architecture: AI Character Creation Prompts\nRole: Жоғары деңгейлі тәжірибелі сарапшы және білім беру архитектор.\nContext: WNK Education қауымдастығы үшін практикалық, нәтижеге бағытталған оқу контентін дайындау.\nConstraints:\n- Артық кіріспе мен қорытынды сөздер жазбаңыз.\n- Тек нақты мысалдар, терминал командалары және нақты нәтиже көрсетіңіз.\n- Тіл: Әдеби және кәсіби қазақ тілі.",
+    "is_locked": false
   },
   {
     "id": 81,
@@ -2124,7 +2220,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic rich tiktoken\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "/prompt-run --template ai-particle-simulator-full-guide-prompt-pack --lang kk",
     "reqs": "Claude 3.5 Sonnet, Markdown Spec, JSON Schema",
-    "prompt_spec": "// WNK Master Prompt Architecture: AI Particle Simulator — Full Guide + Prompt Pack\nRole: Жоғары деңгейлі тәжірибелі сарапшы және білім беру архитектор.\nContext: WNK Education қауымдастығы үшін практикалық, нәтижеге бағытталған оқу контентін дайындау.\nConstraints:\n- Артық кіріспе мен қорытынды сөздер жазбаңыз.\n- Тек нақты мысалдар, терминал командалары және нақты нәтиже көрсетіңіз.\n- Тіл: Әдеби және кәсіби қазақ тілі."
+    "prompt_spec": "// WNK Master Prompt Architecture: AI Particle Simulator — Full Guide + Prompt Pack\nRole: Жоғары деңгейлі тәжірибелі сарапшы және білім беру архитектор.\nContext: WNK Education қауымдастығы үшін практикалық, нәтижеге бағытталған оқу контентін дайындау.\nConstraints:\n- Артық кіріспе мен қорытынды сөздер жазбаңыз.\n- Тек нақты мысалдар, терминал командалары және нақты нәтиже көрсетіңіз.\n- Тіл: Әдеби және кәсіби қазақ тілі.",
+    "is_locked": false
   },
   {
     "id": 82,
@@ -2150,7 +2247,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/humanizer 'Мәтіндегі жасанды интеллект клишелерін жойып, қазақша тірі тілмен қайта жаз'",
     "reqs": "Claude 3.5 Sonnet / Antigravity CLI, Content Skills",
-    "prompt_spec": "// WNK Anti-AI Writing Filter Protocol: Anti-AI Writing: мәтінді жасанды емес, шынайы тірі адамша жаздыру ережелері\n1. Тыйым салынған тіркестер: «қазіргі таңда», «маңызды рөл атқарады», «айта кету керек», «бұл тек бастамасы ғана», «көздің қарашығындай».\n2. Ритм және құрылым: 5-8 сөзден тұратын қысқа екпінді сөйлемдер. Бір ой — бір сөйлем.\n3. Белсенді етістіктер: Тұйық және ырықсыз етіс формаларын азайтып, тікелей әрекетке көшу.\n4. Тексеру: Қазақ тілінің табиғи сөйлеу колориті мен кәсіби фактілерді сақтау."
+    "prompt_spec": "// WNK Anti-AI Writing Filter Protocol: Anti-AI Writing: мәтінді жасанды емес, шынайы тірі адамша жаздыру ережелері\n1. Тыйым салынған тіркестер: «қазіргі таңда», «маңызды рөл атқарады», «айта кету керек», «бұл тек бастамасы ғана», «көздің қарашығындай».\n2. Ритм және құрылым: 5-8 сөзден тұратын қысқа екпінді сөйлемдер. Бір ой — бір сөйлем.\n3. Белсенді етістіктер: Тұйық және ырықсыз етіс формаларын азайтып, тікелей әрекетке көшу.\n4. Тексеру: Қазақ тілінің табиғи сөйлеу колориті мен кәсіби фактілерді сақтау.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 83,
@@ -2176,7 +2276,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic rich tiktoken\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "/prompt-run --template mega-prompt-library --lang kk",
     "reqs": "Claude 3.5 Sonnet, Markdown Spec, JSON Schema",
-    "prompt_spec": "// WNK Master Prompt Architecture: WNK Education: Ең ауқымды AI промпттар кітапханасы\nRole: Жоғары деңгейлі тәжірибелі сарапшы және білім беру архитектор.\nContext: WNK Education қауымдастығы үшін практикалық, нәтижеге бағытталған оқу контентін дайындау.\nConstraints:\n- Артық кіріспе мен қорытынды сөздер жазбаңыз.\n- Тек нақты мысалдар, терминал командалары және нақты нәтиже көрсетіңіз.\n- Тіл: Әдеби және кәсіби қазақ тілі."
+    "prompt_spec": "// WNK Master Prompt Architecture: WNK Education: Ең ауқымды AI промпттар кітапханасы\nRole: Жоғары деңгейлі тәжірибелі сарапшы және білім беру архитектор.\nContext: WNK Education қауымдастығы үшін практикалық, нәтижеге бағытталған оқу контентін дайындау.\nConstraints:\n- Артық кіріспе мен қорытынды сөздер жазбаңыз.\n- Тек нақты мысалдар, терминал командалары және нақты нәтиже көрсетіңіз.\n- Тіл: Әдеби және кәсіби қазақ тілі.",
+    "is_locked": false
   },
   {
     "id": 84,
@@ -2202,7 +2303,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "git clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/humanizer 'Мәтіндегі жасанды интеллект клишелерін жойып, қазақша тірі тілмен қайта жаз'",
     "reqs": "Claude 3.5 Sonnet / Antigravity CLI, Content Skills",
-    "prompt_spec": "// WNK Anti-AI Writing Filter Protocol: STOP LYING CHAT GPT PROMPT\n1. Тыйым салынған тіркестер: «қазіргі таңда», «маңызды рөл атқарады», «айта кету керек», «бұл тек бастамасы ғана», «көздің қарашығындай».\n2. Ритм және құрылым: 5-8 сөзден тұратын қысқа екпінді сөйлемдер. Бір ой — бір сөйлем.\n3. Белсенді етістіктер: Тұйық және ырықсыз етіс формаларын азайтып, тікелей әрекетке көшу.\n4. Тексеру: Қазақ тілінің табиғи сөйлеу колориті мен кәсіби фактілерді сақтау."
+    "prompt_spec": "// WNK Anti-AI Writing Filter Protocol: STOP LYING CHAT GPT PROMPT\n1. Тыйым салынған тіркестер: «қазіргі таңда», «маңызды рөл атқарады», «айта кету керек», «бұл тек бастамасы ғана», «көздің қарашығындай».\n2. Ритм және құрылым: 5-8 сөзден тұратын қысқа екпінді сөйлемдер. Бір ой — бір сөйлем.\n3. Белсенді етістіктер: Тұйық және ырықсыз етіс формаларын азайтып, тікелей әрекетке көшу.\n4. Тексеру: Қазақ тілінің табиғи сөйлеу колориті мен кәсіби фактілерді сақтау.",
+    "is_locked": false
   },
   {
     "id": 85,
@@ -2228,7 +2330,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name 10-things-you-can-do-with-ai-agents-right-now --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: AI Агенттер бойынша толық энциклопедия және нұсқаулық\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: AI Агенттер бойынша толық энциклопедия және нұсқаулық\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 86,
@@ -2256,7 +2359,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install ffmpeg node\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills\ncd ~/claude-animation-skills && npm install",
     "exec_cmd": "/render-video --slug daily-instagram-reels-viral-outlier-spy-agent --quality high --aspect 9:16",
     "reqs": "ffmpeg, Node.js 20+, Claude Code / Python 3.10+",
-    "prompt_spec": "// WNK Production Video Pipeline: Reels трендтерін күнделікті бақылайтын AI агент\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету."
+    "prompt_spec": "// WNK Production Video Pipeline: Reels трендтерін күнделікті бақылайтын AI агент\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету.",
+    "is_locked": false
   },
   {
     "id": 87,
@@ -2283,7 +2387,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name how-to-build-and-sell-ai-agents-with-claude-managed --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: AI Агенттер бойынша толық энциклопедия және нұсқаулық\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: AI Агенттер бойынша толық энциклопедия және нұсқаулық\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 88,
@@ -2309,7 +2414,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name how-to-fix-your-ai-memory-in-10-minutes --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: AI жадын 10 минутта дұрыстау және контекст сақтау\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: AI жадын 10 минутта дұрыстау және контекст сақтау\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 89,
@@ -2335,7 +2441,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name physical-ai-and-robotics-investment-watchlist --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Physical AI &amp; Robotics Investment Watchlist\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Physical AI &amp; Robotics Investment Watchlist\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 90,
@@ -2361,7 +2468,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name real-estate-speed-to-lead-ai-automation-system --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Жылжымайтын мүлік саласына арналған жедел AI жүйесі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Жылжымайтын мүлік саласына арналған жедел AI жүйесі\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 91,
@@ -2387,7 +2495,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic litellm playwright schedule requests rich\nplaywright install chromium\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/content-skills",
     "exec_cmd": "python -m workflows.runner --playbook the-ai-automation-agency-playbook-for-2026-secre --config config.yaml",
     "reqs": "Python 3.10+, Playwright, LiteLLM, Claude API, Notion API",
-    "prompt_spec": "// WNK Operational Playbook & Automation Spec: The AI Automation Agency Playbook for 2026 + Secret Sauce\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау."
+    "prompt_spec": "// WNK Operational Playbook & Automation Spec: The AI Automation Agency Playbook for 2026 + Secret Sauce\n1. Модельдер стегі (Three-Model Stack):\n   - Reasoning: Claude 3.5 Sonnet (архитектура, логика және рефакторинг).\n   - Fast Triage: Gemini 2.0 Flash (жылдам дерек іздеу, веб-парсинг).\n   - Multimodal & OCR: GPT-4o (суреттер мен скриншоттарды талдау).\n2. Автоматтандыру циклдері: Күнделікті мониторинг -> Мәліметтерді өңдеу -> Нәтижені Telegram/Notion базасына жіберу.\n3. Қателерге төзімділік: Exponential backoff (3 қайталау) және жүйелік логтарды сақтау.",
+    "is_locked": false
   },
   {
     "id": 92,
@@ -2413,7 +2522,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name viral-ig-bot-researcher --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Instagram үшін вирустық тақырыптарды зерттейтін бот\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Instagram үшін вирустық тақырыптарды зерттейтін бот\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 93,
@@ -2439,7 +2549,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name your-first-ai-content-system-full-guide --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Алғашқы автономды AI контент жүйеңіз: толық нұсқаулық\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Алғашқы автономды AI контент жүйеңіз: толық нұсқаулық\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 94,
@@ -2465,7 +2576,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install anthropic playwright beautifulsoup4\ngit clone https://github.com/artishertekuly-bit/content-skills.git ~/.gemini/config/skills/content-skills",
     "exec_cmd": "/agent-run --name your-second-brain-full-in-depth-setup-guide --auto-approve false",
     "reqs": "Claude Code 1.0+, Antigravity CLI, Python 3.10+, Playwright",
-    "prompt_spec": "// WNK AI Agent Architecture Spec: Second Brain: барлық ақпарат пен білімді AI көмегімен басқару\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі."
+    "prompt_spec": "// WNK AI Agent Architecture Spec: Second Brain: барлық ақпарат пен білімді AI көмегімен басқару\n1. Мақсат (Objective): Қолданушының берілген тапсырмасын адам араласуынсыз 100% орындап шығу.\n2. Құралдар (Tools): File System (read/edit/write), Terminal (run_command), Web Search (fetch/browse).\n3. Шешім қабылдау циклі (ReAct Loop):\n   - Ойлану (Thought): Ағымдағы жағдай мен келесі қадамды айқындау.\n   - Әрекет (Action): Құралды шақырып, нақты команданы орындау.\n   - Бақылау (Observation): Нәтижені тексеріп, қателерді түзету.\n4. Қауіпсіздік шектеуі: Сыртқы жүйелерге зиян келтірмейтін қатаң sandbox режимі.",
+    "is_locked": false
   },
   {
     "id": 95,
@@ -2491,7 +2603,8 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install ffmpeg node\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills\ncd ~/claude-animation-skills && npm install",
     "exec_cmd": "/render-video --slug the-gemini-3-visualization-playbook --quality high --aspect 9:16",
     "reqs": "ffmpeg, Node.js 20+, Claude Code / Python 3.10+",
-    "prompt_spec": "// WNK Production Video Pipeline: 📘 The Gemini 3 Visualization Playbook\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету."
+    "prompt_spec": "// WNK Production Video Pipeline: 📘 The Gemini 3 Visualization Playbook\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету.",
+    "is_locked": false
   },
   {
     "id": 96,
@@ -2517,7 +2630,10 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "brew install ffmpeg node\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills\ncd ~/claude-animation-skills && npm install",
     "exec_cmd": "/render-video --slug ai-video-clone-guide-headsfield-cling-ai --quality high --aspect 9:16",
     "reqs": "ffmpeg, Node.js 20+, Claude Code / Python 3.10+",
-    "prompt_spec": "// WNK Production Video Pipeline: AI арқылы видео аватар мен дауыс клон жасау нұсқаулығы - Headsfield + Cling AI\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету."
+    "prompt_spec": "// WNK Production Video Pipeline: AI арқылы видео аватар мен дауыс клон жасау нұсқаулығы - Headsfield + Cling AI\n1. Ингест: Бастапқы видеоны 9:16 қауіпсіз аймаққа (Instagram/TikTok safe zone) бейімдеу.\n2. Аудио баланс: Дауысты -3dB деңгейіне дейін компрессиялап, фондық музыканы -22dB төмендету.\n3. Визуалды екпіндер: Түйінді терминдер экранда 0.8 секундқа графикалық плашка ретінде шығуын қамтамасыз ету.",
+    "is_locked": true,
+    "lock_reason": "Бұл нұсқаулық тек @wnk_education Telegram каналының оқырмандарына арналған. Қол жеткізу үшін Telegram каналға тіркеліңіз.",
+    "lock_badge": "🔒 Эксклюзив · Telegram жазылу"
   },
   {
     "id": 97,
@@ -2543,6 +2659,7 @@ var WNK_RESOURCES = window.WNK_RESOURCES = [
     "install_cmd": "pip install higgsfield requests pillow\ngit clone https://github.com/artishertekuly-bit/claude-animation-skills.git ~/claude-animation-skills",
     "exec_cmd": "/seedance-prompt 'Cinematic slow glide across cyberpunk Astana, neon reflection, 4k ultra-detailed' --camera '35mm slow push'",
     "reqs": "Higgsfield AI, Seedance 2.0, Midjourney v6.1, Topaz Video AI",
-    "prompt_spec": "// WNK Higgsfield & Seedance 2.0 Generation Spec: Claude × Higgsfield Seedance 2.0 — Full Setup Guide\n1. Бастапқы кадр (Init frame): Midjourney v6.1 арқылы 16:9 немесе 9:16 қатынасында фотореалистік кадр дайындау.\n2. Қозғалыс параметрлері: Camera motion: Slow Pan Left (Speed: 3), Motion Strength: 0.65, FPS: 24.\n3. Seedance 2.0 өңдеуі: Кадрлар арасындағы морфингті реттеп, кейіпкердің бет-бейнесінің тұрақтылығын (identity consistency) 95%-дан төмендетпеу.\n4. Пост-өңдеу: Topaz Video AI арқылы 1080p -> 4K 60fps деңгейіне дейін масштабтау."
+    "prompt_spec": "// WNK Higgsfield & Seedance 2.0 Generation Spec: Claude × Higgsfield Seedance 2.0 — Full Setup Guide\n1. Бастапқы кадр (Init frame): Midjourney v6.1 арқылы 16:9 немесе 9:16 қатынасында фотореалистік кадр дайындау.\n2. Қозғалыс параметрлері: Camera motion: Slow Pan Left (Speed: 3), Motion Strength: 0.65, FPS: 24.\n3. Seedance 2.0 өңдеуі: Кадрлар арасындағы морфингті реттеп, кейіпкердің бет-бейнесінің тұрақтылығын (identity consistency) 95%-дан төмендетпеу.\n4. Пост-өңдеу: Topaz Video AI арқылы 1080p -> 4K 60fps деңгейіне дейін масштабтау.",
+    "is_locked": false
   }
 ];

@@ -33,6 +33,11 @@ function initWnkApp() {
   const modalReqs = document.getElementById('modalReqs');
   const modalRepoLink = document.getElementById('modalRepoLink');
   const modalRepoLabel = document.getElementById('modalRepoLabel');
+  const modalCodeSections = document.getElementById('modalCodeSections');
+  const modalTelegramGate = document.getElementById('modalTelegramGate');
+  const modalTelegramUnlockedBanner = document.getElementById('modalTelegramUnlockedBanner');
+  const btnModalTgVerify = document.getElementById('btnModalTgVerify');
+  const btnCoursesUnlockCheck = document.getElementById('btnCoursesUnlockCheck');
 
   // Auth & Confirmation Modal elements
   const btnMastheadJoin = document.getElementById('btnMastheadJoin');
@@ -73,6 +78,13 @@ function initWnkApp() {
     if (rawBookmarks) bookmarkedIds = new Set(JSON.parse(rawBookmarks));
   } catch (e) {
     bookmarkedIds = new Set();
+  }
+
+  let isTelegramUnlocked = false;
+  try {
+    isTelegramUnlocked = localStorage.getItem('wnk_tg_unlocked') === 'true';
+  } catch (e) {
+    isTelegramUnlocked = false;
   }
 
   // ==========================================================================
@@ -424,6 +436,7 @@ function initWnkApp() {
     resourcesList.forEach(item => {
       counts[item.category] = (counts[item.category] || 0) + 1;
     });
+    counts['🔒 VIP Эксклюзив'] = resourcesList.filter(i => i.is_locked).length;
     return counts;
   }
 
@@ -431,28 +444,30 @@ function initWnkApp() {
     const counts = getCategoryCounts();
     const categories = [
       'Барлығы',
+      '🔒 VIP Эксклюзив',
+      'Видео және Монтаж',
       'Жүйелер мен Агенттер',
-      'Баптау нұсқаулықтары',
+      'Баптау нұсквалықтары',
       'Плейбуктар',
       'Промпттар',
-      'Видео және Монтаж',
       'Визуал мен Карусель'
     ];
 
     if (!filterRow) return;
     filterRow.innerHTML = '';
     categories.forEach(cat => {
-      const count = counts[cat] || 0;
+      const realCatKey = cat === 'Баптау нұсквалықтары' ? 'Баптау нұсқаулықтары' : cat;
+      const count = counts[realCatKey] || counts[cat] || 0;
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `filter-chip ${cat === activeCategory ? 'is-active' : ''}`;
-      btn.setAttribute('data-category', cat);
+      btn.className = `filter-chip ${cat === activeCategory || realCatKey === activeCategory ? 'is-active' : ''}`;
+      btn.setAttribute('data-category', realCatKey);
       btn.innerHTML = `
-        <span>${cat}</span>
+        <span>${realCatKey}</span>
         <span class="filter-count">${count}</span>
       `;
       btn.addEventListener('click', () => {
-        activeCategory = cat;
+        activeCategory = realCatKey;
         document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('is-active'));
         btn.classList.add('is-active');
         filterAndRender();
@@ -504,7 +519,8 @@ function initWnkApp() {
     const filtered = resourcesList.filter(item => {
       const itemPlatform = detectPlatform(item);
 
-      const matchesCat = (activeCategory === 'Барлығы') || (item.category === activeCategory);
+      const matchesCat = (activeCategory === 'Барлығы') || 
+        (activeCategory === '🔒 VIP Эксклюзив' ? !!item.is_locked : item.category === activeCategory);
       const matchesPlatform = (activePlatform === 'all') || (itemPlatform === activePlatform);
       const matchesQuery = !q ||
         item.title.toLowerCase().includes(q) ||
@@ -533,12 +549,24 @@ function initWnkApp() {
       const pKey = detectPlatform(item);
       const badgeHTML = renderPlatformBadgeHTML(pKey);
       const isBookmarked = bookmarkedIds.has(item.id);
+      const isLocked = !!item.is_locked;
+      const isUnlocked = isLocked && isTelegramUnlocked;
+
+      let lockBadgeHTML = '';
+      if (isLocked) {
+        if (isUnlocked) {
+          lockBadgeHTML = `<span class="card-lock-badge is-unlocked" title="Telegram арқылы ашылған VIP нұсқаулық"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 🔓 Ашылды (VIP)</span>`;
+        } else {
+          lockBadgeHTML = `<span class="card-lock-badge is-locked" title="Оқу үшін Telegram каналға жазылу қажет"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> 🔒 Жабық VIP</span>`;
+        }
+      }
 
       return `
-        <article class="resource-card" data-id="${item.id}" tabindex="0" role="button" aria-label="${escapeHtml(item.title)}">
+        <article class="resource-card ${isLocked ? (isUnlocked ? 'is-unlocked-card' : 'is-locked-card') : ''}" data-id="${item.id}" tabindex="0" role="button" aria-label="${escapeHtml(item.title)}">
           <div class="card-meta">
             <span class="card-category">${escapeHtml(item.category)}</span>
             ${badgeHTML}
+            ${lockBadgeHTML}
             <span class="card-readtime">${item.readTime || '3 мин'}</span>
           </div>
           <h3 class="card-title">${escapeHtml(item.title)}</h3>
@@ -553,7 +581,7 @@ function initWnkApp() {
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
               </button>
               <span class="card-arrow">
-                Нұсқаулықты оқу
+                ${isLocked && !isUnlocked ? 'Құлыпты ашу 🔒' : 'Нұсқаулықты оқу'}
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M4 12L12 4M12 4H6M12 4V10"/>
                 </svg>
@@ -665,6 +693,24 @@ function initWnkApp() {
       }
     }
 
+    // Telegram VIP Gate Logic for 10 Locked Flagship Resources
+    const isLocked = !!item.is_locked;
+    if (modalCodeSections && modalTelegramGate && modalTelegramUnlockedBanner) {
+      if (isLocked && !isTelegramUnlocked) {
+        modalCodeSections.style.display = 'none';
+        modalTelegramGate.style.display = 'block';
+        modalTelegramUnlockedBanner.style.display = 'none';
+      } else if (isLocked && isTelegramUnlocked) {
+        modalCodeSections.style.display = 'block';
+        modalTelegramGate.style.display = 'none';
+        modalTelegramUnlockedBanner.style.display = 'flex';
+      } else {
+        modalCodeSections.style.display = 'block';
+        modalTelegramGate.style.display = 'none';
+        modalTelegramUnlockedBanner.style.display = 'none';
+      }
+    }
+
     modalBackdrop.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     modalCloseBtn.focus();
@@ -673,6 +719,41 @@ function initWnkApp() {
   function closeModal() {
     modalBackdrop.classList.remove('is-open');
     document.body.style.overflow = '';
+  }
+
+  function unlockTelegramAccess() {
+    isTelegramUnlocked = true;
+    try {
+      localStorage.setItem('wnk_tg_unlocked', 'true');
+    } catch (e) {}
+
+    if (modalCodeSections && modalTelegramGate && modalTelegramUnlockedBanner) {
+      modalTelegramGate.style.display = 'none';
+      modalCodeSections.style.display = 'block';
+      modalTelegramUnlockedBanner.style.display = 'flex';
+    }
+
+    if (currentUser && supabaseClient) {
+      supabaseClient.from('wnk_subscribers').update({
+        telegram_verified: true,
+        telegram_verified_at: new Date().toISOString()
+      }).eq('email', currentUser.email).then(() => {}).catch(() => {});
+    }
+
+    filterAndRender();
+    renderCategoryFilterButtons();
+    alert('Құттықтаймыз! @wnk_education Telegram каналына жазылуыңыз расталды. Барлық 10 VIP эксклюзив нұсқаулық пен кодтар толық ашылды! 🎉');
+  }
+
+  if (btnModalTgVerify) {
+    btnModalTgVerify.addEventListener('click', unlockTelegramAccess);
+  }
+  if (btnCoursesUnlockCheck) {
+    btnCoursesUnlockCheck.addEventListener('click', () => {
+      unlockTelegramAccess();
+      const resSection = document.getElementById('resources');
+      if (resSection) resSection.scrollIntoView({ behavior: 'smooth' });
+    });
   }
 
   if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
