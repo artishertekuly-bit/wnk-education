@@ -4,7 +4,10 @@
  * reader modal with visual blueprints, and Supabase Google OAuth confirmation.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+function initWnkApp() {
+  // Safe Resource List Access
+  const resourcesList = (typeof window !== 'undefined' && window.WNK_RESOURCES) || (typeof WNK_RESOURCES !== 'undefined' ? WNK_RESOURCES : []);
+
   // DOM Elements
   const resourcesGrid = document.getElementById('resourcesGrid');
   const searchInput = document.getElementById('searchInput');
@@ -53,7 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let activePlatform = 'all';
   let searchQuery = '';
   let currentUser = null;
-  let bookmarkedIds = new Set(JSON.parse(localStorage.getItem('wnk_bookmarks') || '[]'));
+  let bookmarkedIds = new Set();
+  try {
+    const rawBookmarks = localStorage.getItem('wnk_bookmarks');
+    if (rawBookmarks) bookmarkedIds = new Set(JSON.parse(rawBookmarks));
+  } catch (e) {
+    bookmarkedIds = new Set();
+  }
 
   // ==========================================================================
   // PLATFORM BRANDING & VECTOR LOGOS (/replica-design)
@@ -332,8 +341,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // CATEGORIES & PLATFORMS FILTERING
   // ==========================================================================
   function getCategoryCounts() {
-    const counts = { 'Барлығы': WNK_RESOURCES.length };
-    WNK_RESOURCES.forEach(item => {
+    const counts = { 'Барлығы': resourcesList.length };
+    resourcesList.forEach(item => {
       counts[item.category] = (counts[item.category] || 0) + 1;
     });
     return counts;
@@ -413,7 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function filterAndRender() {
     const q = searchQuery.toLowerCase().trim();
 
-    const filtered = WNK_RESOURCES.filter(item => {
+    const filtered = resourcesList.filter(item => {
       const itemPlatform = detectPlatform(item);
 
       const matchesCat = (activeCategory === 'Барлығы') || (item.category === activeCategory);
@@ -536,7 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // DETAIL READER MODAL WITH BLUEPRINTS & PLATFORMS
   // ==========================================================================
   function openModal(id) {
-    const item = WNK_RESOURCES.find(i => i.id === id);
+    const item = resourcesList.find(i => i.id === id);
     if (!item) return;
 
     const pKey = detectPlatform(item);
@@ -898,4 +907,11 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCategoryFilterButtons();
   renderPlatformFilterChips();
   filterAndRender();
-});
+}
+
+// Resilient initialization: handles already-loaded DOM and DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initWnkApp);
+} else {
+  initWnkApp();
+}

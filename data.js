@@ -1,5 +1,5 @@
 // WNK Education - 97 Ресурс қоры (Authentic Terminal Specs)
-const WNK_RESOURCES = [
+var WNK_RESOURCES = (typeof window !== 'undefined' ? window.WNK_RESOURCES : null) || [
   {
     "id": 1,
     "title": "Claude-тың ең үздік 5 пайдалы скиллі (r/claude іріктемесі)",
@@ -2543,3 +2543,7 @@ const WNK_RESOURCES = [
     "prompt_spec": "// WNK Production Guide Spec: Claude × Higgsfield Seedance 2.0 — Full Setup Guide\n1. Дайындық: Қажетті құралдар мен кітапханаларды жүйеге енгізу.\n2. Баптау: Параметрлерді нақты жоба міндетіне қарай бейімдеу.\n3. Іске қосу: Терминалда команданы орындап, нәтижені бақылау.\n4. Оңтайландыру: Жұмыс өнімділігін 2 есе арттыру."
   }
 ];
+
+if (typeof window !== 'undefined') {
+  window.WNK_RESOURCES = WNK_RESOURCES;
+}
