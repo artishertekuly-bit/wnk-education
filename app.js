@@ -48,7 +48,6 @@ function initWnkApp() {
   const authModalBackdrop = document.getElementById('authModalBackdrop');
   const authModalClose = document.getElementById('authModalClose');
   const btnGoogleSignIn = document.getElementById('btnGoogleSignIn');
-  const btnDemoAuth = document.getElementById('btnDemoAuth');
   const googleBtnLabel = document.getElementById('googleBtnLabel');
   const communityRegForm = document.getElementById('communityRegForm');
   const regFullName = document.getElementById('regFullName');
@@ -405,7 +404,6 @@ function initWnkApp() {
     });
   }
   if (btnGoogleSignIn) btnGoogleSignIn.addEventListener('click', handleGoogleLogin);
-  if (btnDemoAuth) btnDemoAuth.addEventListener('click', () => loginMockUser('Артур Серікұлы (Расталған)', 'artur@wnk.education'));
   if (btnNavLogout) btnNavLogout.addEventListener('click', handleLogout);
 
   if (communityRegForm) {

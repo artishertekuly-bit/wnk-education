@@ -1831,28 +1831,6 @@ body {
   padding: 0 0.75rem;
 }
 
-.btn-demo-auth {
-  width: 100%;
-  padding: 0.65rem 1rem;
-  background-color: var(--color-surface);
-  border: 1px dashed var(--color-hairline-strong);
-  border-radius: var(--radius-sm);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--color-blue);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  transition: var(--transition-fast);
-}
-
-.btn-demo-auth:hover {
-  background-color: var(--color-blue-faint);
-  border-color: var(--color-blue);
-}
-
 .auth-modal-footnote {
   text-align: center;
   font-size: 0.72rem;
