@@ -1015,9 +1015,10 @@ function initWnkApp() {
   filterAndRender();
 }
 
-// Resilient initialization: handles already-loaded DOM and DOMContentLoaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initWnkApp);
-} else {
+// Instant rendering: since app.js is at bottom of <body>, DOM elements are immediately available
+try {
   initWnkApp();
+} catch (err) {
+  console.warn('Immediate init fallback to DOMContentLoaded:', err);
+  document.addEventListener('DOMContentLoaded', initWnkApp);
 }
