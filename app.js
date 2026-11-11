@@ -149,6 +149,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalTags.innerHTML = item.tags.map(tag => `<span class="card-tag">#${escapeHtml(tag)}</span>`).join('');
 
+    const modalRepoLink = document.getElementById('modalRepoLink');
+    const modalRepoLabel = document.getElementById('modalRepoLabel');
+    if (modalRepoLink && modalRepoLabel) {
+      if (item.category === 'Видео және Монтаж' || item.tags.includes('Video')) {
+        modalRepoLink.href = 'https://github.com/artishertekuly-bit/claude-animation-skills';
+        modalRepoLabel.textContent = 'Animation Skills репозиторийін ашу ↗';
+      } else if (item.category === 'Промпттар' || item.tags.includes('Prompts')) {
+        modalRepoLink.href = 'https://github.com/artishertekuly-bit/content-skills';
+        modalRepoLabel.textContent = 'Content Skills репозиторийін ашу ↗';
+      } else if (item.tags.includes('SMM') || item.category === 'Визуал мен Карусель') {
+        modalRepoLink.href = 'https://github.com/artishertekuly-bit/claude-editing-skills';
+        modalRepoLabel.textContent = 'Editing Skills репозиторийін ашу ↗';
+      } else {
+        modalRepoLink.href = 'https://github.com/artishertekuly-bit/wnk-education';
+        modalRepoLabel.textContent = 'WNK Education кодын GitHub-та көру ↗';
+      }
+    }
+
     modalBackdrop.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     modalCloseBtn.focus();
