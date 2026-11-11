@@ -91,6 +91,97 @@
             <span class="metric-label">Жасырын төлемдерсіз</span>
           </div>
         </div>
+
+        <!-- Graphic Visual Showcase Strip -->
+        <div class="hero-visual-strip">
+          <!-- 1. Graph -->
+          <a class="visual-tile" href="#resources" onclick="document.getElementById('searchInput').value='graph'; document.getElementById('searchInput').dispatchEvent(new Event('input'))">
+            <div class="visual-tile-canvas">
+              <svg width="100%" height="60" viewBox="0 0 140 60" fill="none">
+                <path d="M10 50 Q 40 45, 60 30 T 110 15 T 130 8" stroke="#1f5bff" stroke-width="2.5" fill="none"/>
+                <circle cx="130" cy="8" r="4" fill="#1f5bff"/>
+                <circle cx="60" cy="30" r="2.5" fill="#1b1a15"/>
+                <line x1="10" y1="52" x2="130" y2="52" stroke="#1b1a1522" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="visual-tile-title">
+              <span>/graph</span>
+              <span style="color: var(--color-blue);">↗</span>
+            </div>
+            <span class="visual-tile-caption">Өсім графигі & 1080x1920</span>
+          </a>
+
+          <!-- 2. Map Route -->
+          <a class="visual-tile" href="#resources" onclick="document.getElementById('searchInput').value='map'; document.getElementById('searchInput').dispatchEvent(new Event('input'))">
+            <div class="visual-tile-canvas">
+              <svg width="100%" height="60" viewBox="0 0 140 60" fill="none">
+                <path d="M15 45 C 35 15, 65 55, 95 25 S 125 15, 125 15" stroke="#1b1a15" stroke-width="2" stroke-dasharray="3 3"/>
+                <circle cx="15" cy="45" r="4" fill="#1b1a15"/>
+                <path d="M125 7 C122 7, 120 9, 120 12 C120 16, 125 21, 125 21 C125 21, 130 16, 130 12 C130 9, 128 7, 125 7 Z" fill="#dc2626"/>
+              </svg>
+            </div>
+            <div class="visual-tile-title">
+              <span>/map-route</span>
+              <span style="color: var(--color-blue);">↗</span>
+            </div>
+            <span class="visual-tile-caption">3D Қала & Маршрут</span>
+          </a>
+
+          <!-- 3. Exploded Breakdown -->
+          <a class="visual-tile" href="#resources" onclick="document.getElementById('searchInput').value='breakdown'; document.getElementById('searchInput').dispatchEvent(new Event('input'))">
+            <div class="visual-tile-canvas">
+              <svg width="100%" height="60" viewBox="0 0 140 60" fill="none">
+                <rect x="35" y="10" width="70" height="8" rx="2" stroke="#1b1a15" stroke-width="1.2" fill="#faf9f3"/>
+                <rect x="35" y="24" width="70" height="10" rx="2" stroke="#1f5bff" stroke-width="1.5" fill="#eef1ff"/>
+                <rect x="35" y="40" width="70" height="8" rx="2" stroke="#1b1a15" stroke-width="1.2" fill="#faf9f3"/>
+                <line x1="105" y1="29" x2="125" y2="29" stroke="#1f5bff" stroke-width="1"/>
+                <circle cx="125" cy="29" r="2" fill="#1f5bff"/>
+              </svg>
+            </div>
+            <div class="visual-tile-title">
+              <span>/breakdown</span>
+              <span style="color: var(--color-blue);">↗</span>
+            </div>
+            <span class="visual-tile-caption">3D Бөлшектеу сызбасы</span>
+          </a>
+
+          <!-- 4. Anti-AI Writing -->
+          <a class="visual-tile" href="#resources" onclick="document.getElementById('searchInput').value='anti-ai'; document.getElementById('searchInput').dispatchEvent(new Event('input'))">
+            <div class="visual-tile-canvas">
+              <svg width="100%" height="60" viewBox="0 0 140 60" fill="none">
+                <rect x="15" y="15" width="48" height="30" rx="3" fill="#fee2e2" stroke="#fca5a5" stroke-width="1"/>
+                <line x1="20" y1="24" x2="55" y2="24" stroke="#ef4444" stroke-width="1.5"/>
+                <line x1="20" y1="32" x2="45" y2="32" stroke="#ef4444" stroke-width="1.5"/>
+                <path d="M68 30 L 76 30 M 73 26 L 77 30 L 73 34" stroke="#1b1a15" stroke-width="1.5"/>
+                <rect x="80" y="15" width="48" height="30" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+                <line x1="85" y1="24" x2="120" y2="24" stroke="#16a34a" stroke-width="1.5"/>
+                <line x1="85" y1="32" x2="110" y2="32" stroke="#16a34a" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="visual-tile-title">
+              <span>/anti-ai</span>
+              <span style="color: var(--color-blue);">↗</span>
+            </div>
+            <span class="visual-tile-caption">Клишесіз тірі тіл</span>
+          </a>
+
+          <!-- 5. Video Editor -->
+          <a class="visual-tile" href="#resources" onclick="document.getElementById('searchInput').value='editing'; document.getElementById('searchInput').dispatchEvent(new Event('input'))">
+            <div class="visual-tile-canvas">
+              <svg width="100%" height="60" viewBox="0 0 140 60" fill="none">
+                <rect x="48" y="5" width="44" height="50" rx="4" stroke="#1b1a15" stroke-width="1.5" fill="#faf9f3"/>
+                <rect x="52" y="10" width="36" height="24" rx="2" fill="#eef1ff"/>
+                <line x1="52" y1="40" x2="88" y2="40" stroke="#1f5bff" stroke-width="2"/>
+                <line x1="52" y1="46" x2="75" y2="46" stroke="#1b1a15" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="visual-tile-title">
+              <span>/reels-edit</span>
+              <span style="color: var(--color-blue);">↗</span>
+            </div>
+            <span class="visual-tile-caption">Автоматты субтитр & SFX</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -296,6 +387,9 @@
           <div class="card-tags" id="modalTags"></div>
           <span class="card-tag" style="background: var(--color-blue-faint); color: var(--color-blue); font-weight: 600;" id="modalReqs">Талаптар</span>
         </div>
+
+        <!-- Dynamic Graphic Architecture & Visual Illustration -->
+        <div id="modalDiagramContainer"></div>
 
         <div>
           <h3 class="modal-section-title">1. Орнату және терминал баптауы (Install & Setup):</h3>
