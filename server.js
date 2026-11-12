@@ -9,6 +9,7 @@ const http = require('http');
 const path = require('path');
 const cors = require('cors');
 const { WebSocketServer, WebSocket } = require('ws');
+const { createClient } = require('@supabase/supabase-js');
 
 const {
   generateQuestionsWithFallback,
@@ -24,6 +25,16 @@ const {
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Supabase Client for Cloud Room & Match Sync
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://trlswfllpngensloecoa.supabase.co';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRybHN3ZmxscG5nZW5zbG9lY29hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0MzA3MTQsImV4cCI6MjExMDAwNjcxNH0.mBpHNl3PFcsX_CPS6lVqbD6mrDQHRvR4aXKpYLLt3bE';
+let supabase = null;
+try {
+  supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+} catch (e) {
+  console.warn('[Server Supabase init notice]', e.message);
+}
 
 app.use(cors());
 app.use(express.json());
@@ -250,6 +261,67 @@ async function handleSocketMessage(ws, data) {
 }
 
 // -------------------------------------------------------------
+// Supabase Sync Helpers
+// -------------------------------------------------------------
+async function syncRoomToSupabase(room) {
+  if (!supabase || !room) return;
+  try {
+    await supabase.from('wnk_active_rooms').upsert({
+      id: room.id,
+      game_type: room.gameType,
+      topic: room.topic,
+      is_vs_ai: !!room.isVsAi,
+      is_private: !!room.isPrivate,
+      status: room.status,
+      host_id: room.host.id,
+      host_name: room.host.username,
+      host_avatar: room.host.avatar,
+      guest_id: room.guest ? room.guest.id : null,
+      guest_name: room.guest ? room.guest.username : null,
+      guest_avatar: room.guest ? room.guest.avatar : null,
+      turn: room.turn,
+      state_json: {
+        streaks: room.streaks,
+        scores: room.scores,
+        radarAvailable: room.radarAvailable
+      },
+      updated_at: new Date().toISOString()
+    });
+  } catch (err) {
+    console.warn('[Supabase Sync Notice]', err.message);
+  }
+}
+
+async function removeRoomFromSupabase(roomId) {
+  if (!supabase || !roomId) return;
+  try {
+    await supabase.from('wnk_active_rooms').delete().eq('id', roomId);
+  } catch (err) {}
+}
+
+async function recordMatchToSupabase(room) {
+  if (!supabase || !room) return;
+  try {
+    await supabase.from('wnk_gaming_matches').insert({
+      room_id: room.id,
+      game_type: room.gameType,
+      topic: room.topic,
+      host_id: room.host.id,
+      host_name: room.host.username,
+      guest_id: room.guest ? room.guest.id : (room.isVsAi ? 'bot_wnk_ai' : 'guest'),
+      guest_name: room.guest ? room.guest.username : (room.isVsAi ? 'WNK AI Ұстаз' : 'Қарсылас'),
+      winner_id: room.winner,
+      winner_name: room.winner === room.host.id ? room.host.username : (room.guest ? room.guest.username : 'Жеңімпаз'),
+      host_score: room.scores[room.host.id] || 0,
+      guest_score: room.guest ? (room.scores[room.guest.id] || 0) : (room.scores['bot_wnk_ai'] || 0),
+      completed_at: new Date().toISOString()
+    });
+  } catch (err) {
+    console.warn('[Match Record Notice]', err.message);
+  }
+}
+
+// -------------------------------------------------------------
 // Game Room Handlers
 // -------------------------------------------------------------
 
@@ -324,6 +396,7 @@ async function handleCreateRoom(ws, data) {
   });
 
   broadcastLobbyUpdate();
+  syncRoomToSupabase(room);
 
   // Async load questions via Gemini Fallback
   generateQuestionsWithFallback(room.topic, customApiKey)
@@ -391,7 +464,16 @@ function handleJoinRoom(ws, data) {
     room: sanitizeRoomForPlayer(room, room.guest.id)
   });
 
+  // If checkers, announce battle started immediately
+  if (room.gameType === 'checkers') {
+    broadcastToRoom(room, 'battle_started', {
+      turn: room.turn,
+      message: 'Шашки ойыны басталды! Ақтар жүреді.'
+    });
+  }
+
   broadcastLobbyUpdate();
+  syncRoomToSupabase(room);
 }
 
 function handlePlaceShips(ws, data) {
@@ -424,9 +506,9 @@ function handlePlaceShips(ws, data) {
     fleet: room.battleship[playerId].getFullView()
   });
 
-  // Check if both ready
+  // Check if both ready (Safe navigation in case guest hasn't joined yet)
   const hostReady = room.battleship[room.host.id]?.ships?.length === 10;
-  const guestReady = room.battleship[room.guest.id]?.ships?.length === 10;
+  const guestReady = room.guest ? (room.battleship[room.guest.id]?.ships?.length === 10) : false;
 
   if (hostReady && guestReady) {
     room.status = 'playing';
@@ -434,16 +516,16 @@ function handlePlaceShips(ws, data) {
       turn: room.turn,
       message: 'Теңіз шайқасы басталды! Оқты нысанаға көздеңіз.'
     });
-    // Send initial sanitized states
-    send(room.hostWs, 'game_state_update', sanitizeRoomForPlayer(room, room.host.id));
-    if (room.guestWs) {
-      send(room.guestWs, 'game_state_update', sanitizeRoomForPlayer(room, room.guest.id));
-    }
+    broadcastGameState(room);
   } else {
     broadcastToRoom(room, 'waiting_for_opponent_fleet', {
-      readyPlayerId: playerId
+      readyPlayerId: playerId,
+      readyPlayerName: playerId === room.host.id ? room.host.username : (room.guest ? room.guest.username : 'Ойыншы')
     });
+    broadcastGameState(room);
   }
+
+  syncRoomToSupabase(room);
 }
 
 function handleRequestMove(ws, data) {
@@ -561,8 +643,10 @@ function handleSubmitAnswer(ws, data) {
       room.radarAvailable[playerId] = true;
     }
 
-    // Execute Move
-    if (room.gameType === 'battleship') {
+    // Execute Move or Radar
+    if (room.pendingMove?.isRadar) {
+      executeRadarMove(room, playerId, room.pendingMove.center, question);
+    } else if (room.gameType === 'battleship') {
       executeBattleshipMove(room, playerId, moveData, question, true);
     } else {
       executeCheckersMove(room, playerId, moveData, question, true);
@@ -574,7 +658,7 @@ function handleSubmitAnswer(ws, data) {
     const failReason = isTimeout ? 'Уақыт аяқталды!' : 'Қате жауап!';
     broadcastToRoom(room, 'move_failed', {
       playerId,
-      playerName: playerId === room.host.id ? room.host.username : room.guest.username,
+      playerName: playerId === room.host.id ? room.host.username : (room.guest ? room.guest.username : 'Ойыншы'),
       reason: failReason,
       correctAnswerIndex: question.correct_answer,
       explanation: question.explanation,
@@ -584,21 +668,52 @@ function handleSubmitAnswer(ws, data) {
     // Pass turn to opponent
     room.turn = getOpponentId(room, playerId);
     broadcastGameState(room);
+    syncRoomToSupabase(room);
 
     // Trigger AI move if it's AI's turn
     triggerAiTurnIfNeeded(room);
   }
 }
 
+function executeRadarMove(room, playerId, center, question) {
+  const opponentId = getOpponentId(room, playerId);
+  if (!opponentId) return;
+  const targetBoard = room.battleship[opponentId];
+  if (!targetBoard) return;
+
+  const scanResult = targetBoard.scanRadar(center.x, center.y);
+  room.radarAvailable[playerId] = false; // Radar consumed
+
+  broadcastToRoom(room, 'radar_executed', {
+    gameType: 'battleship',
+    playerId,
+    playerName: playerId === room.host.id ? room.host.username : (room.guest ? room.guest.username : 'Ойыншы'),
+    center,
+    revealed: scanResult.revealed,
+    shipPartsCount: scanResult.shipPartsCount,
+    questionExplanation: question.explanation,
+    radarAvailable: false
+  });
+
+  broadcastGameState(room);
+  syncRoomToSupabase(room);
+  triggerAiTurnIfNeeded(room);
+}
+
 function executeBattleshipMove(room, playerId, moveData, question, isCorrect) {
   const opponentId = getOpponentId(room, playerId);
+  if (!opponentId) return;
   const targetBoard = room.battleship[opponentId];
+  if (!targetBoard) return;
+
   const shotResult = targetBoard.receiveShot(moveData.x, moveData.y);
 
   const isGameOver = targetBoard.isFleetDestroyed();
   if (isGameOver) {
     room.status = 'finished';
     room.winner = playerId;
+    recordMatchToSupabase(room);
+    removeRoomFromSupabase(room.id);
   }
 
   // In classic rules: if HIT, player gets another shot! If MISS, switch turn.
@@ -611,7 +726,7 @@ function executeBattleshipMove(room, playerId, moveData, question, isCorrect) {
   broadcastToRoom(room, 'move_executed', {
     gameType: 'battleship',
     playerId,
-    playerName: playerId === room.host.id ? room.host.username : room.guest.username,
+    playerName: playerId === room.host.id ? room.host.username : (room.guest ? room.guest.username : 'Ойыншы'),
     shot: { x: moveData.x, y: moveData.y, result: shotResult.status },
     shotResult,
     isCorrect,
@@ -624,6 +739,7 @@ function executeBattleshipMove(room, playerId, moveData, question, isCorrect) {
   });
 
   broadcastGameState(room);
+  syncRoomToSupabase(room);
   triggerAiTurnIfNeeded(room);
 }
 
@@ -634,6 +750,8 @@ function executeCheckersMove(room, playerId, moveData, question, isCorrect) {
   if (result.isGameOver) {
     room.status = 'finished';
     room.winner = playerId;
+    recordMatchToSupabase(room);
+    removeRoomFromSupabase(room.id);
   } else {
     room.turn = getOpponentId(room, playerId);
   }
@@ -641,7 +759,7 @@ function executeCheckersMove(room, playerId, moveData, question, isCorrect) {
   broadcastToRoom(room, 'move_executed', {
     gameType: 'checkers',
     playerId,
-    playerName: playerId === room.host.id ? room.host.username : room.guest.username,
+    playerName: playerId === room.host.id ? room.host.username : (room.guest ? room.guest.username : 'Ойыншы'),
     move: moveData,
     board: result.board,
     scores: room.checkers.getScores(),
@@ -653,6 +771,7 @@ function executeCheckersMove(room, playerId, moveData, question, isCorrect) {
   });
 
   broadcastGameState(room);
+  syncRoomToSupabase(room);
   triggerAiTurnIfNeeded(room);
 }
 
@@ -813,7 +932,7 @@ function handleChatMessage(ws, data) {
 function handleSurrender(ws, data) {
   const { roomId } = data;
   const room = activeRooms.get(roomId);
-  if (!room || room.status !== 'playing') return;
+  if (!room || room.status === 'finished') return;
 
   const playerId = getPlayerIdFromWs(ws, room);
   if (!playerId) return;
@@ -825,10 +944,12 @@ function handleSurrender(ws, data) {
   broadcastToRoom(room, 'game_surrendered', {
     surrenderedPlayerId: playerId,
     winner: opponentId,
-    message: `${playerId === room.host.id ? room.host.username : room.guest.username} ойынды аяқтады`
+    message: `${playerId === room.host.id ? room.host.username : (room.guest ? room.guest.username : 'Ойыншы')} ойынды аяқтады`
   });
 
   broadcastGameState(room);
+  recordMatchToSupabase(room);
+  removeRoomFromSupabase(room.id);
 }
 
 function handlePlayerDisconnect(ws, roomId) {
@@ -838,16 +959,20 @@ function handlePlayerDisconnect(ws, roomId) {
   const playerId = getPlayerIdFromWs(ws, room);
   if (!playerId) return;
 
-  if (room.status === 'playing') {
+  if (room.status === 'playing' || room.status === 'placing') {
     const opponentId = getOpponentId(room, playerId);
     room.status = 'finished';
     room.winner = opponentId;
     broadcastToRoom(room, 'opponent_disconnected', {
       disconnectedPlayerId: playerId,
-      winner: opponentId
+      winner: opponentId,
+      message: 'Қарсылас желіден ажырады. Жеңіс сізге берілді!'
     });
+    recordMatchToSupabase(room);
+    removeRoomFromSupabase(room.id);
   } else if (room.status === 'waiting') {
     activeRooms.delete(roomId);
+    removeRoomFromSupabase(roomId);
     broadcastLobbyUpdate();
   }
 }
@@ -857,7 +982,7 @@ function handlePlayerDisconnect(ws, roomId) {
 // -------------------------------------------------------------
 function getPlayerIdFromWs(ws, room) {
   if (room.hostWs === ws) return room.host.id;
-  if (room.guestWs === ws) return room.guest.id;
+  if (room.guestWs === ws && room.guest) return room.guest.id;
   return null;
 }
 
@@ -867,10 +992,14 @@ function getOpponentId(room, playerId) {
 
 function broadcastGameState(room) {
   if (room.hostWs && room.hostWs.readyState === WebSocket.OPEN) {
-    send(room.hostWs, 'game_state_update', sanitizeRoomForPlayer(room, room.host.id));
+    send(room.hostWs, 'game_state_update', {
+      room: sanitizeRoomForPlayer(room, room.host.id)
+    });
   }
   if (room.guestWs && room.guestWs.readyState === WebSocket.OPEN) {
-    send(room.guestWs, 'game_state_update', sanitizeRoomForPlayer(room, room.guest.id));
+    send(room.guestWs, 'game_state_update', {
+      room: sanitizeRoomForPlayer(room, room.guest.id)
+    });
   }
 }
 

@@ -2854,6 +2854,57 @@ body {
   flex-wrap: wrap;
 }
 
+.lobby-code-join {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-surface);
+  padding: 4px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--color-hairline);
+}
+
+.input-text-code {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border: 1px solid var(--color-hairline);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  width: 130px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-text-code:focus {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 2px rgba(31, 91, 255, 0.15);
+}
+
+.btn-copy-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(31, 91, 255, 0.08);
+  color: var(--color-blue-deep);
+  border: 1px solid rgba(31, 91, 255, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-copy-code:hover {
+  background: rgba(31, 91, 255, 0.16);
+  border-color: var(--color-blue);
+}
+
 .lobby-title {
   display: flex;
   align-items: center;

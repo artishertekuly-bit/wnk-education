@@ -429,6 +429,12 @@
             <span>Белсенді бөлмелер</span>
             <span class="lobby-online-badge">Онлайн: <strong id="gamingOnlineCount">1</strong></span>
           </div>
+          <div class="lobby-code-join">
+            <input type="text" class="input-text-code" id="inputJoinByCode" placeholder="Код: WNK-XXXX" maxlength="10" autocomplete="off" spellcheck="false">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnJoinByCode">
+              <span>Қосылу 🚀</span>
+            </button>
+          </div>
           <div class="lobby-tabs">
             <button type="button" class="lobby-tab is-active" data-filter="all">Барлығы</button>
             <button type="button" class="lobby-tab" data-filter="battleship">⚓ Морской бой</button>
@@ -448,7 +454,10 @@
           <div class="arena-match-info">
             <span class="arena-game-title" id="arenaGameTitle">⚓ Морской бой</span>
             <span class="arena-topic-badge" id="arenaTopicBadge">Математика & Логика</span>
-            <span class="arena-room-code" id="arenaRoomCode">WNK-000</span>
+            <span class="arena-room-code" id="arenaRoomCode" title="Бөлме коды">WNK-000</span>
+            <button type="button" class="btn-copy-code" id="btnCopyRoomCode" title="Бөлме сілтемесін немесе кодын көшіру">
+              📋 Кодты көшіру
+            </button>
           </div>
           <button type="button" class="btn btn-sm btn-outline-danger" id="btnArenaSurrender">
             Шығу
