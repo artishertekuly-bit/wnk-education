@@ -47,7 +47,7 @@
         <div class="user-nav-profile" id="userNavProfile">
           <img class="user-nav-avatar" id="userNavAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=wnk" alt="User">
           <div class="user-nav-info">
-            <span class="user-nav-name" id="userNavName">Артур</span>
+            <span class="user-nav-name" id="userNavName">Қолданушы</span>
             <span class="user-confirmed-tag">
               <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>
               Расталған
@@ -400,7 +400,7 @@
             <div class="user-card-profile">
               <img src="https://api.dicebear.com/7.x/bottts/svg?seed=wnk" alt="Avatar" class="user-card-avatar" id="gamingUserAvatar">
               <div class="user-card-details">
-                <div class="user-card-name" id="gamingUserName">Артур</div>
+                <div class="user-card-name" id="gamingUserName">Ойыншы</div>
                 <div class="user-card-rank" id="gamingUserRank">Ойыншы • WNK Тактик</div>
               </div>
             </div>
@@ -616,7 +616,7 @@
                 type="text" 
                 id="newsletterName" 
                 class="newsletter-input" 
-                placeholder="Аты-жөніңіз (мысалы: Артур)..." 
+                placeholder="Аты-жөніңізді енгізіңіз..." 
                 required
                 autocomplete="name"
               >
@@ -919,7 +919,7 @@
             type="text" 
             id="regFullName" 
             class="form-input" 
-            placeholder="Мысалы: Артур Серікұлы" 
+            placeholder="Мысалы: Асан Қайратұлы" 
             required 
             autocomplete="name"
           >
@@ -931,7 +931,7 @@
             type="email" 
             id="regEmail" 
             class="form-input" 
-            placeholder="Мысалы: artur@wnk.education" 
+            placeholder="Мысалы: user@gmail.com" 
             required 
             autocomplete="email"
           >
@@ -991,10 +991,10 @@
     </div>
   </div>
 
-  <!-- Core Scripts (Zero external blocking dependencies) -->
+  <!-- Core Scripts (Supabase loads first for Google Auth) -->
+  <script src="supabase.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
-  <script src="supabase.js" defer></script>
 
   <!-- ============================================================= -->
   <!-- GAMIFICATION MODALS                                           -->

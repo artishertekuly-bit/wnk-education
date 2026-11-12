@@ -1247,6 +1247,15 @@
     }, 3500);
   }
 
+  // Listen to platform auth state changes (Google Sign-In / Logout)
+  window.addEventListener('wnk_auth_changed', (e) => {
+    renderPlayerProfile();
+    const u = e.detail?.user;
+    if (u && isWsConnected) {
+      sendWs('auth_identify', { user: u });
+    }
+  });
+
   // Expose module globally for platform integration
   window.WnkGaming = {
     init: initGamingUI,

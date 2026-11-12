@@ -48,6 +48,13 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+app.get('/api/config', (req, res) => {
+  res.json({
+    supabaseUrl: process.env.SUPABASE_URL || null,
+    supabaseAnonKey: process.env.SUPABASE_ANON_KEY || null
+  });
+});
+
 app.get('/api/rooms', (req, res) => {
   const roomsList = [];
   for (const [id, r] of activeRooms.entries()) {

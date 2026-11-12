@@ -195,80 +195,131 @@ function initWnkApp() {
   }
 
   // ==========================================================================
-  // SUPABASE & GOOGLE AUTH LOGIC (Bilim Platform Standard)
+  // SUPABASE & GOOGLE AUTH LOGIC (Official Supabase OAuth & Profiles)
   // ==========================================================================
   const SUPABASE_CONFIG = {
-    url: window.SUPABASE_URL || 'https://rrcvwfsepvpgtgtlwwyd.supabase.co',
-    anonKey: window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyY3Z3ZnNlcHZwZ3RndGx3d3lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNzc0MjgsImV4cCI6MjA5Mjk1MzQyOH0.2yEvfYPXAgVzqIwNkwxNHLvyXwBUqHZD4wUJ0_Jl52I'
+    url: window.SUPABASE_URL || localStorage.getItem('wnk_supabase_url') || 'https://rrcvwfsepvpgtgtlwwyd.supabase.co',
+    anonKey: window.SUPABASE_ANON_KEY || localStorage.getItem('wnk_supabase_anon_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyY3Z3ZnNlcHZwZ3RndGx3d3lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNzc0MjgsImV4cCI6MjA5Mjk1MzQyOH0.2yEvfYPXAgVzqIwNkwxNHLvyXwBUqHZD4wUJ0_Jl52I'
   };
 
   let supabaseClient = null;
-  if (window.supabase) {
-    try {
-      supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey, {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: true,
-          flowType: 'pkce'
-        }
-      });
-    } catch (err) {
-      console.warn('Supabase client init fallback:', err);
+
+  function initSupabaseClient() {
+    if (window.supabase) {
+      try {
+        supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey, {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true,
+            flowType: 'pkce'
+          }
+        });
+        window.supabaseClient = supabaseClient;
+      } catch (err) {
+        console.warn('[Supabase] Client init notice:', err);
+      }
     }
   }
 
+  // Fetch optional environment variables from server if available
+  fetch('/api/config')
+    .then(r => r.json())
+    .then(cfg => {
+      if (cfg && cfg.supabaseUrl && cfg.supabaseAnonKey) {
+        SUPABASE_CONFIG.url = cfg.supabaseUrl;
+        SUPABASE_CONFIG.anonKey = cfg.supabaseAnonKey;
+        initSupabaseClient();
+        checkSupabaseSession();
+      }
+    })
+    .catch(() => {});
+
+  initSupabaseClient();
+
   function initAuthState() {
-    // 1. Check local storage
+    // 1. Check local storage and wipe any obsolete demo Arthur account!
     const stored = localStorage.getItem('wnk_auth_user');
     if (stored) {
       try {
         currentUser = JSON.parse(stored);
+        if (currentUser && (currentUser.id === 'usr_artur_verified' || currentUser.email === 'artur@wnk.education' || (currentUser.name && currentUser.name.includes('Артур')))) {
+          console.log('[Auth] Obsolete demo Arthur account cleared.');
+          currentUser = null;
+          localStorage.removeItem('wnk_auth_user');
+        }
       } catch (e) {
         currentUser = null;
       }
     }
 
-    // 2. Check Supabase session if initialized
-    if (supabaseClient) {
-      supabaseClient.auth.getSession().then(({ data, error }) => {
-        if (!error && data?.session?.user) {
-          const u = data.session.user;
-          currentUser = {
-            id: u.id,
-            email: u.email,
-            name: u.user_metadata?.full_name || u.user_metadata?.name || u.email.split('@')[0],
-            avatar: u.user_metadata?.avatar_url || u.user_metadata?.picture || `https://api.dicebear.com/7.x/bottts/svg?seed=${u.id}`,
-            provider: 'google',
-            confirmed: true
-          };
-          localStorage.setItem('wnk_auth_user', JSON.stringify(currentUser));
-          updateAuthUI();
-        }
-      });
-
-      // Listen to auth changes
-      supabaseClient.auth.onAuthStateChange((event, session) => {
-        if (session?.user) {
-          const u = session.user;
-          currentUser = {
-            id: u.id,
-            email: u.email,
-            name: u.user_metadata?.full_name || u.user_metadata?.name || u.email.split('@')[0],
-            avatar: u.user_metadata?.avatar_url || u.user_metadata?.picture || `https://api.dicebear.com/7.x/bottts/svg?seed=${u.id}`,
-            provider: 'google',
-            confirmed: true
-          };
-          localStorage.setItem('wnk_auth_user', JSON.stringify(currentUser));
-        } else if (event === 'SIGNED_OUT') {
-          currentUser = null;
-          localStorage.removeItem('wnk_auth_user');
-        }
-        updateAuthUI();
-      });
-    }
-
+    // 2. Check Supabase session
+    checkSupabaseSession();
     updateAuthUI();
+  }
+
+  function checkSupabaseSession() {
+    if (!supabaseClient) return;
+
+    supabaseClient.auth.getSession().then(({ data, error }) => {
+      if (!error && data?.session?.user) {
+        handleSupabaseUserSession(data.session.user);
+      }
+    }).catch(() => {});
+
+    // Listen to real auth events
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        handleSupabaseUserSession(session.user);
+      } else if (event === 'SIGNED_OUT') {
+        currentUser = null;
+        localStorage.removeItem('wnk_auth_user');
+        updateAuthUI();
+        window.dispatchEvent(new CustomEvent('wnk_auth_changed', { detail: { user: null } }));
+      }
+    });
+  }
+
+  function handleSupabaseUserSession(u) {
+    if (!u) return;
+    const fullName = u.user_metadata?.full_name || u.user_metadata?.name || (u.email ? u.email.split('@')[0] : 'Қолданушы');
+    const avatarUrl = u.user_metadata?.avatar_url || u.user_metadata?.picture || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(u.id || u.email)}`;
+
+    currentUser = {
+      id: u.id,
+      email: u.email,
+      name: fullName,
+      avatar: avatarUrl,
+      provider: 'google',
+      confirmed: true,
+      confirmed_at: new Date().toISOString()
+    };
+
+    localStorage.setItem('wnk_auth_user', JSON.stringify(currentUser));
+    updateAuthUI();
+    syncUserWithSupabase(currentUser);
+
+    // Notify modules (e.g. Gamification)
+    window.dispatchEvent(new CustomEvent('wnk_auth_changed', { detail: { user: currentUser } }));
+  }
+
+  function syncUserWithSupabase(u) {
+    if (!supabaseClient || !u) return;
+    // 1. Sync to subscribers table
+    supabaseClient.from('wnk_subscribers').upsert({
+      email: u.email,
+      full_name: u.name,
+      interest: u.role || 'Google Auth Қолданушысы',
+      source: u.provider === 'google' ? 'google_oauth' : 'community_form'
+    }).then(() => {}).catch(err => console.warn('[Supabase Sync Notice]', err.message));
+
+    // 2. Sync to gaming profile
+    supabaseClient.from('wnk_gaming_profiles').upsert({
+      user_id: String(u.id),
+      email: u.email,
+      username: u.name,
+      avatar_url: u.avatar
+    }).then(() => {}).catch(err => console.warn('[Supabase Gaming Sync Notice]', err.message));
   }
 
   function updateAuthUI() {
@@ -288,31 +339,50 @@ function initWnkApp() {
   }
 
   async function handleGoogleLogin() {
-    if (googleBtnLabel) googleBtnLabel.textContent = 'Google байланысы тексерілуде...';
+    if (googleBtnLabel) googleBtnLabel.textContent = 'Google-ге бағытталуда...';
 
     if (supabaseClient) {
       try {
+        const redirectUrl = window.location.origin + window.location.pathname;
         const { error } = await supabaseClient.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: window.location.origin + window.location.pathname
+            redirectTo: redirectUrl
           }
         });
         if (error) throw error;
         return;
       } catch (err) {
-        console.warn('Supabase OAuth redirected fallback:', err);
+        console.error('[Supabase Google OAuth]', err);
+        if (googleBtnLabel) googleBtnLabel.textContent = 'Google арқылы кіру';
+        if (regFeedbackBox) {
+          regFeedbackBox.className = 'reg-feedback-box is-error';
+          regFeedbackBox.style.display = 'block';
+          regFeedbackBox.innerHTML = `Google OAuth: ${escapeHtml(err.message || 'Supabase Google провайдері тексерілуде')}. Төмендегі форма арқылы өз атыңыз бен поштаңызды жазып ресми тіркеле аласыз.`;
+        }
+      }
+    } else {
+      if (googleBtnLabel) googleBtnLabel.textContent = 'Google арқылы кіру';
+      if (regFeedbackBox) {
+        regFeedbackBox.className = 'reg-feedback-box is-error';
+        regFeedbackBox.style.display = 'block';
+        regFeedbackBox.textContent = 'Supabase байланысы орнатылмаған. Төмендегі формаға өз аты-жөніңіз бен поштаңызды жазып тіркеліңіз.';
       }
     }
-
-    // Instant local test confirmation (Bilim platform standard demo)
-    setTimeout(() => {
-      loginMockUser('Артур (Google Расталған)', 'artur@wnk.education');
-    }, 450);
   }
 
   function handleManualRegistration(name, email, interest) {
-    if (!name || !email) return;
+    const cleanName = (name || '').trim();
+    const cleanEmail = (email || '').trim().toLowerCase();
+
+    if (!cleanName || !cleanEmail) {
+      if (regFeedbackBox) {
+        regFeedbackBox.className = 'reg-feedback-box is-error';
+        regFeedbackBox.style.display = 'block';
+        regFeedbackBox.textContent = 'Аты-жөніңіз бен электронды поштаңызды енгізіңіз.';
+      }
+      return;
+    }
 
     if (regFeedbackBox) {
       regFeedbackBox.className = 'reg-feedback-box';
@@ -321,11 +391,11 @@ function initWnkApp() {
     }
 
     const u = {
-      id: 'usr_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
-      name: name.trim(),
-      email: email.trim().toLowerCase(),
+      id: 'usr_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 6),
+      name: cleanName,
+      email: cleanEmail,
       role: interest || 'AI әзірлеуші және агенттер',
-      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name.trim())}`,
+      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(cleanName)}`,
       provider: 'form',
       confirmed: true,
       confirmed_at: new Date().toISOString()
@@ -334,20 +404,13 @@ function initWnkApp() {
     currentUser = u;
     localStorage.setItem('wnk_auth_user', JSON.stringify(currentUser));
     updateAuthUI();
+    syncUserWithSupabase(currentUser);
 
-    // Supabase sync
-    if (supabaseClient) {
-      supabaseClient.from('wnk_subscribers').upsert({
-        email: u.email,
-        full_name: u.name,
-        interest: u.role,
-        source: 'community_modal'
-      }).then(() => {}).catch(() => {});
-    }
+    window.dispatchEvent(new CustomEvent('wnk_auth_changed', { detail: { user: currentUser } }));
 
     if (regFeedbackBox) {
       regFeedbackBox.className = 'reg-feedback-box is-success';
-      regFeedbackBox.innerHTML = `✓ Қош келдіңіз, <strong>${escapeHtml(u.name)}</strong>! Сіз WNK Education қауымдастығына сәтті қосылдыңыз. Ресурстар толық расталды.`;
+      regFeedbackBox.innerHTML = `✓ Қош келдіңіз, <strong>${escapeHtml(u.name)}</strong>! Сіз өз аккаунтыңызбен сәтті тіркелдіңіз.`;
     }
 
     setTimeout(() => {
@@ -360,21 +423,6 @@ function initWnkApp() {
     }, 1200);
   }
 
-  function loginMockUser(name, email) {
-    currentUser = {
-      id: 'usr_' + Math.random().toString(36).substr(2, 9),
-      name: name || 'Артур Серікұлы',
-      email: email || 'artur@wnk.education',
-      avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=artur',
-      provider: 'google',
-      confirmed: true,
-      confirmed_at: new Date().toISOString()
-    };
-    localStorage.setItem('wnk_auth_user', JSON.stringify(currentUser));
-    updateAuthUI();
-    closeAuthModal();
-  }
-
   function handleLogout() {
     if (supabaseClient) {
       supabaseClient.auth.signOut().catch(() => {});
@@ -382,6 +430,7 @@ function initWnkApp() {
     currentUser = null;
     localStorage.removeItem('wnk_auth_user');
     updateAuthUI();
+    window.dispatchEvent(new CustomEvent('wnk_auth_changed', { detail: { user: null } }));
   }
 
   function openAuthModal() {
