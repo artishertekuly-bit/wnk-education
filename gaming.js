@@ -1178,6 +1178,16 @@
     const btnGoExit = document.getElementById('btnGoExit');
     if (btnGoExit) btnGoExit.addEventListener('click', closeGameOverModal);
 
+    // Edit Name button in Player Card
+    const btnEditGamingName = document.getElementById('btnEditGamingName');
+    if (btnEditGamingName) {
+      btnEditGamingName.addEventListener('click', () => {
+        if (window.openProfileNameModal) {
+          window.openProfileNameModal();
+        }
+      });
+    }
+
     // Chat quick emotes
     document.querySelectorAll('.btn-chat-emote').forEach(btn => {
       btn.addEventListener('click', (e) => {

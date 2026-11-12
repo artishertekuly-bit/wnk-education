@@ -47,8 +47,10 @@ function initWnkApp() {
   const btnHeroGoogle = document.getElementById('btnHeroGoogle');
   const btnHeroSubscribe = document.getElementById('btnHeroSubscribe');
   const userNavProfile = document.getElementById('userNavProfile');
+  const userNavInfoBtn = document.getElementById('userNavInfoBtn');
   const userNavAvatar = document.getElementById('userNavAvatar');
   const userNavName = document.getElementById('userNavName');
+  const btnNavEditName = document.getElementById('btnNavEditName');
   const btnNavLogout = document.getElementById('btnNavLogout');
   const authModalBackdrop = document.getElementById('authModalBackdrop');
   const authModalClose = document.getElementById('authModalClose');
@@ -59,6 +61,16 @@ function initWnkApp() {
   const regEmail = document.getElementById('regEmail');
   const regInterest = document.getElementById('regInterest');
   const regFeedbackBox = document.getElementById('regFeedbackBox');
+
+  // Post-Registration Profile & Name Modal elements
+  const profileNameModalBackdrop = document.getElementById('profileNameModalBackdrop');
+  const profileNameModalClose = document.getElementById('profileNameModalClose');
+  const profileNameForm = document.getElementById('profileNameForm');
+  const profileInputFullName = document.getElementById('profileInputFullName');
+  const profileInputRole = document.getElementById('profileInputRole');
+  const profilePreviewAvatar = document.getElementById('profilePreviewAvatar');
+  const profilePreviewEmail = document.getElementById('profilePreviewEmail');
+  const profileNameFeedback = document.getElementById('profileNameFeedback');
 
   // Newsletter & In-Page Community Hub
   const newsletterForm = document.getElementById('newsletterForm');
@@ -299,6 +311,14 @@ function initWnkApp() {
     updateAuthUI();
     syncUserWithSupabase(currentUser);
 
+    // Prompt user to enter or confirm their full official name after registration / Google sign-in
+    const isNameConfirmed = localStorage.getItem('wnk_name_confirmed_' + u.id);
+    if (!isNameConfirmed) {
+      setTimeout(() => {
+        openProfileNameModal();
+      }, 700);
+    }
+
     // Notify modules (e.g. Gamification)
     window.dispatchEvent(new CustomEvent('wnk_auth_changed', { detail: { user: currentUser } }));
   }
@@ -474,6 +494,143 @@ function initWnkApp() {
       const email = regEmail ? regEmail.value.trim() : '';
       const interest = regInterest ? regInterest.value : '';
       handleManualRegistration(name, email, interest);
+    });
+  }
+
+  // ==========================================================================
+  // POST-REGISTRATION & PROFILE NAME MANAGEMENT (Аты-жөнді жазу пункті)
+  // ==========================================================================
+  function openProfileNameModal() {
+    if (!profileNameModalBackdrop) return;
+    if (currentUser) {
+      if (profileInputFullName) profileInputFullName.value = currentUser.name || '';
+      if (profilePreviewEmail) profilePreviewEmail.textContent = currentUser.email || 'user@gmail.com';
+      if (profilePreviewAvatar) profilePreviewAvatar.src = currentUser.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=wnk';
+      if (profileInputRole && currentUser.role) {
+        profileInputRole.value = currentUser.role;
+      }
+    }
+    if (profileNameFeedback) {
+      profileNameFeedback.style.display = 'none';
+      profileNameFeedback.className = 'reg-feedback-box';
+    }
+    profileNameModalBackdrop.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    if (profileInputFullName) {
+      setTimeout(() => {
+        profileInputFullName.focus();
+        profileInputFullName.select();
+      }, 150);
+    }
+  }
+
+  function closeProfileNameModal() {
+    if (profileNameModalBackdrop) {
+      profileNameModalBackdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  window.openProfileNameModal = openProfileNameModal;
+
+  if (btnNavEditName) btnNavEditName.addEventListener('click', openProfileNameModal);
+  if (userNavInfoBtn) userNavInfoBtn.addEventListener('click', openProfileNameModal);
+  if (profileNameModalClose) profileNameModalClose.addEventListener('click', closeProfileNameModal);
+  if (profileNameModalBackdrop) {
+    profileNameModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === profileNameModalBackdrop) closeProfileNameModal();
+    });
+  }
+
+  if (profileNameForm) {
+    profileNameForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newName = profileInputFullName ? profileInputFullName.value.trim() : '';
+      const newRole = profileInputRole ? profileInputRole.value : 'Студент / Оқушы';
+
+      if (!newName) {
+        if (profileNameFeedback) {
+          profileNameFeedback.className = 'reg-feedback-box is-error';
+          profileNameFeedback.style.display = 'block';
+          profileNameFeedback.textContent = 'Аты-жөніңізді енгізіңіз.';
+        }
+        return;
+      }
+
+      if (profileNameFeedback) {
+        profileNameFeedback.className = 'reg-feedback-box';
+        profileNameFeedback.style.display = 'block';
+        profileNameFeedback.textContent = 'Аты-жөніңіз сақталуда...';
+      }
+
+      if (!currentUser) {
+        currentUser = {
+          id: 'usr_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 6),
+          name: newName,
+          email: 'user@gmail.com',
+          role: newRole,
+          avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(newName)}`,
+          provider: 'form',
+          confirmed: true,
+          confirmed_at: new Date().toISOString()
+        };
+      } else {
+        currentUser.name = newName;
+        currentUser.role = newRole;
+      }
+
+      localStorage.setItem('wnk_auth_user', JSON.stringify(currentUser));
+      localStorage.setItem('wnk_name_confirmed_' + currentUser.id, 'true');
+      updateAuthUI();
+
+      // Cloud persistence: update wnk_profiles, wnk_subscribers, and wnk_gaming_profiles
+      if (supabaseClient && currentUser.id) {
+        supabaseClient
+          .from('wnk_profiles')
+          .update({
+            full_name: newName,
+            role: newRole,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', currentUser.id)
+          .then(() => {})
+          .catch(() => {});
+
+        if (currentUser.email) {
+          supabaseClient
+            .from('wnk_subscribers')
+            .update({
+              full_name: newName,
+              interest: newRole,
+              updated_at: new Date().toISOString()
+            })
+            .eq('email', currentUser.email)
+            .then(() => {})
+            .catch(() => {});
+        }
+
+        supabaseClient
+          .from('wnk_gaming_profiles')
+          .update({
+            username: newName,
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', String(currentUser.id))
+          .then(() => {})
+          .catch(() => {});
+      }
+
+      // Notify gamification and all components
+      window.dispatchEvent(new CustomEvent('wnk_auth_changed', { detail: { user: currentUser } }));
+
+      if (profileNameFeedback) {
+        profileNameFeedback.className = 'reg-feedback-box is-success';
+        profileNameFeedback.innerHTML = `✓ Аты-жөніңіз сәтті сақталды: <strong>${escapeHtml(newName)}</strong>`;
+      }
+
+      setTimeout(() => {
+        closeProfileNameModal();
+      }, 850);
     });
   }
 
@@ -1055,6 +1212,7 @@ function initWnkApp() {
     if (e.key === 'Escape') {
       closeModal();
       closeAuthModal();
+      closeProfileNameModal();
     }
   });
 
