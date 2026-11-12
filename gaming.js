@@ -352,36 +352,32 @@
   }
 
   function setupTopicPresets() {
-    const container = document.getElementById('topicPresetsContainer');
-    if (!container) return;
-    container.innerHTML = TOPIC_PRESETS.map((t, idx) => `
-      <label class="topic-preset-label">
-        <input type="radio" name="roomTopicPreset" value="${t.title}" ${idx === 0 ? 'checked' : ''}>
-        <div class="topic-preset-card">
-          <div class="topic-preset-title">${t.title}</div>
-          <div class="topic-preset-desc">${t.desc}</div>
-        </div>
-      </label>
-    `).join('') + `
-      <label class="topic-preset-label">
-        <input type="radio" name="roomTopicPreset" value="custom">
-        <div class="topic-preset-card">
-          <div class="topic-preset-title">✍️ Өз тақырыбымды енгізу</div>
-          <div class="topic-preset-desc">Кез келген сабақ немесе сұрақтар тақырыбы</div>
-        </div>
-      </label>
-    `;
-
-    // Toggle custom input field
-    const radios = container.querySelectorAll('input[name="roomTopicPreset"]');
-    const customInputWrap = document.getElementById('customTopicWrap');
-    radios.forEach(r => {
-      r.addEventListener('change', () => {
-        if (customInputWrap) {
-          customInputWrap.style.display = r.value === 'custom' ? 'block' : 'none';
+    const input = document.getElementById('roomTopicInput');
+    const chips = document.querySelectorAll('.topic-chip');
+    chips.forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        e.preventDefault();
+        chips.forEach(c => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+        if (input) {
+          input.value = chip.getAttribute('data-topic');
+          input.focus();
         }
       });
     });
+
+    if (input) {
+      input.addEventListener('input', () => {
+        const val = input.value.trim().toLowerCase();
+        chips.forEach(c => {
+          if (c.getAttribute('data-topic').toLowerCase() === val) {
+            c.classList.add('is-active');
+          } else {
+            c.classList.remove('is-active');
+          }
+        });
+      });
+    }
   }
 
   function renderLobbyRooms(rooms, onlineCount) {
@@ -439,7 +435,13 @@
     const user = requireAuth('бөлме ашу');
     if (!user) return;
     const modal = document.getElementById('gameCreateModal');
-    if (modal) modal.classList.add('is-open');
+    if (modal) {
+      modal.classList.add('is-open');
+      setTimeout(() => {
+        const input = document.getElementById('roomTopicInput');
+        if (input) input.focus();
+      }, 150);
+    }
   }
 
   function closeCreateRoomModal() {
@@ -1079,11 +1081,9 @@
     if (btnSubmitCreate) {
       btnSubmitCreate.addEventListener('click', () => {
         const gameType = document.querySelector('input[name="roomGameType"]:checked')?.value || 'battleship';
-        const topicRadio = document.querySelector('input[name="roomTopicPreset"]:checked')?.value;
-        const customInput = document.getElementById('customTopicInput')?.value.trim();
+        const topicInput = document.getElementById('roomTopicInput')?.value.trim();
+        const topic = topicInput || 'Математика & Логика';
         const opponentMode = document.querySelector('input[name="roomOpponentMode"]:checked')?.value || 'pvp';
-
-        let topic = topicRadio === 'custom' && customInput ? customInput : (topicRadio || 'Математика & Логика');
         const isVsAi = opponentMode === 'ai';
 
         const user = requireAuth('бөлме ашу');

@@ -357,30 +357,29 @@
         <div class="gaming-header-top">
           <div class="courses-eyebrow">
             <span class="courses-dot"></span>
-            <span>WNK АРЕНА • БІЛІМ ЖӘНЕ ТАКТИКА</span>
+            <span>Интеллектуалды ойындар</span>
           </div>
           <div class="gaming-server-status" id="gamingServerStatus">
             <span class="status-pulse-dot"></span>
-            <span>Сервер желіде (Реалтайм синхрондау)</span>
+            <span>Сервер желіде</span>
           </div>
         </div>
 
         <div class="gaming-title-row">
           <div>
-            <h2 class="gaming-title">Интеллектуалды Геймификация</h2>
+            <h2 class="gaming-title">Геймификация</h2>
             <p class="gaming-desc">
-              Теңіз шайқасы (Морской бой) және Шашки ойындарында нақты уақытта қарсыласыңмен немесе WNK AI-мен білім сынас.
-              Әрбір қадам мен атыс — формулалар, математикалық есептер мен мәтіндік сұрақтарды шешуді талап етеді.
+              Сұрақтар мен есептерді шешу арқылы қарсыласыңмен нақты уақытта білім сынас.
             </p>
           </div>
 
           <div class="gaming-quick-actions">
             <button type="button" class="btn btn-primary" id="btnOpenCreateModal">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
               <span>Бөлме ашу</span>
             </button>
             <button type="button" class="btn btn-secondary" id="btnOpenAiPractice">
-              <span>🤖 WNK AI-мен ойнау</span>
+              <span>🤖 AI-мен жаттығу</span>
             </button>
             <button type="button" class="btn btn-icon-only" id="btnGamingMute" title="Дыбысты қосу/өшіру">
               🔊
@@ -388,23 +387,15 @@
           </div>
         </div>
 
-        <!-- Player Auth Profile Bar -->
+        <!-- Compact Player Auth Bar -->
         <div class="gaming-player-bar">
-          <!-- Guest Warning Card (if not logged in) -->
           <div class="gaming-guest-card" id="gamingGuestCard">
-            <div class="guest-card-left">
-              <div class="guest-card-badge">🔐 Ойыншы профилі</div>
-              <div class="guest-card-title">Рейтинг сақтау үшін платформаға тіркеліңіз</div>
-              <div class="guest-card-sub">Жеңістеріңіз бен ұпайларыңыз есептелуі үшін жүйеге кіріңіз немесе WNK AI-мен қонақ ретінде жаттығыңыз.</div>
-            </div>
-            <div class="guest-card-right">
-              <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('btnMastheadJoin')?.click()">
-                Тіркелу / Google-мен кіру
-              </button>
-            </div>
+            <span class="guest-card-msg">🏆 Ойын нәтижелерін сақтау үшін платформаға тіркеліңіз немесе кіріңіз:</span>
+            <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('btnMastheadJoin')?.click()">
+              Кіру / Тіркелу
+            </button>
           </div>
 
-          <!-- Logged in Player Card -->
           <div class="gaming-user-card" id="gamingUserCard" style="display: none;">
             <div class="user-card-profile">
               <img src="https://api.dicebear.com/7.x/bottts/svg?seed=wnk" alt="Avatar" class="user-card-avatar" id="gamingUserAvatar">
@@ -427,7 +418,7 @@
         <div class="lobby-bar">
           <div class="lobby-title">
             <span>Белсенді бөлмелер</span>
-            <span class="lobby-online-badge">Онлайн: <strong id="gamingOnlineCount">1</strong> ойыншы</span>
+            <span class="lobby-online-badge">Онлайн: <strong id="gamingOnlineCount">1</strong></span>
           </div>
           <div class="lobby-tabs">
             <button type="button" class="lobby-tab is-active" data-filter="all">Барлығы</button>
@@ -451,7 +442,7 @@
             <span class="arena-room-code" id="arenaRoomCode">WNK-000</span>
           </div>
           <button type="button" class="btn btn-sm btn-outline-danger" id="btnArenaSurrender">
-            🏳️ Ойыннан шығу
+            Шығу
           </button>
         </div>
 
@@ -488,9 +479,7 @@
         <div class="arena-battleship-container" id="arenaBattleshipView">
           <!-- Placement bar -->
           <div class="battleship-controls-bar" id="battleshipPlacementBar">
-            <div class="controls-hint">
-              ⚓ Кемелер флоттарыңызды орналастырыңыз (1 линкор [4], 2 крейсер [3], 3 эсминец [2], 4 катер [1]):
-            </div>
+            <span>Кемелерді орналастырыңыз:</span>
             <button type="button" class="btn btn-primary btn-sm" id="btnBattleshipAutoPlace">
               🎲 Авто-орналастыру
             </button>
@@ -500,16 +489,14 @@
           <div class="battleship-grids-row">
             <div class="bs-board-panel">
               <div class="bs-board-title">
-                <span>🛡️ Менің флотым (10x10)</span>
-                <span class="bs-board-sub">Қорғаныс аймағы</span>
+                <span>🛡️ Менің флотым</span>
               </div>
               <div class="bs-grid-container" id="battleshipMyGrid"></div>
             </div>
 
             <div class="bs-board-panel">
               <div class="bs-board-title">
-                <span>🎯 Қарсылас теңізі (10x10)</span>
-                <span class="bs-board-sub">Атыс нысанасы</span>
+                <span>🎯 Қарсылас теңізі</span>
               </div>
               <div class="bs-grid-container" id="battleshipTargetGrid"></div>
             </div>
@@ -519,8 +506,8 @@
           <div class="battleship-active-bar" id="battleshipActiveBar" style="display: none;">
             <div class="radar-card">
               <div class="radar-meta">
-                <div class="radar-title">🎯 3x3 РАДАР БОНУСЫ</div>
-                <div class="radar-desc" id="battleshipRadarStatus">Радар үшін қатарынан 3 дұрыс жауап қажет: [0/3]</div>
+                <div class="radar-title">🎯 3x3 Радар</div>
+                <div class="radar-desc" id="battleshipRadarStatus">3 дұрыс жауап: [0/3]</div>
               </div>
               <button type="button" class="btn btn-radar is-disabled" id="btnBattleshipRadar" disabled>
                 Радарды қосу
@@ -531,9 +518,6 @@
 
         <!-- CHECKERS ARENA VIEW -->
         <div class="arena-checkers-container" id="arenaCheckersView" style="display: none;">
-          <div class="checkers-rules-hint">
-            💡 <strong>Ережелер:</strong> Жай жүріс — оңай сұрақ (30с) • Тас жеу — орташа сұрақ (30с) • Дамка — қиын формула/есеп (45с)
-          </div>
           <div class="checkers-board-frame">
             <div class="checkers-grid" id="checkersGrid"></div>
           </div>
@@ -543,7 +527,6 @@
         <div class="arena-chat-panel">
           <div class="arena-chat-stream" id="arenaChatStream"></div>
           <div class="arena-emotes-bar">
-            <span class="emotes-label">Жедел реакция:</span>
             <button type="button" class="btn-chat-emote">👋 Сәлем!</button>
             <button type="button" class="btn-chat-emote">🔥 Жарайсың!</button>
             <button type="button" class="btn-chat-emote">🤔 Ойлан...</button>
@@ -1021,21 +1004,21 @@
   <div class="game-modal-backdrop" id="gameCreateModal">
     <div class="game-modal-card">
       <div class="game-modal-header">
-        <h3 class="game-modal-title">🎮 Жаңа ойын бөлмесін ашу</h3>
+        <h3 class="game-modal-title">Жаңа бөлме ашу</h3>
         <button type="button" class="game-modal-close" id="btnCloseCreateModal">&times;</button>
       </div>
 
       <div class="game-modal-body">
         <!-- Game Type Selection -->
         <div class="form-group">
-          <label class="form-label">Ойын түрін таңдаңыз:</label>
+          <label class="form-label">Ойын түрі:</label>
           <div class="game-type-selector">
             <label class="game-type-option">
               <input type="radio" name="roomGameType" value="battleship" checked>
               <div class="game-type-box">
                 <span class="game-type-icon">⚓</span>
                 <span class="game-type-name">Морской бой</span>
-                <span class="game-type-desc">10x10 тақта, кемелер стратегиясы және 3x3 Радар бонусы</span>
+                <span class="game-type-desc">10x10 тақта</span>
               </div>
             </label>
 
@@ -1044,34 +1027,37 @@
               <div class="game-type-box">
                 <span class="game-type-icon">🏁</span>
                 <span class="game-type-name">Шашки</span>
-                <span class="game-type-desc">8x8 классикалық шашки, секірулер мен дамкаға жету</span>
+                <span class="game-type-desc">8x8 тақта</span>
               </div>
             </label>
           </div>
         </div>
 
-        <!-- Topic Selection -->
+        <!-- Topic Direct Input by Student -->
         <div class="form-group">
-          <label class="form-label">Сұрақтар тақырыбы (Gemini AI бейімделуі):</label>
-          <div class="topic-presets-grid" id="topicPresetsContainer">
-            <!-- Dynamically populated by gaming.js -->
-          </div>
-          <div class="custom-topic-wrap" id="customTopicWrap" style="display: none; margin-top: 10px;">
-            <input type="text" class="input-text" id="customTopicInput" placeholder="Тақырыпты жазыңыз (мысалы: Физика: Кинематика және Динамика)...">
+          <label class="form-label" for="roomTopicInput">Сұрақтар тақырыбы:</label>
+          <input type="text" class="input-text room-topic-input" id="roomTopicInput" placeholder="Тақырыпты жазыңыз: мысалы, ҰБТ Математика, Физика, Қазақстан тарихы..." value="Математика & Логика" autofocus>
+          <div class="topic-quick-chips" id="topicQuickChips">
+            <button type="button" class="topic-chip is-active" data-topic="Математика & Логика">📐 Математика</button>
+            <button type="button" class="topic-chip" data-topic="Оқу сауаттылығы">📖 Оқу сауаттылығы</button>
+            <button type="button" class="topic-chip" data-topic="Физика & Формулалар">⚡ Физика</button>
+            <button type="button" class="topic-chip" data-topic="Информатика & AI">💻 Информатика</button>
+            <button type="button" class="topic-chip" data-topic="Химия & Биология">🧪 Химия</button>
+            <button type="button" class="topic-chip" data-topic="Қазақстан тарихы">🏛️ Тарих</button>
           </div>
         </div>
 
         <!-- Opponent Mode -->
         <div class="form-group">
-          <label class="form-label">Қарсылас режимі:</label>
+          <label class="form-label">Қарсылас:</label>
           <div class="opponent-mode-selector">
             <label class="opp-option">
               <input type="radio" name="roomOpponentMode" value="pvp" checked>
-              <span>⚔️ Басқа ойыншымен (Лоббиге шығару)</span>
+              <span>⚔️ Басқа ойыншымен</span>
             </label>
             <label class="opp-option">
               <input type="radio" name="roomOpponentMode" value="ai">
-              <span>🤖 WNK AI Ұстазбен (Жаттығу)</span>
+              <span>🤖 WNK AI-мен (Жаттығу)</span>
             </label>
           </div>
         </div>
@@ -1082,7 +1068,7 @@
           Бас тарту
         </button>
         <button type="button" class="btn btn-primary" id="btnSubmitCreateRoom">
-          Бөлмені құру және бастау 🚀
+          Бөлме ашу
         </button>
       </div>
     </div>
