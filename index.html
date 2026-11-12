@@ -503,16 +503,26 @@
             </button>
           </div>
 
+          <!-- Mobile Board Switcher Tabs (Shown on phone screens) -->
+          <div class="bs-mobile-tabs" id="battleshipMobileTabs">
+            <button type="button" class="bs-mobile-tab is-active" id="btnTabTargetSea" data-target="target">
+              🎯 Қарсылас теңізі (Ату)
+            </button>
+            <button type="button" class="bs-mobile-tab" id="btnTabMyFleet" data-target="my">
+              🛡️ Менің флотым
+            </button>
+          </div>
+
           <!-- Dual 10x10 Grids -->
           <div class="battleship-grids-row">
-            <div class="bs-board-panel">
+            <div class="bs-board-panel" id="panelMyFleet">
               <div class="bs-board-title">
                 <span>🛡️ Менің флотым</span>
               </div>
               <div class="bs-grid-container" id="battleshipMyGrid"></div>
             </div>
 
-            <div class="bs-board-panel">
+            <div class="bs-board-panel" id="panelTargetSea">
               <div class="bs-board-title">
                 <span>🎯 Қарсылас теңізі</span>
               </div>
@@ -1112,17 +1122,13 @@
           </div>
         </div>
 
-        <!-- Topic Direct Input by Student -->
+        <!-- Topic Direct Input by Student (No Predefined Subjects) -->
         <div class="form-group">
-          <label class="form-label" for="roomTopicInput">Сұрақтар тақырыбы:</label>
-          <input type="text" class="input-text room-topic-input" id="roomTopicInput" placeholder="Тақырыпты жазыңыз: мысалы, ҰБТ Математика, Физика, Қазақстан тарихы..." value="Математика & Логика" autofocus>
-          <div class="topic-quick-chips" id="topicQuickChips">
-            <button type="button" class="topic-chip is-active" data-topic="Математика & Логика">📐 Математика</button>
-            <button type="button" class="topic-chip" data-topic="Оқу сауаттылығы">📖 Оқу сауаттылығы</button>
-            <button type="button" class="topic-chip" data-topic="Физика & Формулалар">⚡ Физика</button>
-            <button type="button" class="topic-chip" data-topic="Информатика & AI">💻 Информатика</button>
-            <button type="button" class="topic-chip" data-topic="Химия & Биология">🧪 Химия</button>
-            <button type="button" class="topic-chip" data-topic="Қазақстан тарихы">🏛️ Тарих</button>
+          <label class="form-label" for="roomTopicInput">Сұрақтар тақырыбын жазыңыз:</label>
+          <input type="text" class="input-text room-topic-input" id="roomTopicInput" placeholder="Мысалы: Қазақстан тарихы: Алтын Орда, Python негіздері, Молекулалық физика, 10-сынып тригонометрия..." value="" autofocus>
+          <div class="topic-ai-hint">
+            <span class="topic-ai-spark">✨</span>
+            <span>OpenAI (GPT-4o) сіз енгізген нақты тақырыпқа арнайы сұрақтар генерациялайды.</span>
           </div>
         </div>
 
@@ -1213,6 +1219,18 @@
         <button type="button" class="btn btn-secondary" id="goModalExit">
           Лоббиге оралу
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. AI QUESTION GENERATION LOADING MODAL -->
+  <div class="game-modal-backdrop" id="gameAiLoadingModal">
+    <div class="game-modal-card ai-loading-card">
+      <div class="ai-loading-spinner"></div>
+      <h4 class="ai-loading-title">OpenAI сұрақтарды генерациялауда...</h4>
+      <p class="ai-loading-desc" id="aiLoadingDesc">Тақырып бойынша арнайы сұрақтар құрастырылуда</p>
+      <div class="ai-loading-progress-bar">
+        <div class="ai-loading-bar-fill"></div>
       </div>
     </div>
   </div>

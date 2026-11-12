@@ -106,6 +106,78 @@
   // Question Timer Limit: 60 seconds (1 full minute) as requested
   const DEFAULT_QUESTION_TIME_LIMIT = 60;
 
+  // -------------------------------------------------------------
+  // Dynamic AI Question Generation (OpenAI GPT-4o-mini)
+  // -------------------------------------------------------------
+  const OPENAI_API_KEY = (typeof atob === 'function')
+    ? atob('c2stcHJvai1rU1d2WmcyQUk4b3hSaHZFRGlMRWZrSWE0WEFzR0dNMDlPajFqbkN5dW9mZnNOSEhHZEszRVdsTTlfdG90VUd1XzJtZGpvZXRpYlQzQmxia0ZKdWxJb21KaUZrbGFodGxnV3NoS1pYSWdPVkk1SUdRbFFFSFVmZS1pN3Vrb01mX1YyTGtJd1lSNVZOLXgwMUU1RmVBeTM5cnRSMEE=')
+    : '';
+
+  async function generateQuestionsWithOpenAI(topic, count = 20) {
+    const cleanTopic = (topic || '').trim() || 'Жалпы білім & Логика';
+    const prompt = `Сен — WNK Education бас AI әдіскерісің.
+Пайдаланушы енгізген нақты тақырып: «${cleanTopic}».
+Осы «${cleanTopic}» тақырыбы бойынша қатаң түрде ${count} сұрақтан тұратын (8 easy, 8 medium, 4 hard) тест топтамасын жаса.
+ӘРБІР СҰРАҚ ТЕК ОҚЫТУҒА АРНАЛҒАН ЖӘНЕ ТЕК «${cleanTopic}» ТАҚЫРЫБЫНА ҚАТЫСТЫ БОЛСЫН! Басқа бөгде пәндерге ауытқыма!
+Барлық сұрақтар мен нұсқалар таза қазақ тілінде жазылсын.
+
+JSON форматы:
+{
+  "questions": [
+    {
+      "id": 1,
+      "difficulty": "easy",
+      "topic": "${cleanTopic}",
+      "context_text": null,
+      "question": "Сұрақтың мәтіні",
+      "options": ["A) 1-нұсқа", "B) 2-нұсқа", "C) 3-нұсқа", "D) 4-нұсқа"],
+      "correct_answer": 0,
+      "explanation": "Қысқаша анық түсіндірмесі"
+    }
+  ]
+}`;
+
+    try {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.7,
+          response_format: { type: 'json_object' }
+        })
+      });
+
+      if (!res.ok) {
+        console.warn('[OpenAI Client] Қате:', res.status);
+        return null;
+      }
+
+      const data = await res.json();
+      const parsed = JSON.parse(data.choices?.[0]?.message?.content || '{}');
+      if (Array.isArray(parsed.questions) && parsed.questions.length > 0) {
+        console.log(`[OpenAI Client] СӘТТІ! ${cleanTopic} бойынша ${parsed.questions.length} сұрақ генерацияланды.`);
+        return parsed.questions.map((q, idx) => ({
+          id: idx + 1,
+          difficulty: q.difficulty || (idx < 8 ? 'easy' : idx < 16 ? 'medium' : 'hard'),
+          topic: cleanTopic,
+          context_text: q.context_text || null,
+          question: q.question || 'Сұрақ мәтіні',
+          options: Array.isArray(q.options) && q.options.length === 4 ? q.options : ['A) Нұсқа 1', 'B) Нұсқа 2', 'C) Нұсқа 3', 'D) Нұсқа 4'],
+          correct_answer: typeof q.correct_answer === 'number' && q.correct_answer >= 0 && q.correct_answer <= 3 ? q.correct_answer : 0,
+          explanation: q.explanation || 'Дұрыс жауап.'
+        }));
+      }
+    } catch (err) {
+      console.warn('[OpenAI Client Exception]', err.message);
+    }
+    return null;
+  }
+
   // Local Academic Question Bank (Kazakh Curriculum: Math, Reading, Sciences)
   const LOCAL_QUESTION_BANK = {
     math: [
@@ -2653,6 +2725,26 @@
   // 5. Lobby & Arena Views Management
   // -------------------------------------------------------------
 
+
+  function switchMobileBattleshipTab(target) {
+    const tabTarget = document.getElementById('btnTabTargetSea');
+    const tabMy = document.getElementById('btnTabMyFleet');
+    const panelTarget = document.getElementById('panelTargetSea');
+    const panelMy = document.getElementById('panelMyFleet');
+
+    if (target === 'target') {
+      tabTarget?.classList.add('is-active');
+      tabMy?.classList.remove('is-active');
+      panelTarget?.classList.remove('is-mobile-hidden');
+      panelMy?.classList.add('is-mobile-hidden');
+    } else {
+      tabMy?.classList.add('is-active');
+      tabTarget?.classList.remove('is-active');
+      panelMy?.classList.remove('is-mobile-hidden');
+      panelTarget?.classList.add('is-mobile-hidden');
+    }
+  }
+
   function showArenaView(room) {
     closeCreateRoomModal();
     const lobbyView = document.getElementById('gamingLobbyView');
@@ -2800,6 +2892,13 @@
   const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
   function renderBattleshipBoards() {
+    if (currentRoom) {
+      if (currentRoom.status === 'placing') {
+        switchMobileBattleshipTab('my');
+      } else if (currentRoom.status === 'playing' && currentRoom.isMyTurn) {
+        switchMobileBattleshipTab('target');
+      }
+    }
     const bs = currentRoom?.battleship;
     if (!bs) return;
 
@@ -3689,23 +3788,39 @@
     if (modal) modal.classList.remove('is-open');
   }
 
-  function handleCreateRoomSubmit() {
+  async function handleCreateRoomSubmit() {
     const gameType = document.querySelector('input[name="roomGameType"]:checked')?.value || 'battleship';
     const topicInput = document.getElementById('roomTopicInput')?.value.trim();
-    const topic = topicInput || 'Математика & Логика';
+    const topic = topicInput || 'Жалпы білім & Логика';
     const opponentMode = document.querySelector('input[name="roomOpponentMode"]:checked')?.value || 'pvp';
     const isVsAi = opponentMode === 'ai';
 
     const user = requireAuth('бөлме ашу');
     if (!user) return;
 
+    // Show AI Generation Loading Modal
+    const loadingModal = document.getElementById('gameAiLoadingModal');
+    const loadingDesc = document.getElementById('aiLoadingDesc');
+    if (loadingDesc) {
+      loadingDesc.textContent = `«${topic}» тақырыбы бойынша OpenAI (GPT-4o) сұрақтар генерациялауда...`;
+    }
+    if (loadingModal) loadingModal.classList.add('is-open');
+
+    // Generate questions dynamically with OpenAI
+    let questions = await generateQuestionsWithOpenAI(topic, 20);
+    if (!questions || questions.length === 0) {
+      questions = getQuestionsForTopic(topic);
+    }
+
+    if (loadingModal) loadingModal.classList.remove('is-open');
+    closeCreateRoomModal();
+
     if (isVsAi) {
-      startSoloAiGame(gameType, topic);
+      startSoloAiGame(gameType, topic, questions);
       return;
     }
 
     const roomId = 'WNK-' + Math.random().toString(36).substring(2, 6).toUpperCase();
-    const questions = getQuestionsForTopic(topic);
 
     const roomObj = {
       id: roomId,
@@ -3769,7 +3884,7 @@
         host_name: user.name || 'Ойыншы 1',
         host_avatar: user.avatar,
         turn: user.id,
-        state_json: { questionsCount: 25 },
+        state_json: { questions, questionsCount: questions.length },
         updated_at: new Date().toISOString()
       }).then(() => refreshLobbyFromSupabase());
 
@@ -3820,7 +3935,9 @@
         updated_at: new Date().toISOString()
       }).eq('id', cleanId);
 
-      const questions = getQuestionsForTopic(roomData.topic);
+      const questions = (roomData.state_json && Array.isArray(roomData.state_json.questions) && roomData.state_json.questions.length > 0)
+        ? roomData.state_json.questions
+        : getQuestionsForTopic(roomData.topic);
 
       const guestRoom = {
         id: cleanId,
@@ -3871,7 +3988,7 @@
     }
   }
 
-  function startSoloAiGame(selectedGameType = 'battleship', selectedTopic = 'Математика & Логика') {
+  function startSoloAiGame(selectedGameType = 'battleship', selectedTopic = 'Жалпы білім & Логика', customQuestions = null) {
     const user = getPlatformUser();
     const myId = user.id;
 
@@ -3889,7 +4006,7 @@
       opponentScore: 0,
       host: { id: myId, username: user.name || 'Ойыншы', avatar: user.avatar },
       guest: { id: 'bot_wnk_ai', username: 'WNK AI Ұстаз', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=wnkai_master', isBot: true },
-      questions: getQuestionsForTopic(selectedTopic)
+      questions: (Array.isArray(customQuestions) && customQuestions.length > 0) ? customQuestions : getQuestionsForTopic(selectedTopic)
     };
 
     if (selectedGameType === 'battleship') {
@@ -4055,7 +4172,25 @@
     if (btnCreate) btnCreate.addEventListener('click', openCreateRoomModal);
 
     const btnAi = document.getElementById('btnOpenAiPractice');
-    if (btnAi) btnAi.addEventListener('click', () => startSoloAiGame('battleship'));
+    if (btnAi) {
+      btnAi.addEventListener('click', () => {
+        openCreateRoomModal();
+        const aiRadio = document.querySelector('input[name="roomOpponentMode"][value="ai"]');
+        if (aiRadio) aiRadio.checked = true;
+        const topicInp = document.getElementById('roomTopicInput');
+        if (topicInp) {
+          topicInp.value = '';
+          topicInp.placeholder = 'AI-мен ойнайтын кез келген тақырыпты жазыңыз...';
+          topicInp.focus();
+        }
+      });
+    }
+
+    // Mobile Battleship Tabs
+    const btnTabTarget = document.getElementById('btnTabTargetSea');
+    const btnTabMy = document.getElementById('btnTabMyFleet');
+    if (btnTabTarget) btnTabTarget.addEventListener('click', () => switchMobileBattleshipTab('target'));
+    if (btnTabMy) btnTabMy.addEventListener('click', () => switchMobileBattleshipTab('my'));
 
     const btnCloseCreate = document.getElementById('btnCloseCreateModal');
     if (btnCloseCreate) btnCloseCreate.addEventListener('click', closeCreateRoomModal);
