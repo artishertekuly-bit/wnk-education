@@ -363,7 +363,7 @@ async function handleCreateRoom(ws, data) {
     hostWs: ws,
     guestWs: null,
     turn: host.id, // Host starts
-    questions: getOfflineQuestions(topic || 'Математика & Логика'), // Immediately populate with 25 curriculum questions
+    questions: getOfflineQuestions(topic || 'Математика & Логика'), // Immediately populate with 50 curriculum questions
     questionIndex: 0,
     streaks: { [host.id]: 0, ...(isVsAi ? { 'bot_wnk_ai': 0 } : {}) },
     radarAvailable: { [host.id]: false, ...(isVsAi ? { 'bot_wnk_ai': false } : {}) },
