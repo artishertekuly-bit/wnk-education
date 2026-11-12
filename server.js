@@ -50,8 +50,8 @@ app.get('/api/health', (req, res) => {
 
 app.get('/api/config', (req, res) => {
   res.json({
-    supabaseUrl: process.env.SUPABASE_URL || null,
-    supabaseAnonKey: process.env.SUPABASE_ANON_KEY || null
+    supabaseUrl: process.env.SUPABASE_URL || 'https://xhkrvkwyvwvncywglrnv.supabase.co',
+    supabaseAnonKey: process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhoa3J2a3d5dnd2bmN5d2dscm52Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODgyNDQsImV4cCI6MjA5MTY2NDI0NH0.5n0f_fEgGdeR5-Da3dE1TNTektTMih8fGINJ4RzhMdE'
   });
 });
 

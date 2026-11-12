@@ -198,8 +198,8 @@ function initWnkApp() {
   // SUPABASE & GOOGLE AUTH LOGIC (Official Supabase OAuth & Profiles)
   // ==========================================================================
   const SUPABASE_CONFIG = {
-    url: window.SUPABASE_URL || localStorage.getItem('wnk_supabase_url') || 'https://rrcvwfsepvpgtgtlwwyd.supabase.co',
-    anonKey: window.SUPABASE_ANON_KEY || localStorage.getItem('wnk_supabase_anon_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyY3Z3ZnNlcHZwZ3RndGx3d3lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNzc0MjgsImV4cCI6MjA5Mjk1MzQyOH0.2yEvfYPXAgVzqIwNkwxNHLvyXwBUqHZD4wUJ0_Jl52I'
+    url: window.SUPABASE_URL || localStorage.getItem('wnk_supabase_url') || 'https://xhkrvkwyvwvncywglrnv.supabase.co',
+    anonKey: window.SUPABASE_ANON_KEY || localStorage.getItem('wnk_supabase_anon_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhoa3J2a3d5dnd2bmN5d2dscm52Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwODgyNDQsImV4cCI6MjA5MTY2NDI0NH0.5n0f_fEgGdeR5-Da3dE1TNTektTMih8fGINJ4RzhMdE'
   };
 
   let supabaseClient = null;

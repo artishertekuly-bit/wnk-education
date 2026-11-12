@@ -180,7 +180,10 @@ ON public.wnk_activity_logs FOR SELECT TO authenticated USING (auth.uid() = user
 -- 9. Автоматты Триггер: Google Auth арқылы кіргенде профильді автоматты құру
 -- ========================================================================
 CREATE OR REPLACE FUNCTION public.handle_wnk_auth_user()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 DECLARE
     v_full_name TEXT;
     v_avatar TEXT;
@@ -194,7 +197,7 @@ BEGIN
     v_avatar := COALESCE(
         NEW.raw_user_meta_data->>'avatar_url',
         NEW.raw_user_meta_data->>'picture',
-        'https://api.dicebear.com/7.x/bottts/svg?seed=' || encode(digest(NEW.email, 'sha256'), 'hex')
+        'https://api.dicebear.com/7.x/bottts/svg?seed=' || md5(COALESCE(NEW.email, NEW.id::text))
     );
     v_provider := COALESCE(
         NEW.raw_app_meta_data->>'provider',
@@ -263,10 +266,25 @@ BEGIN
 
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql;
 
 -- Триггерді auth.users кестесіне байлау
-DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
-CREATE TRIGGER on_auth_user_created
-    AFTER INSERT OR UPDATE ON auth.users
-    FOR EACH ROW EXECUTE FUNCTION public.handle_wnk_auth_user();
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'on_wnk_auth_user_created') THEN
+        CREATE TRIGGER on_wnk_auth_user_created
+            AFTER INSERT OR UPDATE ON auth.users
+            FOR EACH ROW EXECUTE FUNCTION public.handle_wnk_auth_user();
+    END IF;
+END $$;
+
+REVOKE EXECUTE ON FUNCTION public.handle_wnk_auth_user() FROM PUBLIC, anon, authenticated;
+
+-- 10. Data API Grants
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL ROUTINES IN SCHEMA public TO anon, authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO anon, authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON ROUTINES TO anon, authenticated;

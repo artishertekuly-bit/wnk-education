@@ -349,6 +349,23 @@
     stats.score += points;
     localStorage.setItem('wnk_gaming_stats', JSON.stringify(stats));
     renderPlayerProfile();
+
+    // Supabase cloud persistence
+    if (window.supabaseClient && currentAuthUser && currentAuthUser.id) {
+      window.supabaseClient
+        .from('wnk_gaming_profiles')
+        .upsert({
+          user_id: String(currentAuthUser.id),
+          email: currentAuthUser.email || null,
+          username: currentAuthUser.name || 'Ойыншы',
+          avatar_url: currentAuthUser.avatar || null,
+          wins: stats.wins,
+          losses: stats.losses,
+          score: stats.score
+        })
+        .then(() => {})
+        .catch(() => {});
+    }
   }
 
   function setupTopicPresets() {
@@ -1054,6 +1071,28 @@
     }
 
     recordPlayerStat(isWinner, isWinner ? 50 : 10);
+
+    // Record match to Supabase
+    if (window.supabaseClient && currentRoom) {
+      window.supabaseClient
+        .from('wnk_gaming_matches')
+        .insert({
+          room_id: String(currentRoom.id || 'solo_ai'),
+          game_type: currentRoom.gameType || 'battleship',
+          topic: currentRoom.topic || 'Жалпы білім',
+          host_id: String(currentRoom.host?.id || 'host'),
+          host_name: currentRoom.host?.name || 'Ойыншы 1',
+          guest_id: String(currentRoom.guest?.id || 'bot_wnk_ai'),
+          guest_name: currentRoom.guest?.name || 'WNK AI Бот',
+          winner_id: winnerId ? String(winnerId) : null,
+          winner_name: isWinner ? (currentAuthUser?.name || 'Сіз') : (winnerId === 'bot_wnk_ai' ? 'WNK AI Бот' : 'Қарсылас'),
+          host_score: currentRoom.hostScore || 0,
+          guest_score: currentRoom.guestScore || 0
+        })
+        .then(() => {})
+        .catch(() => {});
+    }
+
     modal.classList.add('is-open');
   }
 
