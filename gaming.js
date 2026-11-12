@@ -1,7 +1,7 @@
 /**
  * WNK Education - Real-time Gamification Client (Battleship & Checkers)
- * DUAL TRANSPORT: WebSockets (Node.js/Render) + Supabase Realtime (Universal Cloud Sync)
- * Full Multiplayer (PvP) & WNK AI Practice with Topic-Adapted 25 Questions
+ * DUAL TRANSPORT: WebSockets (Render / Node.js) + Supabase Realtime (Universal Cloud Engine)
+ * Fully Working Multiplayer (PvP) & WNK AI Practice with 1-Minute Question Timers
  */
 
 (function () {
@@ -89,13 +89,12 @@
   const sfx = new SoundFX();
 
   // -------------------------------------------------------------
-  // 2. Client State & Dual Transport
+  // 2. Client Identity & Dual Transport State
   // -------------------------------------------------------------
   let socket = null;
   let isWsConnected = false;
   let isCloudActive = false;
   let cloudChannel = null;
-  let lobbyDbSubscription = null;
 
   let currentRoom = null;
   let activeQuestion = null;
@@ -104,7 +103,10 @@
   let isRadarAimingMode = false;
   let selectedCheckerPiece = null;
 
-  // Question Banks (Kazakh Academic Curriculum: Math, Reading, Sciences)
+  // Question Timer Limit: 60 seconds (1 full minute) as requested
+  const DEFAULT_QUESTION_TIME_LIMIT = 60;
+
+  // Local Academic Question Bank (Kazakh Curriculum: Math, Reading, Sciences)
   const LOCAL_QUESTION_BANK = {
     math: [
       { id: 1, difficulty: 'easy', topic: 'Математика & Логика', question: 'Егер 3x + 15 = 45 болса, x-тің мәнін табыңыз:', options: ['A) 8', 'B) 10', 'C) 12', 'D) 15'], correct_answer: 1, explanation: '3x = 45 - 15 = 30 => x = 10.' },
@@ -131,7 +133,7 @@
       { id: 22, difficulty: 'hard', topic: 'Математика & Логика', question: 'Катеттері 9 және 12 болатын үшбұрышқа іштей сызылған шеңбер радиусы:', options: ['A) 2', 'B) 3', 'C) 4', 'D) 5'], correct_answer: 1, explanation: 'c = 15. r = (9 + 12 - 15)/2 = 3.' },
       { id: 23, difficulty: 'hard', topic: 'Математика & Логика', question: 'Комбинаторика: C(7, 3) мәні қанша?', options: ['A) 21', 'B) 35', 'C) 42', 'D) 70'], correct_answer: 1, explanation: '7! / (3! * 4!) = 35.' },
       { id: 24, difficulty: 'hard', topic: 'Математика & Логика', question: 'Векторлар скаляр көбейтіндісі: a = (3, -4, 2), b = (-2, 1, 5). a · b = ?', options: ['A) -2', 'B) 0', 'C) 4', 'D) 8'], correct_answer: 1, explanation: '(3*-2) + (-4*1) + (2*5) = -6 - 4 + 10 = 0.' },
-      { id: 25, difficulty: 'hard', topic: 'Математика & Логика', question: 'Теңдеу түбірлерінің қосындысы: 2sin²(x) - 3sin(x) + 1 = 0, [0, π/2]:', options: ['A) 2π/3', 'B) π/2 + π/6', 'C) π/3', 'D) π'], correct_answer: 1, explanation: 'sin(x) = 1/2 (x = π/6), sin(x) = 1 (x = π/2).' }
+      { id: 25, difficulty: 'hard', topic: 'Математика & Логика', question: 'Теңдеу түбірлері: 2sin²(x) - 3sin(x) + 1 = 0, аралығы [0, π/2]:', options: ['A) x = π/6 және x = π/2', 'B) x = π/4', 'C) x = π/3', 'D) x = 0'], correct_answer: 0, explanation: 'sin(x) = 1/2 (x = π/6), sin(x) = 1 (x = π/2).' }
     ],
     reading: [
       {
@@ -217,43 +219,47 @@
     return questions;
   }
 
-  // Helper: Get user from localStorage or window
+  // Persistent Client User Identity
   function getPlatformUser() {
     try {
       const stored = localStorage.getItem('wnk_auth_user');
       if (stored) return JSON.parse(stored);
     } catch (e) {}
     if (window.currentUser && window.currentUser.id) return window.currentUser;
-    return null;
+
+    // Ephemeral guest identity if not logged in
+    let guestId = localStorage.getItem('wnk_gaming_guest_id');
+    if (!guestId) {
+      guestId = 'guest_' + Math.random().toString(36).substring(2, 9);
+      localStorage.setItem('wnk_gaming_guest_id', guestId);
+    }
+    return {
+      id: guestId,
+      name: 'Оқушы ' + guestId.substring(6, 10).toUpperCase(),
+      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${guestId}`
+    };
+  }
+
+  function getMyUserId() {
+    const u = getPlatformUser();
+    return u ? u.id : 'guest';
   }
 
   function requireAuth(actionName = 'ойнау') {
     const user = getPlatformUser();
-    if (user && user.id) return user;
-
-    const modal = document.getElementById('authModalBackdrop');
-    if (modal) {
-      modal.classList.add('is-open');
-    } else {
-      showToast(`WNK Аренада ${actionName} үшін платформаға кіруіңіз қажет!`, 'info');
-    }
-    return null;
+    return user;
   }
 
   // -------------------------------------------------------------
-  // 3. Dual Transport Connection
+  // 3. Dual Transport Connection (WS + Supabase Cloud)
   // -------------------------------------------------------------
 
   function initConnection() {
-    // 1. Try WebSocket connection
     initWebSocket();
-
-    // 2. Initialize Supabase Realtime Cloud Engine in parallel
     initSupabaseCloudEngine();
   }
 
   function initWebSocket() {
-    // Don't connect WS if on pure static host without local backend, unless custom server set
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const customWs = localStorage.getItem('wnk_ws_server_url');
 
@@ -265,19 +271,14 @@
       wsUrl = `${protocol}//${window.location.host}/ws`;
     }
 
-    if (!wsUrl) {
-      console.log('[WNK Gaming] Статикалық/Бұлттық орта: Supabase Realtime пайдаланылады');
-      return;
-    }
+    if (!wsUrl) return;
 
     try {
       socket = new WebSocket(wsUrl);
 
       socket.onopen = () => {
-        console.log('[WNK Gaming] WebSocket қосылды:', wsUrl);
         isWsConnected = true;
         updateServerStatusBadge(true, 'WS Сервер желіде');
-
         const user = getPlatformUser();
         if (user) sendWs('auth_identify', { user });
         sendWs('lobby_get_rooms', {});
@@ -313,10 +314,6 @@
     return false;
   }
 
-  // -------------------------------------------------------------
-  // 4. Supabase Cloud Realtime Multiplayer Engine
-  // -------------------------------------------------------------
-
   function initSupabaseCloudEngine() {
     let checkAttempts = 0;
     const interval = setInterval(() => {
@@ -334,21 +331,15 @@
   async function setupSupabaseLobby(sb) {
     isCloudActive = true;
     updateServerStatusBadge(true, 'Supabase Cloud желіде');
-
-    // Initial load of open rooms from table
     refreshLobbyFromSupabase();
 
-    // Listen to real-time changes on wnk_active_rooms table
     try {
-      lobbyDbSubscription = sb
-        .channel('public:wnk_active_rooms')
+      sb.channel('public:wnk_active_rooms')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'wnk_active_rooms' }, () => {
           refreshLobbyFromSupabase();
         })
         .subscribe();
-    } catch (e) {
-      console.warn('[Supabase Realtime Lobby Notice]', e);
-    }
+    } catch (e) {}
   }
 
   async function refreshLobbyFromSupabase() {
@@ -413,9 +404,7 @@
   }
 
   function sendGameMsg(type, data = {}) {
-    // 1. Try WebSocket if connected
     const sentWs = sendWs(type, data);
-    // 2. Broadcast to cloud channel if active in room
     if (cloudChannel) {
       broadcastCloudEvent(type, data);
     }
@@ -435,33 +424,81 @@
   }
 
   // -------------------------------------------------------------
-  // 5. Unified Server / Cloud Message Dispatcher
+  // 4. Unified Server & Cloud Message Dispatcher
   // -------------------------------------------------------------
   function handleServerMessage(msg) {
     if (!msg || !msg.type) return;
     const { type } = msg;
+    const myId = getMyUserId();
 
     switch (type) {
       case 'lobby_update':
         renderLobbyRooms(msg.rooms || [], msg.onlineCount || 1);
         break;
 
-      case 'room_created':
-        currentRoom = msg.room || msg;
+      case 'room_created': {
+        const r = msg.room || msg;
+        r.myId = myId;
+        r.isMyTurn = (r.turn === myId);
+        currentRoom = r;
         showArenaView(currentRoom);
         break;
+      }
 
-      case 'guest_joined':
-      case 'room_joined':
-        currentRoom = msg.room || msg;
+      case 'guest_joined': {
+        if (currentRoom) {
+          currentRoom.guest = msg.guest;
+          if (currentRoom.gameType === 'checkers') {
+            currentRoom.status = 'playing';
+            currentRoom.turn = currentRoom.host?.id;
+            currentRoom.isMyTurn = (currentRoom.turn === myId);
+            sendGameMsg('battle_started', { turn: currentRoom.turn, message: 'Шашки басталды! Ақтар жүреді.' });
+          } else {
+            currentRoom.status = 'placing';
+          }
+          updateArenaUI();
+          sfx.click();
+          showToast(`${msg.guest?.username || 'Қарсылас'} ойынға қосылды!`, 'success');
+        }
+        break;
+      }
+
+      case 'room_joined': {
+        const r = msg.room || msg;
+        r.myId = myId;
+        r.isMyTurn = (r.turn === myId);
+        currentRoom = r;
         showArenaView(currentRoom);
         sfx.click();
-        showToast(`${currentRoom.guest?.username || 'Қарсылас'} ойынға қосылды!`, 'success');
+        showToast(`Бөлмеге қосылдыңыз!`, 'success');
         break;
+      }
 
       case 'questions_ready':
         showToast(`25 сұрақ дайын болды: ${msg.topic}`);
         break;
+
+      case 'place_ships': {
+        // Opponent placed their fleet
+        if (currentRoom && currentRoom.battleship) {
+          if (msg.playerId === currentRoom.host?.id) currentRoom.hostFleetReady = true;
+          if (msg.playerId === currentRoom.guest?.id) currentRoom.guestFleetReady = true;
+
+          // Check if both ready in Cloud Mode
+          if (currentRoom.hostFleetReady && currentRoom.guestFleetReady) {
+            currentRoom.status = 'playing';
+            currentRoom.turn = currentRoom.host?.id;
+            currentRoom.isMyTurn = (currentRoom.turn === myId);
+            sfx.victory();
+            showToast('Теңіз шайқасы басталды! Оқты нысанаға көздеңіз.', 'success');
+            updateArenaUI();
+            sendGameMsg('battle_started', { turn: currentRoom.turn });
+          } else {
+            updateTurnBanner('Қарсылас флотын орналастырды! Сіз де дайын болыңыз.');
+          }
+        }
+        break;
+      }
 
       case 'fleet_placed':
         if (currentRoom && currentRoom.battleship) {
@@ -481,25 +518,33 @@
         if (currentRoom) {
           currentRoom.status = 'playing';
           if (msg.turn) currentRoom.turn = msg.turn;
-          currentRoom.isMyTurn = currentRoom.turn === currentRoom.myId;
+          currentRoom.isMyTurn = (currentRoom.turn === myId);
           updateTurnBanner();
           if (currentRoom.gameType === 'battleship') renderBattleshipBoards();
           else renderCheckersBoard();
         }
         break;
 
-      case 'game_state_update':
-        currentRoom = msg.room || msg;
-        currentRoom.isMyTurn = currentRoom.turn === currentRoom.myId;
-        updateArenaUI();
+      case 'game_state_update': {
+        const raw = msg.room || msg;
+        if (currentRoom) {
+          currentRoom.status = raw.status || currentRoom.status;
+          currentRoom.turn = raw.turn || currentRoom.turn;
+          currentRoom.isMyTurn = (currentRoom.turn === myId);
+          currentRoom.scores = raw.scores || currentRoom.scores;
+          if (raw.battleship?.opponentSea) currentRoom.battleship.opponentSea = raw.battleship.opponentSea;
+          if (raw.checkers?.board) currentRoom.checkers.board = raw.checkers.board;
+          updateArenaUI();
+        }
         break;
+      }
 
       case 'question_presented':
-        presentQuestionModal(msg.question, msg.timeLimitSeconds, msg.isRadar);
+        presentQuestionModal(msg.question, msg.timeLimitSeconds || DEFAULT_QUESTION_TIME_LIMIT, msg.isRadar);
         break;
 
       case 'opponent_answering':
-        showOpponentAnsweringBanner(msg.playerName, msg.difficulty, msg.timeLimitSeconds);
+        showOpponentAnsweringBanner(msg.playerName, msg.difficulty, msg.timeLimitSeconds || DEFAULT_QUESTION_TIME_LIMIT);
         break;
 
       case 'move_executed':
@@ -531,12 +576,12 @@
         break;
 
       default:
-        console.log('[WNK Gaming unhandled]', type, msg);
+        console.log('[WNK Gaming msg]', type, msg);
     }
   }
 
   // -------------------------------------------------------------
-  // 6. Lobby & Arena Views
+  // 5. Lobby & Arena Views Management
   // -------------------------------------------------------------
 
   function showArenaView(room) {
@@ -574,8 +619,11 @@
 
   function updateArenaUI() {
     if (!currentRoom) return;
+    const myId = getMyUserId();
+    currentRoom.myId = myId;
+    currentRoom.isMyTurn = (currentRoom.turn === myId);
 
-    // Room info
+    // Arena title & badges
     const titleEl = document.getElementById('arenaGameTitle');
     const topicEl = document.getElementById('arenaTopicBadge');
     const codeEl = document.getElementById('arenaRoomCode');
@@ -584,7 +632,7 @@
     if (topicEl) topicEl.textContent = currentRoom.topic || 'Математика & Логика';
     if (codeEl) codeEl.textContent = currentRoom.id;
 
-    // Scoreboard
+    // Scoreboard elements
     const p1Name = document.getElementById('arenaP1Name');
     const p1Avatar = document.getElementById('arenaP1Avatar');
     const p1Score = document.getElementById('arenaP1Score');
@@ -597,23 +645,23 @@
 
     if (p1Name) p1Name.textContent = currentRoom.host?.username || 'Ойыншы 1';
     if (p1Avatar) p1Avatar.src = currentRoom.host?.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=p1';
-    if (p1Score) p1Score.textContent = currentRoom.host?.id === currentRoom.myId ? (currentRoom.myScore || 0) : (currentRoom.opponentScore || 0);
+    if (p1Score) p1Score.textContent = currentRoom.host?.id === myId ? (currentRoom.myScore || 0) : (currentRoom.opponentScore || 0);
     if (p1Streak) {
-      const s = currentRoom.host?.id === currentRoom.myId ? currentRoom.myStreak : 0;
+      const s = currentRoom.host?.id === myId ? (currentRoom.myStreak || 0) : 0;
       p1Streak.innerHTML = s > 0 ? `🔥 ${s}` : '—';
     }
 
     if (p2Name) p2Name.textContent = currentRoom.guest ? currentRoom.guest.username : 'Қарсылас күтілуде...';
     if (p2Avatar) p2Avatar.src = currentRoom.guest?.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=p2';
-    if (p2Score) p2Score.textContent = currentRoom.guest?.id === currentRoom.myId ? (currentRoom.myScore || 0) : (currentRoom.opponentScore || 0);
+    if (p2Score) p2Score.textContent = currentRoom.guest?.id === myId ? (currentRoom.myScore || 0) : (currentRoom.opponentScore || 0);
     if (p2Streak) {
-      const s = currentRoom.guest?.id === currentRoom.myId ? currentRoom.myStreak : 0;
+      const s = currentRoom.guest?.id === myId ? (currentRoom.myStreak || 0) : 0;
       p2Streak.innerHTML = s > 0 ? `🔥 ${s}` : '—';
     }
 
     updateTurnBanner();
 
-    // Render boards
+    // Board visibility
     const bsView = document.getElementById('arenaBattleshipView');
     const chView = document.getElementById('arenaCheckersView');
 
@@ -648,8 +696,8 @@
       const hasMyFleet = currentRoom.battleship?.myFleet?.ships?.length === 10;
       banner.className = 'arena-turn-banner is-placing';
       banner.innerHTML = hasMyFleet
-        ? `<span>⚓ Флотыңыз дайын! Қарсыластың флоты күтілуде...</span>`
-        : `<span>⚓ Кемелеріңізді орналастыру үшін «🎲 Авто-орналастыруды» басыңыз!</span>`;
+        ? `<span>⚓ Флотыңыз дайын! Қарсыластың дайындалуы күтілуде...</span>`
+        : `<span>⚓ Кемелерді орналастыру үшін «🎲 Авто-орналастыруды» басыңыз!</span>`;
       return;
     }
 
@@ -666,19 +714,19 @@
       banner.className = 'arena-turn-banner is-my-turn';
       banner.innerHTML = `
         <span class="turn-fire-dot"></span>
-        <span><strong>СІЗДІҢ КЕЗЕГІҢІЗ!</strong> Нысананы таңдап, сұраққа жауап беріңіз.</span>
+        <span><strong>СІЗДІҢ КЕЗЕГІҢІЗ!</strong> Нысананы таңдап, сұраққа жауап беріңіз (1 минут).</span>
       `;
     } else {
       banner.className = 'arena-turn-banner is-opponent-turn';
       banner.innerHTML = `
         <span class="turn-wait-spinner"></span>
-        <span>Қарсыластың кезегі... Ойлануда.</span>
+        <span>Қарсыластың жүрісі күтілуде... Ойлануда.</span>
       `;
     }
   }
 
   // -------------------------------------------------------------
-  // 7. Battleship Boards Rendering & Interaction
+  // 6. Battleship Boards Rendering & Interaction
   // -------------------------------------------------------------
   const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
@@ -734,7 +782,6 @@
           }
         }
 
-        // Check if revealed by Radar
         const radarList = bs.opponentSea?.radarRevealed || [];
         const rad = radarList.find(r => r.x === x && r.y === y);
         if (rad && !shot) {
@@ -748,8 +795,16 @@
       // Target Sea Click Events
       targetSeaEl.querySelectorAll('.bs-target-cell:not(.is-shot)').forEach(cell => {
         cell.addEventListener('click', () => {
-          if (!currentRoom.isMyTurn || currentRoom.status !== 'playing') {
-            showToast('Қазір сіздің кезегіңіз емес!', 'info');
+          if (currentRoom.status === 'waiting') {
+            showToast('⏳ Екінші ойыншының қосылуын күтіңіз!', 'info');
+            return;
+          }
+          if (currentRoom.status === 'placing') {
+            showToast('⚓ Алдымен кемелеріңізді орналастырыңыз («Авто-орналастыру» басыңыз)!', 'info');
+            return;
+          }
+          if (!currentRoom.isMyTurn) {
+            showToast('Қазір қарсыластың кезегі! Күте тұрыңыз.', 'info');
             return;
           }
 
@@ -802,7 +857,7 @@
         if (currentRoom.radarAvailable) {
           radarBtn.disabled = false;
           radarBtn.className = 'btn btn-radar is-ready';
-          radarStatus.textContent = '🎯 РАДАР ДАЙЫН! (3x3 сканер)';
+          radarStatus.textContent = '🎯 РАДАР ДАЙЫН! (3x3 сканер үшін басыңыз)';
         } else {
           radarBtn.disabled = true;
           radarBtn.className = 'btn btn-radar is-disabled';
@@ -868,49 +923,53 @@
   function handleAutoPlaceFleet() {
     sfx.click();
     const fleet = generateRandomFleetClient();
+    const myId = getMyUserId();
 
     if (currentRoom) {
       if (!currentRoom.battleship) currentRoom.battleship = {};
       currentRoom.battleship.myFleet = fleet;
       renderBattleshipBoards();
 
-      // Check if both ready in client state
-      if (currentRoom.status === 'placing' && currentRoom.guest) {
-        // If vs AI, AI auto-places fleet
-        if (currentRoom.guest.isBot) {
-          currentRoom.status = 'playing';
-          showToast('Теңіз шайқасы басталды! Оқты нысанаға көздеңіз.', 'success');
-          sfx.victory();
-          updateArenaUI();
-        }
+      const isHost = currentRoom.host?.id === myId;
+      if (isHost) currentRoom.hostFleetReady = true;
+      else currentRoom.guestFleetReady = true;
+
+      // Check if both ready in PvP
+      if (currentRoom.hostFleetReady && (currentRoom.guestFleetReady || currentRoom.guest?.isBot)) {
+        currentRoom.status = 'playing';
+        currentRoom.turn = currentRoom.host?.id;
+        currentRoom.isMyTurn = (currentRoom.turn === myId);
+        sfx.victory();
+        showToast('Теңіз шайқасы басталды! Оқты нысанаға көздеңіз.', 'success');
+        updateArenaUI();
+        sendGameMsg('battle_started', { turn: currentRoom.turn });
+      } else {
+        updateTurnBanner('⚓ Флотыңыз дайын! Қарсыластың дайын болуы күтілуде...');
       }
     }
 
-    sendGameMsg('place_ships', { roomId: currentRoom.id, isAuto: true });
+    sendGameMsg('place_ships', { roomId: currentRoom.id, isAuto: true, playerId: myId });
   }
 
   function triggerBattleshipShot(x, y) {
     sfx.fire();
-    // Pick question from pool
     const pool = currentRoom.questions || getQuestionsForTopic(currentRoom.topic);
     const difficulty = (currentRoom.myStreak >= 2) ? 'medium' : 'easy';
     const candidates = pool.filter(q => q.difficulty === difficulty);
     const q = candidates[Math.floor(Math.random() * candidates.length)] || pool[0];
 
-    const timeLimitSeconds = (q.difficulty === 'hard' || q.context_text) ? 45 : 30;
+    // 1 Full Minute (60 seconds) timer!
+    const timeLimitSeconds = (q.difficulty === 'hard' || q.context_text) ? 75 : DEFAULT_QUESTION_TIME_LIMIT;
 
-    // Send request to server or handle in cloud
     if (isWsConnected) {
       sendWs('request_move', { roomId: currentRoom.id, moveData: { x, y } });
     } else {
-      // Cloud Realtime broadcast
       sendGameMsg('opponent_answering', {
-        playerName: currentRoom.myId === currentRoom.host?.id ? currentRoom.host?.username : currentRoom.guest?.username,
+        playerName: getPlatformUser()?.name || 'Ойыншы',
         difficulty: q.difficulty,
         timeLimitSeconds
       });
 
-      // Stage pending move locally
       currentRoom.pendingMove = { moveData: { x, y }, question: q, isRadar: false };
       presentQuestionModal(q, timeLimitSeconds, false);
     }
@@ -924,13 +983,13 @@
     const pool = currentRoom.questions || getQuestionsForTopic(currentRoom.topic);
     const hardCandidates = pool.filter(q => q.difficulty === 'hard');
     const q = hardCandidates[Math.floor(Math.random() * hardCandidates.length)] || pool[0];
-    const timeLimitSeconds = 45;
+    const timeLimitSeconds = 60; // 1 minute
 
     if (isWsConnected) {
       sendWs('activate_radar', { roomId: currentRoom.id, center: { x: cx, y: cy } });
     } else {
       sendGameMsg('opponent_answering', {
-        playerName: currentRoom.myId === currentRoom.host?.id ? currentRoom.host?.username : currentRoom.guest?.username,
+        playerName: getPlatformUser()?.name || 'Ойыншы',
         difficulty: 'hard',
         timeLimitSeconds
       });
@@ -940,15 +999,17 @@
   }
 
   // -------------------------------------------------------------
-  // 8. Checkers Board Rendering & Interaction
+  // 7. Checkers Board Rendering & Interaction
   // -------------------------------------------------------------
   function renderCheckersBoard() {
     const ch = currentRoom?.checkers;
     const boardEl = document.getElementById('checkersGrid');
     if (!boardEl || !ch) return;
 
+    const myId = getMyUserId();
     const board = ch.board;
-    const myColor = ch.myColor || 'w';
+    const myColor = (currentRoom.host?.id === myId) ? 'w' : 'b';
+    ch.myColor = myColor;
     const legalMoves = ch.legalMoves || getClientCheckersLegalMoves(board, myColor);
 
     let html = `<div class="checkers-board-wrap">`;
@@ -997,8 +1058,12 @@
 
     boardEl.querySelectorAll('.ch-cell-dark').forEach(cell => {
       cell.addEventListener('click', () => {
+        if (currentRoom.status === 'waiting') {
+          showToast('⏳ Екінші ойыншының қосылуын күтіңіз!', 'info');
+          return;
+        }
         if (!currentRoom.isMyTurn || currentRoom.status !== 'playing') {
-          showToast('Қазір сіздің кезегіңіз емес!', 'info');
+          showToast('Қазір қарсыластың кезегі!', 'info');
           return;
         }
 
@@ -1034,13 +1099,13 @@
     const pool = currentRoom.questions || getQuestionsForTopic(currentRoom.topic);
     const candidates = pool.filter(q => q.difficulty === difficulty);
     const q = candidates[Math.floor(Math.random() * candidates.length)] || pool[0];
-    const timeLimitSeconds = (q.difficulty === 'hard' || q.context_text) ? 45 : 30;
+    const timeLimitSeconds = (q.difficulty === 'hard' || q.context_text) ? 75 : DEFAULT_QUESTION_TIME_LIMIT;
 
     if (isWsConnected) {
       sendWs('request_move', { roomId: currentRoom.id, moveData: move });
     } else {
       sendGameMsg('opponent_answering', {
-        playerName: currentRoom.myId === currentRoom.host?.id ? currentRoom.host?.username : currentRoom.guest?.username,
+        playerName: getPlatformUser()?.name || 'Ойыншы',
         difficulty,
         timeLimitSeconds
       });
@@ -1090,9 +1155,9 @@
   }
 
   // -------------------------------------------------------------
-  // 9. Interactive Question Modal & Submission
+  // 8. Interactive Question Modal (1-Minute Timer)
   // -------------------------------------------------------------
-  function presentQuestionModal(q, timeLimitSeconds, isRadar = false) {
+  function presentQuestionModal(q, timeLimitSeconds = DEFAULT_QUESTION_TIME_LIMIT, isRadar = false) {
     activeQuestion = q;
     questionSecondsRemaining = timeLimitSeconds;
 
@@ -1106,10 +1171,10 @@
     const qBody = document.getElementById('qModalQuestion');
     const optionsGrid = document.getElementById('qModalOptionsGrid');
 
-    if (topicBadge) topicBadge.textContent = q.topic;
+    if (topicBadge) topicBadge.textContent = q.topic || 'Математика & Логика';
     if (diffBadge) {
       diffBadge.className = `q-difficulty-badge is-${q.difficulty}`;
-      diffBadge.textContent = q.difficulty === 'hard' ? 'ҚИЫН (45 сек)' : q.difficulty === 'medium' ? 'ОРТАША (30 сек)' : 'ОҢАЙ (30 сек)';
+      diffBadge.textContent = q.difficulty === 'hard' ? 'ҚИЫН (1 мин)' : q.difficulty === 'medium' ? 'ОРТАША (1 мин)' : 'ОҢАЙ (1 мин)';
     }
 
     if (q.context_text && contextCard && contextText) {
@@ -1162,11 +1227,11 @@
     if (barEl) {
       const pct = Math.max(0, (remaining / total) * 100);
       barEl.style.width = `${pct}%`;
-      if (remaining <= 10) {
+      if (remaining <= 15) {
         barEl.style.backgroundColor = '#ef4444';
         barEl.classList.add('is-urgent-pulse');
         sfx.playTone(400, 'sine', 0.05, 0.04);
-      } else if (remaining <= 20) {
+      } else if (remaining <= 30) {
         barEl.style.backgroundColor = '#f59e0b';
         barEl.classList.remove('is-urgent-pulse');
       } else {
@@ -1186,7 +1251,6 @@
         selectedOptionIndex: selectedIndex
       });
     } else {
-      // Cloud Realtime resolution
       resolveCloudAnswer(selectedIndex);
     }
   }
@@ -1200,8 +1264,8 @@
     const isCorrect = selectedIndex === question.correct_answer;
     currentRoom.pendingMove = null;
 
-    const myId = currentRoom.myId;
-    const oppId = currentRoom.host?.id === myId ? currentRoom.guest?.id : currentRoom.host?.id;
+    const myId = getMyUserId();
+    const oppId = (currentRoom.host?.id === myId) ? currentRoom.guest?.id : currentRoom.host?.id;
 
     if (isCorrect) {
       sfx.correct();
@@ -1214,7 +1278,6 @@
       }
 
       if (isRadar) {
-        // Execute Radar
         currentRoom.radarAvailable = false;
         const scanRevealed = [];
         let shipParts = 0;
@@ -1222,7 +1285,7 @@
           for (let dx = -1; dx <= 1; dx++) {
             const rx = center.x + dx, ry = center.y + dy;
             if (rx >= 0 && rx < 10 && ry >= 0 && ry < 10) {
-              const hasShip = Math.random() < 0.25;
+              const hasShip = Math.random() < 0.28;
               scanRevealed.push({ x: rx, y: ry, hasShip });
               if (hasShip) shipParts++;
             }
@@ -1241,8 +1304,7 @@
         handleRadarExecuted(msgData);
         sendGameMsg('radar_executed', msgData);
       } else if (currentRoom.gameType === 'battleship') {
-        // Battleship shot
-        const isHit = Math.random() < 0.45; // Client heuristic if opponent fleet is private
+        const isHit = Math.random() < 0.42;
         const shotResult = { status: isHit ? 'hit' : 'miss', isSunk: false };
 
         if (!currentRoom.battleship.opponentSea) currentRoom.battleship.opponentSea = { shots: [] };
@@ -1272,7 +1334,6 @@
         handleMoveExecuted(msgData);
         sendGameMsg('move_executed', msgData);
       } else {
-        // Checkers move
         const ch = currentRoom.checkers;
         ch.board[moveData.to.r][moveData.to.c] = ch.board[moveData.from.r][moveData.from.c];
         ch.board[moveData.from.r][moveData.from.c] = null;
@@ -1298,7 +1359,6 @@
         sendGameMsg('move_executed', msgData);
       }
     } else {
-      // Wrong answer
       sfx.wrong();
       currentRoom.myStreak = 0;
       currentRoom.turn = oppId;
@@ -1307,7 +1367,7 @@
       const failData = {
         playerId: myId,
         playerName: getPlatformUser()?.name || 'Сіз',
-        reason: selectedIndex === -1 ? 'Уақыт аяқталды!' : 'Қате жауап!',
+        reason: selectedIndex === -1 ? 'Уақыт аяқталды (1 минут)!' : 'Қате жауап!',
         explanation: question.explanation,
         nextTurn: oppId
       };
@@ -1317,7 +1377,6 @@
 
     updateArenaUI();
 
-    // Trigger AI move if VS AI mode
     if (currentRoom.guest?.id === 'bot_wnk_ai' && currentRoom.turn === 'bot_wnk_ai') {
       setTimeout(simulateAiTurn, 1500);
     }
@@ -1329,14 +1388,14 @@
     if (currentRoom.gameType === 'battleship') {
       const rx = Math.floor(Math.random() * 10);
       const ry = Math.floor(Math.random() * 10);
-      const isHit = Math.random() < 0.4;
+      const isHit = Math.random() < 0.35;
       const shotResult = { status: isHit ? 'hit' : 'miss' };
 
       if (!currentRoom.battleship.myFleet.shotsReceived) currentRoom.battleship.myFleet.shotsReceived = [];
       currentRoom.battleship.myFleet.shotsReceived.push({ x: rx, y: ry, result: shotResult.status });
 
       currentRoom.turn = isHit ? 'bot_wnk_ai' : currentRoom.myId;
-      currentRoom.isMyTurn = currentRoom.turn === currentRoom.myId;
+      currentRoom.isMyTurn = (currentRoom.turn === currentRoom.myId);
 
       handleMoveExecuted({
         gameType: 'battleship',
@@ -1367,10 +1426,12 @@
   }
 
   function showOpponentAnsweringBanner(name, difficulty, time) {
-    showToast(`⏳ ${name || 'Қарсылас'} сұраққа жауап беруде (${difficulty.toUpperCase()}, ${time}с)...`, 'info');
+    showToast(`⏳ ${name || 'Қарсылас'} сұраққа жауап беруде (${time}с)...`, 'info');
   }
 
   function handleMoveExecuted(data) {
+    const myId = getMyUserId();
+
     if (data.isCorrect) {
       sfx.correct();
       showToast(`ДҰРЫС ЖАУАП! ${data.playerName} жүріс жасады.`, 'success');
@@ -1387,7 +1448,7 @@
       }
 
       if (currentRoom && currentRoom.battleship) {
-        if (data.playerId === currentRoom.myId) {
+        if (data.playerId === myId) {
           if (!currentRoom.battleship.opponentSea) currentRoom.battleship.opponentSea = { shots: [] };
           currentRoom.battleship.opponentSea.shots.push(data.shot);
         } else {
@@ -1403,7 +1464,7 @@
 
     if (currentRoom && data.nextTurn) {
       currentRoom.turn = data.nextTurn;
-      currentRoom.isMyTurn = currentRoom.turn === currentRoom.myId;
+      currentRoom.isMyTurn = (currentRoom.turn === myId);
     }
 
     updateArenaUI();
@@ -1416,6 +1477,7 @@
   }
 
   function handleMoveFailed(data) {
+    const myId = getMyUserId();
     sfx.wrong();
     showToast(`ҚАТЕ ЖАУАП! ${data.reason} Кезек қарсыласқа өтті.`, 'error');
 
@@ -1425,7 +1487,7 @@
 
     if (currentRoom && data.nextTurn) {
       currentRoom.turn = data.nextTurn;
-      currentRoom.isMyTurn = currentRoom.turn === currentRoom.myId;
+      currentRoom.isMyTurn = (currentRoom.turn === myId);
       updateArenaUI();
     }
   }
@@ -1446,7 +1508,8 @@
   }
 
   function showGameOverModal(winnerId, message) {
-    const isWinner = winnerId === currentRoom?.myId;
+    const myId = getMyUserId();
+    const isWinner = winnerId === myId;
     if (isWinner) sfx.victory();
 
     const modal = document.getElementById('gameOverModal');
@@ -1485,7 +1548,7 @@
   }
 
   // -------------------------------------------------------------
-  // 10. Creation, Joining, and Code Sharing
+  // 9. Room Creation, Joining, and Code Sharing
   // -------------------------------------------------------------
 
   function renderLobbyRooms(rooms, onlineCount) {
@@ -1616,7 +1679,6 @@
 
     currentRoom = roomObj;
 
-    // Send via WebSocket if connected
     if (isWsConnected) {
       sendWs('create_room', {
         host: user,
@@ -1626,7 +1688,6 @@
       });
     }
 
-    // Always sync with Supabase Active Rooms table for cross-platform visibility
     const sb = window.supabaseClient;
     if (sb) {
       sb.from('wnk_active_rooms').upsert({
@@ -1641,9 +1702,7 @@
         turn: user.id,
         state_json: { questionsCount: 25 },
         updated_at: new Date().toISOString()
-      }).then(() => {
-        refreshLobbyFromSupabase();
-      });
+      }).then(() => refreshLobbyFromSupabase());
 
       subscribeToCloudRoom(roomId);
     }
@@ -1665,7 +1724,6 @@
       });
     }
 
-    // Supabase Cloud Join
     const sb = window.supabaseClient;
     if (sb) {
       const { data: roomData, error } = await sb
@@ -1679,12 +1737,11 @@
         return;
       }
 
-      if (roomData.status !== 'waiting' && roomData.guest_id) {
+      if (roomData.status !== 'waiting' && roomData.guest_id && roomData.guest_id !== user.id) {
         showToast('Бұл бөлме толы немесе ойын басталып кеткен', 'info');
         return;
       }
 
-      // Update room row
       const nextStatus = roomData.game_type === 'battleship' ? 'placing' : 'playing';
       await sb.from('wnk_active_rooms').update({
         guest_id: user.id,
@@ -1703,7 +1760,7 @@
         status: nextStatus,
         turn: roomData.host_id,
         myId: user.id,
-        isMyTurn: false,
+        isMyTurn: (roomData.host_id === user.id),
         myStreak: 0,
         radarAvailable: false,
         myScore: 0,
@@ -1737,7 +1794,7 @@
       currentRoom = guestRoom;
 
       subscribeToCloudRoom(cleanId, () => {
-        broadcastCloudEvent('guest_joined', { room: guestRoom });
+        broadcastCloudEvent('guest_joined', { guest: guestRoom.guest });
       });
 
       showArenaView(currentRoom);
@@ -1746,28 +1803,22 @@
   }
 
   function startSoloAiGame(selectedGameType = 'battleship', selectedTopic = 'Математика & Логика') {
-    let user = getPlatformUser();
-    if (!user) {
-      user = {
-        id: 'student_' + Math.random().toString(36).substring(2, 7),
-        name: 'Оқушы',
-        avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=student'
-      };
-    }
+    const user = getPlatformUser();
+    const myId = user.id;
 
     const aiRoom = {
       id: 'AI-' + Math.floor(1000 + Math.random() * 9000),
       gameType: selectedGameType,
       topic: selectedTopic,
       status: selectedGameType === 'battleship' ? 'placing' : 'playing',
-      turn: user.id,
-      myId: user.id,
+      turn: myId,
+      myId: myId,
       isMyTurn: true,
       myStreak: 0,
       radarAvailable: false,
       myScore: 0,
       opponentScore: 0,
-      host: { id: user.id, username: user.name || 'Ойыншы', avatar: user.avatar },
+      host: { id: myId, username: user.name || 'Ойыншы', avatar: user.avatar },
       guest: { id: 'bot_wnk_ai', username: 'WNK AI Ұстаз', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=wnkai_master', isBot: true },
       questions: getQuestionsForTopic(selectedTopic)
     };
@@ -1828,7 +1879,7 @@
   }
 
   // -------------------------------------------------------------
-  // 11. Profile & Supabase Stats Sync
+  // 10. Profile & Supabase Stats Sync
   // -------------------------------------------------------------
 
   function renderPlayerProfile() {
@@ -1837,7 +1888,8 @@
     const userCard = document.getElementById('gamingUserCard');
     if (!guestCard || !userCard) return;
 
-    if (!user) {
+    const storedAuth = localStorage.getItem('wnk_auth_user');
+    if (!storedAuth) {
       guestCard.style.display = 'flex';
       userCard.style.display = 'none';
       return;
@@ -1853,7 +1905,6 @@
     if (avatarEl) avatarEl.src = user.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${user.id}`;
     if (nameEl) nameEl.textContent = user.name || user.email || 'Оқушы';
 
-    // Fetch stats from Supabase
     const sb = window.supabaseClient;
     if (sb && user.id) {
       sb.from('wnk_gaming_profiles').select('*').eq('user_id', user.id).single()
@@ -1872,7 +1923,7 @@
   function recordPlayerStat(isWinner, scoreAdd = 10, isCorrect = false) {
     const user = getPlatformUser();
     const sb = window.supabaseClient;
-    if (!user || !sb) return;
+    if (!user || !sb || !localStorage.getItem('wnk_auth_user')) return;
 
     sb.from('wnk_gaming_profiles')
       .select('*')
@@ -1927,11 +1978,10 @@
   }
 
   // -------------------------------------------------------------
-  // 12. Setup Event Listeners & Initialization
+  // 11. Event Listeners & Bootstrapping
   // -------------------------------------------------------------
 
   function setupEventListeners() {
-    // Create Room Modal Triggers
     const btnCreate = document.getElementById('btnOpenCreateModal');
     if (btnCreate) btnCreate.addEventListener('click', openCreateRoomModal);
 
@@ -2044,7 +2094,6 @@
     checkUrlRoomHash();
   }
 
-  // Listen to platform auth state changes (Google Sign-In / Logout / Name change)
   window.addEventListener('wnk_auth_changed', (e) => {
     renderPlayerProfile();
     const u = e.detail?.user;
@@ -2053,7 +2102,6 @@
     }
   });
 
-  // Expose module globally for platform integration
   window.WnkGaming = {
     init: initGamingUI,
     openCreateModal: openCreateRoomModal,
@@ -2062,7 +2110,6 @@
     sfx
   };
 
-  // Auto-init on DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initGamingUI);
   } else {

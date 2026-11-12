@@ -363,7 +363,7 @@ async function handleCreateRoom(ws, data) {
     hostWs: ws,
     guestWs: null,
     turn: host.id, // Host starts
-    questions: [],
+    questions: getOfflineQuestions(topic || 'Математика & Логика'), // Immediately populate with 25 curriculum questions
     questionIndex: 0,
     streaks: { [host.id]: 0, ...(isVsAi ? { 'bot_wnk_ai': 0 } : {}) },
     radarAvailable: { [host.id]: false, ...(isVsAi ? { 'bot_wnk_ai': false } : {}) },
@@ -565,7 +565,7 @@ function handleRequestMove(ws, data) {
 
   // Pick question matching difficulty
   const question = pickQuestion(room, difficulty);
-  const timeLimitSeconds = (question.difficulty === 'hard' || question.context_text) ? 45 : 30;
+  const timeLimitSeconds = (question.difficulty === 'hard' || question.context_text) ? 75 : 60; // 1 full minute (60с), мәтіндік сұрақтарға 75с
 
   room.pendingMove = {
     playerId,
@@ -791,7 +791,7 @@ function handleActivateRadar(ws, data) {
 
   // To activate radar, must answer a HARD question!
   const question = pickQuestion(room, 'hard');
-  const timeLimitSeconds = 45;
+  const timeLimitSeconds = 60; // 1 минут
 
   room.pendingMove = {
     playerId,
